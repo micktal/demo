@@ -11,11 +11,12 @@
     {label:'Chaussures sécu', epi:true}
   ];
   let left: Item[] = items; let epiBox: Item[] = []; let nonBox: Item[] = [];
-  const drag = (e: DragEvent, it: Item) => { e.dataTransfer?.setData('text/plain', it.label); };
+  const drag = (e: DragEvent, it: Item) => { if (!e.dataTransfer) return; e.dataTransfer.setData('text/plain', it.label); e.dataTransfer.effectAllowed = 'move'; };
   function drop(to: 'epi'|'non', e: DragEvent){ e.preventDefault(); const label = e.dataTransfer?.getData('text/plain');
     const idx = left.findIndex((i)=>i.label===label); if(idx>-1){ const [it]=left.splice(idx,1); (to==='epi'?epiBox:nonBox).push(it); check(); }
   }
-  const allow = (e: DragEvent)=> e.preventDefault();
+  const allow = (e: DragEvent)=> { e.preventDefault(); };
+  function clickItem(it: Item){ const idx = left.findIndex(i=>i.label===it.label); if(idx>-1){ const [x]=left.splice(idx,1); (x.epi?epiBox:nonBox).push(x); check(); } }
   function check(){
     const ok = epiBox.every(i=>i.epi) && nonBox.every(i=>!i.epi) && (epiBox.length+nonBox.length===items.length);
     if(ok){ fireConfetti(container, 120); dispatch('sort:done'); }
