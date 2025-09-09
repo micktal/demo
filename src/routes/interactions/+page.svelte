@@ -53,7 +53,7 @@
   ]);
   function toggleHotspot(i: number) {
     hotspots[i].found = true;
-    if (hotspots.every((h) => h.found)) { hotspotDone = true; score += 1; }
+    if (hotspots.every((h) => h.found)) { hotspotDone = true; score += 1; tHot = Math.max(1, Math.round((Date.now() - mountedAt)/1000)); }
   }
 </script>
 
