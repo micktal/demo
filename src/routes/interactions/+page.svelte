@@ -120,7 +120,7 @@
         <p class="mt-2">Un usager devient agressif à l’accueil. Que faites‑vous ?</p>
         <div class="mt-3 flex flex-wrap gap-2">
           <button class="btn-primary" onclick={() => chooseScenario(true)}>Adopter une posture calme et alerter</button>
-          <button class="btn-ghost" onclick={() => chooseScenario(false)}>R��pondre sèchement</button>
+          <button class="btn-ghost" onclick={() => chooseScenario(false)}>Répondre sèchement</button>
         </div>
       {:else if scenStep === 1}
         <div class="mt-3 card">Bonne pratique. Conséquence : désescalade. <span class="text-brand-green font-medium">+1</span></div>
@@ -164,7 +164,7 @@
     <div class="card">
       <div class="font-semibold">Chapitre 5 — Réflexe sécurité</div>
       <ReactionDemo on:reaction:done={() => { if (!reactionDone) { reactionDone = true; demo.addProgress(25); } }} />
-      {#if reactionDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Réflexe valid��</div>{/if}
+      {#if reactionDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Réflexe validé</div>{/if}
     </div>
   </div>
 
