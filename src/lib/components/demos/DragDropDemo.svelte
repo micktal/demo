@@ -1,11 +1,13 @@
 <script lang="ts">
   import { fireConfetti } from '$lib/utils/confetti';
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
   let items = ['Phishing', 'Mot de passe', 'VPN'];
   let dropped: string[] = [];
   let container: HTMLDivElement;
   const allowDrop = (e: DragEvent) => { e.preventDefault(); };
   const drag = (e: DragEvent, item: string) => { e.dataTransfer?.setData('text/plain', item); };
-  const drop = (e: DragEvent) => { e.preventDefault(); const d = e.dataTransfer?.getData('text/plain'); if (d && !dropped.includes(d)) dropped = [...dropped, d]; if (dropped.length === items.length) fireConfetti(container); };
+  const drop = (e: DragEvent) => { e.preventDefault(); const d = e.dataTransfer?.getData('text/plain'); if (d && !dropped.includes(d)) dropped = [...dropped, d]; if (dropped.length === items.length) { fireConfetti(container); dispatch('sort:done'); } };
 </script>
 <div class="grid grid-cols-2 gap-4" bind:this={container}>
   <div role="list" aria-label="Éléments à déplacer">
