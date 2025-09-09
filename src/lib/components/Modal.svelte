@@ -1,8 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  export let openKey: string | null = null;
-  export let title = '';
-  export let onClose: () => void = () => {};
+  let { openKey = null, title = '', onClose = () => {} } = $props();
   let dialogEl: HTMLDivElement;
   let prevFocus: Element | null = null;
 
