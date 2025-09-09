@@ -76,7 +76,6 @@
     <div class="col-span-12 md:col-span-7">
       <h1>Un parcours clair, du premier clic au certificat.</h1>
       <p class="mt-4 max-w-2xl">Chaque apprenant suit un chemin balisé, motivant et mesurable.</p>
-      <div class="mt-6"><Button href="#timeline" variant="primary">Voir la timeline</Button></div>
     </div>
     <div class="col-span-12 md:col-span-5">
       <div class="rounded-xl overflow-hidden border border-black/10 bg-white p-4">
@@ -196,7 +195,6 @@
     </div>
     <div class="flex gap-3">
       <Button href="/interactions" variant="primary">Demander un parcours démo</Button>
-      <Button href="#cert" variant="ghost">Voir un exemple certifié</Button>
     </div>
   </div>
 </section>
