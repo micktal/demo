@@ -3,7 +3,7 @@
   import Button from '$lib/components/Button.svelte';
   import Modal from '$lib/components/Modal.svelte';
   import { fireConfetti } from '$lib/utils/confetti';
-  import { writeDemo } from '$lib/utils/demoStorage';
+  import { demo } from '$lib/stores/demo';
 
   // Score & progression
   let score = $state(0);
@@ -30,9 +30,9 @@
   function pick(i: number, j: number) {
     if (questions[i].picked != null) return; // lock
     questions[i].picked = j;
-    if (questions[i].options[j].ok) score += 1;
+    if (questions[i].options[j].ok) { score += 1; demo.addScore(1); }
     const all = questions.every((x) => x.picked != null);
-    if (all) { quizDone = true; tQuiz = Math.max(1, Math.round((Date.now() - mountedAt)/1000)); }
+    if (all) { quizDone = true; tQuiz = Math.max(1, Math.round((Date.now() - mountedAt)/1000)); demo.addProgress(34); }
   }
 
   // Scenario state (2 choices -> 2 consequences)
@@ -41,7 +41,8 @@
     scenStep = good ? 1 : 2;
     scenarioDone = true;
     tScenario = Math.max(1, Math.round((Date.now() - mountedAt)/1000));
-    if (good) score += 1;
+    if (good) { score += 1; demo.addScore(1); }
+    demo.addProgress(33);
   }
 
   // Hotspots
@@ -53,7 +54,7 @@
   ]);
   function toggleHotspot(i: number) {
     hotspots[i].found = true;
-    if (hotspots.every((h) => h.found)) { hotspotDone = true; score += 1; tHot = Math.max(1, Math.round((Date.now() - mountedAt)/1000)); }
+    if (hotspots.every((h) => h.found)) { hotspotDone = true; score += 1; demo.addScore(1); tHot = Math.max(1, Math.round((Date.now() - mountedAt)/1000)); demo.addProgress(33); }
   }
 </script>
 
@@ -68,15 +69,9 @@
       <div class="mt-3"><ProgressBar value={progress} /></div>
     </div>
     <div class="flex items-center gap-3">
-      <Button variant="primary" onclick={() => certOpen = 'open'}>Générer mon certificat (démo)</Button>
+      <Button variant="primary" onclick={() => { certOpen = 'open'; demo.award('Certificat généré'); }}>Générer mon certificat (démo)</Button>
     </div>
   </div>
-  {@const persist = $effect(() => {
-    const avgTimeMin = Math.round(((tQuiz + tScenario + tHot) / 3) / 60);
-    if (typeof window !== 'undefined') {
-      writeDemo({ completion: progress, success: Math.round((score/5)*100), avgTimeMin, incidentsPrevented: scenarioDone ? 1 : 0 });
-    }
-  })}
 
   <!-- Chapitre 1 -->
   <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
