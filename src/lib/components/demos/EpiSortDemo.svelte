@@ -27,20 +27,20 @@
     <div class="font-medium mb-2">À trier</div>
     <div class="flex flex-wrap gap-2">
       {#each left as it}
-        <div class="badge cursor-move" draggable ondragstart={(e)=>drag(e,it)}>{it.label}</div>
+        <div class="badge cursor-move" role="option" draggable ondragstart={(e)=>drag(e,it)}>{it.label}</div>
       {/each}
     </div>
   </div>
   <div>
     <div class="font-medium mb-2">EPI obligatoires</div>
-    <div class="min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3" ondragover={allow} ondrop={(e)=>drop('epi',e)}>
+    <div class="min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3" role="listbox" ondragover={allow} ondrop={(e)=>drop('epi',e)}>
       {#if epiBox.length===0}<p class="text-sm text-gray-700">Déposez ici</p>{/if}
       <div class="flex flex-wrap gap-2">{#each epiBox as e}<div class="badge bg-brand-green/20 text-brand-green">{e.label}</div>{/each}</div>
     </div>
   </div>
   <div>
     <div class="font-medium mb-2">Non EPI</div>
-    <div class="min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3" ondragover={allow} ondrop={(e)=>drop('non',e)}>
+    <div class="min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3" role="listbox" ondragover={allow} ondrop={(e)=>drop('non',e)}>
       {#if nonBox.length===0}<p class="text-sm text-gray-700">Déposez ici</p>{/if}
       <div class="flex flex-wrap gap-2">{#each nonBox as e}<div class="badge">{e.label}</div>{/each}</div>
     </div>
