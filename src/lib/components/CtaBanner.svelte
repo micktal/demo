@@ -7,6 +7,5 @@
       <h3>En 10 jours, transformez un PDF en module interactif.</h3>
       <p class="mt-2 text-gray-700">Accompagnement de bout en bout et modèles prêts à l’emploi.</p>
     </div>
-    <Button variant="primary" href="/contact">Demander une démo projet</Button>
   </div>
 </section>
