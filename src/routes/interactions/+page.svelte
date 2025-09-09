@@ -4,15 +4,19 @@
   import Modal from '$lib/components/Modal.svelte';
   import { fireConfetti } from '$lib/utils/confetti';
   import { demo } from '$lib/stores/demo';
+  import MemoryGameDemo from '$lib/components/demos/MemoryGameDemo.svelte';
+  import ReactionDemo from '$lib/components/demos/ReactionDemo.svelte';
 
   // Score & progression
   let score = $state(0);
   let quizDone = $state(false);
   let scenarioDone = $state(false);
   let hotspotDone = $state(false);
-  $effect(() => { if (typeof document !== 'undefined' && progress === 100) fireConfetti(document.body, 150); });
-  const totalChapters = 3;
-  const completed = $derived(Number(quizDone) + Number(scenarioDone) + Number(hotspotDone));
+  let memoryDone = $state(false);
+  let reactionDone = $state(false);
+  $effect(() => { if (typeof document !== 'undefined' && progress === 100) { fireConfetti(document.body, 180); demo.award('Parcours 100%'); } });
+  const totalChapters = 5;
+  const completed = $derived(Number(quizDone) + Number(scenarioDone) + Number(hotspotDone) + Number(memoryDone) + Number(reactionDone));
   const progress = $derived(Math.round((completed / totalChapters) * 100));
 
   // Certificate modal
@@ -68,9 +72,7 @@
       </div>
       <div class="mt-3"><ProgressBar value={progress} /></div>
     </div>
-    <div class="flex items-center gap-3">
-      <Button variant="primary" onclick={() => { certOpen = 'open'; demo.award('Certificat généré'); }}>Générer mon certificat (démo)</Button>
-    </div>
+    <div class="flex items-center gap-3"></div>
   </div>
 
   <!-- Chapitre 1 -->
@@ -143,11 +145,34 @@
     {#if hotspotDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Cas pratique terminé</div>{/if}
   </div>
 
-  {#if progress === 100}
-    <div class="mt-8 card">
-      <div class="flex items-center gap-3"><div class="badge bg-brand-green/20 text-brand-green">Badge obtenu</div><span class="font-medium">Parcours complété à 100% — bravo !</span></div>
+  <!-- Chapitre 4 -->
+  <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+    <div class="card">
+      <div class="font-semibold">Chapitre 4 — Mémoire EPI (mini‑jeu)</div>
+      <MemoryGameDemo on:memory:done={() => { if (!memoryDone) { memoryDone = true; demo.addProgress(25); } }} />
+      {#if memoryDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Mémoire complétée</div>{/if}
     </div>
-  {/if}
+    <div class="card">
+      <div class="font-semibold">Chapitre 5 — Réflexe sécurité</div>
+      <ReactionDemo on:reaction:done={() => { if (!reactionDone) { reactionDone = true; demo.addProgress(25); } }} />
+      {#if reactionDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Réflexe validé</div>{/if}
+    </div>
+  </div>
+
+  <!-- Finale -->
+  <div class="mt-10 card text-center">
+    <div class="font-semibold">Finale — Générez votre certificat</div>
+    <p class="mt-2 text-sm text-gray-700">Terminez tous les chapitres pour débloquer le certificat animé.</p>
+    <div class="mt-4 flex items-center justify-center"><ProgressBar value={progress} /></div>
+    <div class="mt-4">
+      <Button variant="primary" onclick={() => { if (progress===100) { certOpen='open'; demo.award('Certificat généré'); } }}>
+        Générer mon certificat (démo)
+      </Button>
+      {#if progress < 100}
+        <div class="mt-2 text-sm text-gray-700">Complétez le parcours pour activer le bouton.</div>
+      {/if}
+    </div>
+  </div>
 </section>
 
 <Modal bind:openKey={certOpen} title="Certificat (démo)" onClose={() => certOpen = null}>
