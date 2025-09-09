@@ -3,10 +3,14 @@
   import { lang, highContrast, fontScale, applyAccessibilityToDom } from '$lib/stores/ui';
   import { onMount } from 'svelte';
   import Button from '$lib/components/Button.svelte';
+  import trapFocus from '$lib/actions/trapFocus';
+  import KpiStrip from '$lib/components/KpiStrip.svelte';
+  import { page } from '$app/stores';
 
   let { children } = $props();
 
   let openMenu = false;
+  let mobileMenuEl: HTMLDivElement;
 
   function setLang(value: 'fr' | 'en') { lang.set(value); }
   function toggleContrast() { highContrast.update((v) => !v); }
@@ -33,9 +37,12 @@
     { label: 'ROI & Témoignages', href: '/roi-temoignages' },
     { label: 'Contact', href: '/contact' }
   ];
+
+  $effect(() => { if (openMenu && mobileMenuEl) mobileMenuEl.focus(); });
 </script>
 
 <header class="sticky top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+  <a href="#main" class="skip-link">Aller au contenu</a>
   <div class="container-1200 h-16 md:h-20 flex items-center justify-between gap-4">
     <a href="/" class="flex items-center gap-3">
       <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F13137c2a909f405dab2ca3233793a766?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-8 w-auto" />
@@ -44,7 +51,7 @@
 
     <nav class="hidden lg:flex items-center gap-6">
       {#each nav as item}
-        <a class="header-link" href={item.href}>{item.label}</a>
+        <a class="header-link" href={item.href} aria-current={$page.url.pathname === item.href ? 'page' : undefined}>{item.label}</a>
       {/each}
     </nav>
 
@@ -65,10 +72,10 @@
     </button>
   </div>
   {#if openMenu}
-    <div class="lg:hidden border-t border-black/5 bg-white">
-      <div class="container-1200 py-3 flex flex-col gap-3">
+    <div class="lg:hidden border-t border-black/5 bg-white" role="dialog" aria-modal="true" aria-label="Menu" use:trapFocus>
+      <div class="container-1200 py-3 flex flex-col gap-3" tabindex="-1" bind:this={mobileMenuEl}>
         {#each nav as item}
-          <a class="header-link py-2" href={item.href} on:click={() => openMenu=false}>{item.label}</a>
+          <a class="header-link py-2" href={item.href} aria-current={$page.url.pathname === item.href ? 'page' : undefined} on:click={() => openMenu=false}>{item.label}</a>
         {/each}
         <div class="flex items-center gap-3 pt-2">
           <div class="flex rounded-lg border border-black/10 overflow-hidden">
@@ -84,7 +91,9 @@
   {/if}
 </header>
 
-<main>
+<KpiStrip />
+
+<main id="main">
   {@render children()}
 </main>
 
