@@ -39,7 +39,7 @@
   </div>
 </section>
 
-<Modal bind:open={open} title="Démo" onClose={() => (open = null)}>
+<Modal bind:openKey={open} title="Démo" onClose={() => (open = null)}>
   {#if open === 'video'}<VideoQuizDemo />{/if}
   {#if open === 'scenario'}<BranchingScenarioDemo />{/if}
   {#if open === 'hotspots'}<HotspotsDemo />{/if}
