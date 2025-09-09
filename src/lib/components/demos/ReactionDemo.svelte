@@ -12,5 +12,5 @@
   <div class="text-sm text-gray-700">Test de réflexe</div>
   <button class="mt-3 btn-primary" onclick={begin} aria-label="Démarrer">Démarrer</button>
   <div class="mt-3 text-lg font-medium">{msg}</div>
-  <div class={`mt-4 h-24 rounded-lg ${state==='go' ? 'bg-brand-green/40' : 'bg-black/5'}`} onclick={press} role="button" aria-label="Zone de clic"></div>
+  <div class={`mt-4 h-24 rounded-lg ${state==='go' ? 'bg-brand-green/40' : 'bg-black/5'}`} onclick={press} role="button" aria-label="Zone de clic" tabindex="0" onkeydown={(e: KeyboardEvent) => (e.key==='Enter'||e.key===' ') && press()}></div>
 </div>
