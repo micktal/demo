@@ -72,7 +72,7 @@
 
 <section class="container-1200 pt-12 md:pt-16 pb-16">
   <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
-  <h1>Parcours Sécurité & Sûreté – Démo</h1>
+  <h1>Les interactions de nos plateformes</h1>
   <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
     <div class="md:col-span-2 card">
       <div class="flex flex-wrap items-center gap-3">
@@ -120,7 +120,7 @@
         <p class="mt-2">Un usager devient agressif à l’accueil. Que faites‑vous ?</p>
         <div class="mt-3 flex flex-wrap gap-2">
           <button class="btn-primary" onclick={() => chooseScenario(true)}>Adopter une posture calme et alerter</button>
-          <button class="btn-ghost" onclick={() => chooseScenario(false)}>Répondre sèchement</button>
+          <button class="btn-ghost" onclick={() => chooseScenario(false)}>R��pondre sèchement</button>
         </div>
       {:else if scenStep === 1}
         <div class="mt-3 card">Bonne pratique. Conséquence : désescalade. <span class="text-brand-green font-medium">+1</span></div>
@@ -164,7 +164,7 @@
     <div class="card">
       <div class="font-semibold">Chapitre 5 — Réflexe sécurité</div>
       <ReactionDemo on:reaction:done={() => { if (!reactionDone) { reactionDone = true; demo.addProgress(25); } }} />
-      {#if reactionDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Réflexe validé</div>{/if}
+      {#if reactionDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Réflexe valid��</div>{/if}
     </div>
   </div>
 
