@@ -45,10 +45,6 @@
     <div class="col-span-12 md:col-span-7">
       <h1>Connectée à vos outils, prête dès demain.</h1>
       <p class="mt-4 max-w-2xl">SSO, SCORM/xAPI, exports RH : nos intégrations fluidifient vos process.</p>
-      <div class="mt-6 flex gap-3 flex-wrap">
-        <Button href="#export" variant="primary">Tester un export démo</Button>
-        <Button href="#standards" variant="ghost">Découvrir les standards</Button>
-      </div>
     </div>
     <div class="col-span-12 md:col-span-5">
       <div class="rounded-xl overflow-hidden border border-black/10 bg-white p-4">
@@ -149,10 +145,6 @@
     <div>
       <h2 class="text-xl font-semibold">Votre plateforme, vos outils, zéro friction.</h2>
       <p class="text-gray-700">Nous connectons vos modules à votre écosystème en quelques jours.</p>
-    </div>
-    <div class="flex gap-3">
-      <Button href="/contact?from=integrations-list" variant="primary">Demander la liste complète des intégrations</Button>
-      <Button href="/tableau-de-bord" variant="ghost">Planifier une démo technique</Button>
     </div>
   </div>
 </section>
