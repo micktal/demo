@@ -64,8 +64,8 @@
     <div class="card">
       <div class="font-semibold">Navigation clavier & ARIA live</div>
       <div class="mt-3 flex flex-wrap gap-2">
-        <a href="#" class="btn-ghost">Lien 1</a>
-        <a href="#" class="btn-ghost">Lien 2</a>
+        <button class="btn-ghost" type="button">Lien 1</button>
+        <button class="btn-ghost" type="button">Lien 2</button>
         <Button variant="primary" on:click={() => announce('Action réussie annoncée aux lecteurs d’écran')}>Simuler succès</Button>
       </div>
       <div class="mt-3 text-sm text-gray-700">La zone ci‑dessous annonce les mises à jour :</div>
