@@ -32,7 +32,7 @@
     questions[i].picked = j;
     if (questions[i].options[j].ok) score += 1;
     const all = questions.every((x) => x.picked != null);
-    if (all) quizDone = true;
+    if (all) { quizDone = true; tQuiz = Math.max(1, Math.round((Date.now() - mountedAt)/1000)); }
   }
 
   // Scenario state (2 choices -> 2 consequences)
