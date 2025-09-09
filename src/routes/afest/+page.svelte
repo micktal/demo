@@ -314,7 +314,7 @@
             <td style="padding:8px;border-bottom:1px solid #f1f5f9">Accueil transporteur (zone chargement)</td>
             <td style="padding:8px;border-bottom:1px solid #f1f5f9">{proofs[0] ? `${proofs[0].type} ${proofs[0].name}` : '—'}</td>
             <td style="padding:8px;border-bottom:1px solid #f1f5f9">{tutorName || '—'}</td>
-            <td style="padding:8px;border-bottom:1px solid #f1f5f9">{(proofs[0] && proofs[0].ts) ? proofs[0].ts : '—'}</td>
+            <td style="padding:8px;border-bottom:1px solid #f1f5f9">{validationTs || (proofs[0] && proofs[0].ts) || '—'}</td>
             <td style="padding:8px;border-bottom:1px solid #f1f5f9">{feedbackText ? (feedbackText.length > 60 ? feedbackText.slice(0,60) + '…' : feedbackText) : '—'}</td>
           </tr>
         </tbody>
