@@ -1,6 +1,7 @@
 <script lang="ts">
   import { demo, level } from '$lib/stores/demo';
   import { onMount } from 'svelte';
+  import { t } from '$lib/i18n';
   let confettiOnce = false;
 
   function confetti() {
@@ -36,7 +37,7 @@
 
 <div class="kpi-wrap" role="status" aria-live="polite">
   <div class="kpi">
-    <span>{(await import('$lib/i18n')).t('kpi.progress')}</span>
+    <span>{t('kpi.progress')}</span>
     {#await import('svelte') then _}
       {#key Math.random()}
         <div class="bar">
@@ -46,8 +47,8 @@
     {/await}
     <strong>{$demo.progress}%</strong>
   </div>
-  <div class="kpi"><span>{(await import('$lib/i18n')).t('kpi.score')}</span><strong>{$demo.score} pts</strong></div>
-  <div class="kpi"><span>{(await import('$lib/i18n')).t('kpi.level')}</span><strong>{$level}</strong></div>
+  <div class="kpi"><span>{t('kpi.score')}</span><strong>{$demo.score} pts</strong></div>
+  <div class="kpi"><span>{t('kpi.level')}</span><strong>{$level}</strong></div>
   <div class="badges" aria-label="Badges">
     {#if $demo.badges.length === 0}<span class="muted">—</span>{/if}
     {#each $demo.badges as b}<span class="badge">{b}</span>{/each}

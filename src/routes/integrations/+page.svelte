@@ -2,6 +2,7 @@
   import Button from '$lib/components/Button.svelte';
   import Card from '$lib/components/Card.svelte';
   import { demo } from '$lib/stores/demo';
+  import { t } from '$lib/i18n';
 
   const KEY = 'fpsgDemo';
   function mergeSave(partial: Record<string, any>) {
@@ -44,8 +45,8 @@
   <div class="container-1200 py-12 md:py-16 grid-12 items-center gap-6">
     <div class="col-span-12 md:col-span-7">
       <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
-      <h1 class="mt-4">{(await import('$lib/i18n')).t('integrations.title','Connectée à vos outils, prête dès demain.')}</h1>
-      <p class="mt-4 max-w-2xl">{(await import('$lib/i18n')).t('integrations.subtitle','SSO, SCORM/xAPI, exports RH : nos intégrations fluidifient vos process.')}</p>
+      <h1 class="mt-4">{t('integrations.title','Connectée à vos outils, prête dès demain.')}</h1>
+      <p class="mt-4 max-w-2xl">{t('integrations.subtitle','SSO, SCORM/xAPI, exports RH : nos intégrations fluidifient vos process.')}</p>
     </div>
     <div class="col-span-12 md:col-span-5">
       <div class="rounded-xl overflow-hidden border border-black/10 bg-white p-4">
@@ -156,7 +157,7 @@
 <section class="container-1200 pt-10">
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
     <Card><div class="p-4"><div class="font-semibold">RGPD</div><div class="text-sm text-gray-700 mt-1">minimisation des données, purge auto.</div></div></Card>
-    <Card><div class="p-4"><div class="font-semibold">Sécurité</div><div class="text-sm text-gray-700 mt-1">hébergement UE, chiffrement AES.</div></div></Card>
+    <Card><div class="p-4"><div class="font-semibold">Sécurité</div><div class="text-sm text-gray-700 mt-1">h��bergement UE, chiffrement AES.</div></div></Card>
     <Card><div class="p-4"><div class="font-semibold">Interopérabilité</div><div class="text-sm text-gray-700 mt-1">SCORM, xAPI, API.</div></div></Card>
     <Card><div class="p-4"><div class="font-semibold">Audit</div><div class="text-sm text-gray-700 mt-1">exports opposables.</div></div></Card>
   </div>

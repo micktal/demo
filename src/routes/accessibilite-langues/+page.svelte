@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button from '$lib/components/Button.svelte';
   import { onMount } from 'svelte';
+  import { t } from '$lib/i18n';
 
   // SEO
   const title = 'E-learning multilingue & accessible – Fiducial FPSG';
@@ -65,8 +66,8 @@
   <div class="container-1200 py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
     <div>
       <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
-      <h1 class="mt-4">{(await import('$lib/i18n')).t('a11y.title','Former partout, à tous.')}</h1>
-      <p class="mt-4 max-w-xl">{(await import('$lib/i18n')).t('a11y.subtitle','Multi-langues, sous-titres, transcriptions, lecture RTL : vos équipes apprennent mieux, plus vite, où qu’elles soient.')}</p>
+      <h1 class="mt-4">{t('a11y.title','Former partout, à tous.')}</h1>
+      <p class="mt-4 max-w-xl">{t('a11y.subtitle','Multi-langues, sous-titres, transcriptions, lecture RTL : vos équipes apprennent mieux, plus vite, où qu’elles soient.')}</p>
     </div>
     <div>
       <div class="grid grid-cols-5 gap-3">{#each ['🇫🇷','🇬🇧','🇪🇸','🇩🇪','🇮🇹','🇵🇹','🇷🇴','🇵🇱','🇦🇱','🇸🇦'] as f}<div class="grid place-items-center rounded-lg bg-white shadow-soft py-4 text-2xl">{f}</div>{/each}</div>
@@ -120,7 +121,7 @@
           <div class="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
             <div class="card text-sm">EN: In this module, you will learn to safely welcome a visitor...</div>
             <div class="card text-sm">ES: En este módulo, aprenderá a recibir a un visitante con seguridad...</div>
-            <div class="card text-sm">AR: في هذا الدرس، ستتعلم استقبال الزائر بأمان...</div>
+            <div class="card text-sm">AR: في ه��ا الدرس، ستتعلم استقبال الزائر بأمان...</div>
           </div>
         </div>
       {/if}
@@ -181,7 +182,7 @@
   <h2>Glossaire</h2>
   <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
     {#each [
-      ['EPI','PPE','EPP','EIP','OZO','Pajisje Mbrojtëse','معدات الوقاية الشخصية'],
+      ['EPI','PPE','EPP','EIP','OZO','Pajisje Mbrojtëse','م��دات الوقاية الشخصية'],
       ['Incivilité','disruptive behavior','incivilidad','incivilitate','niegrzeczne zachowanie','mosmirësjellje','سلوك غير لائق.'],
       ['Contrôle d’accès','access control','control de acceso','controlul accesului','kontrola dostępu','kontrolli i hyrjes','التحكم في الوصول']
     ] as g}

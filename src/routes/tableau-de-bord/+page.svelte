@@ -4,6 +4,7 @@
   import { onMount } from 'svelte';
   import Chart from 'chart.js/auto';
   import { demo } from '$lib/stores/demo';
+  import { t } from '$lib/i18n';
 
   const KEY = 'fpsgDemo';
   let kpiProgress = $state(0);
@@ -92,8 +93,8 @@
   <div class="container-1200 py-12 md:py-16 grid-12 items-center gap-6">
     <div class="col-span-12 md:col-span-7">
       <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
-      <h1 class="mt-4">{(await import('$lib/i18n')).t('dashboard.title','Pilotez vos formations en temps réel.')}</h1>
-      <p class="mt-4 max-w-2xl">{(await import('$lib/i18n')).t('dashboard.subtitle','Suivez la progression de vos équipes, les scores, les badges obtenus et exportez vos preuves pour l’audit.')}</p>
+      <h1 class="mt-4">{t('dashboard.title','Pilotez vos formations en temps réel.')}</h1>
+      <p class="mt-4 max-w-2xl">{t('dashboard.subtitle','Suivez la progression de vos équipes, les scores, les badges obtenus et exportez vos preuves pour l’audit.')}</p>
     </div>
     <div class="col-span-12 md:col-span-5">
       <div class="rounded-xl overflow-hidden border border-black/10 bg-white aspect-[16/10]">

@@ -3,6 +3,7 @@
   import Card from '$lib/components/Card.svelte';
   import { onMount } from 'svelte';
   import { demo } from '$lib/stores/demo';
+  import { t } from '$lib/i18n';
 
   const KEY = 'fpsgDemo';
   function mergeSave(partial: Record<string, any>) {
@@ -93,8 +94,8 @@
   <div class="container-1200 py-12 md:py-16 grid-12 items-center gap-6">
     <div class="col-span-12 md:col-span-6">
       <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
-      <h1 class="mt-4">{(await import('$lib/i18n')).t('comparatif.title','Papier ou Digital : le match est vite plié.')}</h1>
-      <p class="mt-4 max-w-2xl">{(await import('$lib/i18n')).t('comparatif.subtitle','Le e-learning transforme vos supports en expériences interactives, mesurables et déployables partout.')}</p>
+      <h1 class="mt-4">{t('comparatif.title','Papier ou Digital : le match est vite plié.')}</h1>
+      <p class="mt-4 max-w-2xl">{t('comparatif.subtitle','Le e-learning transforme vos supports en expériences interactives, mesurables et déployables partout.')}</p>
     </div>
     <div class="col-span-12 md:col-span-6">
       <div class="rounded-xl overflow-hidden border border-black/10 bg-white">
