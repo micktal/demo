@@ -23,6 +23,8 @@
   let certOpen = $state<string | null>(null);
   const mountedAt = Date.now();
   let tQuiz = $state(0); let tScenario = $state(0); let tHot = $state(0);
+  let comment = $state('');
+  let comments = $state([{author:'Responsable site', text:'Nous appliquons cette règle dans notre site.'},{author:'Manager', text:'Les EPI sont vérifiés en entrée, merci.'}]);
 
   // Quiz state (3 questions)
   type Q = { q: string; options: { t: string; ok: boolean }[]; picked?: number; };
