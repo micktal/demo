@@ -28,7 +28,7 @@
     <div class="font-medium mb-2">À trier</div>
     <div class="flex flex-wrap gap-2">
       {#each left as it}
-        <div class="badge cursor-move" role="option" aria-selected="false" tabindex="0" draggable ondragstart={(e)=>drag(e,it)}>{it.label}</div>
+        <div class="badge cursor-move" role="option" aria-selected="false" tabindex="0" draggable={true} ondragstart={(e)=>drag(e,it)} onclick={()=>clickItem(it)}>{it.label}</div>
       {/each}
     </div>
   </div>
