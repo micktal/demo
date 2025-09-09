@@ -11,7 +11,7 @@
   let { children } = $props();
 
   let openMenu = $state(false);
-  let mobileMenuEl: HTMLDivElement;
+  let mobileMenuEl = $state<HTMLDivElement | null>(null);
 
   function setLang(value: 'fr' | 'en') { lang.set(value); }
   function toggleContrast() { highContrast.update((v) => !v); }
@@ -131,17 +131,17 @@
     <div>
       <div class="font-semibold mb-3">Légal</div>
       <ul class="space-y-2 text-white/80">
-        <li><a href="#" class="hover:text-white">RGPD</a></li>
-        <li><a href="#" class="hover:text-white">Mentions</a></li>
+        <li><a href="/rgpd" class="hover:text-white">RGPD</a></li>
+        <li><a href="/mentions" class="hover:text-white">Mentions</a></li>
       </ul>
     </div>
     <div>
       <div class="font-semibold mb-3">Contact</div>
       <p class="text-white/80">contact@votre-domaine.com<br/>+33 1 23 45 67 89</p>
       <div class="mt-4 flex items-center gap-3">
-        <a href="#" aria-label="LinkedIn" class="hover:text-white/90"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5Zm.02 6.5H2v11h3V10Zm7.5 0h-3v11h3v-6.1c0-1.67 2-1.8 2 0V21h3v-6.75c0-4.66-5.5-4.48-5.5-2.19V10Z"/></svg></a>
-        <a href="#" aria-label="Twitter" class="hover:text-white/90"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.7.3-1.4.5-2.2.6.8-.5 1.4-1.2 1.7-2.1-.7.4-1.6.8-2.4 1-1.4-1.5-3.9-1.6-5.4-.1-1 .9-1.5 2.3-1.2 3.7-3.1-.2-6-1.7-7.9-4.1-1 1.7-.5 3.9 1.2 5  -.6 0-1.2-.2-1.7-.5v.1c0 1.9 1.4 3.6 3.3 4-.6.2-1.2.2-1.8.1.5 1.6 2 2.7 3.7 2.7-1.6 1.3-3.7 2.1-5.9 2.1H2c2.1 1.3 4.6 2 7.3 2 8.8 0 13.6-7.3 13.6-13.6v-.6c.9-.6 1.6-1.3 2.1-2.1Z"/></svg></a>
-        <a href="#" aria-label="YouTube" class="hover:text-white/90"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.8 31.8 0 0 0 0 12a31.8 31.8 0 0 0 .6 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.6-1.9.6-5.8.6-5.8s0-3.9-.6-5.8ZM9.7 15.5v-7L15.8 12l-6.1 3.5Z"/></svg></a>
+        <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn" class="hover:text-white/90"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5Zm.02 6.5H2v11h3V10Zm7.5 0h-3v11h3v-6.1c0-1.67 2-1.8 2 0V21h3v-6.75c0-4.66-5.5-4.48-5.5-2.19V10Z"/></svg></a>
+        <a href="https://x.com" target="_blank" rel="noreferrer" aria-label="Twitter" class="hover:text-white/90"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M22 5.8c-.7.3-1.4.5-2.2.6.8-.5 1.4-1.2 1.7-2.1-.7.4-1.6.8-2.4 1-1.4-1.5-3.9-1.6-5.4-.1-1 .9-1.5 2.3-1.2 3.7-3.1-.2-6-1.7-7.9-4.1-1 1.7-.5 3.9 1.2 5  -.6 0-1.2-.2-1.7-.5v.1c0 1.9 1.4 3.6 3.3 4-.6.2-1.2.2-1.8.1.5 1.6 2 2.7 3.7 2.7-1.6 1.3-3.7 2.1-5.9 2.1H2c2.1 1.3 4.6 2 7.3 2 8.8 0 13.6-7.3 13.6-13.6v-.6c.9-.6 1.6-1.3 2.1-2.1Z"/></svg></a>
+        <a href="https://youtube.com" target="_blank" rel="noreferrer" aria-label="YouTube" class="hover:text-white/90"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.8 31.8 0 0 0 0 12a31.8 31.8 0 0 0 .6 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.6-1.9.6-5.8.6-5.8s0-3.9-.6-5.8ZM9.7 15.5v-7L15.8 12l-6.1 3.5Z"/></svg></a>
       </div>
     </div>
   </div>

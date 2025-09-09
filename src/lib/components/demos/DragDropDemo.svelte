@@ -8,7 +8,7 @@
   const drop = (e: DragEvent) => { e.preventDefault(); const d = e.dataTransfer?.getData('text/plain'); if (d && !dropped.includes(d)) dropped = [...dropped, d]; if (dropped.length === items.length) fireConfetti(container); };
 </script>
 <div class="grid grid-cols-2 gap-4" bind:this={container}>
-  <div>
+  <div role="list" aria-label="Éléments à déplacer">
     <div class="font-medium mb-2">Éléments</div>
     <div class="flex flex-wrap gap-2">
       {#each items as it}
@@ -20,7 +20,7 @@
   </div>
   <div>
     <div class="font-medium mb-2">Déposez ici</div>
-    <div class="min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3" on:dragover={allowDrop} on:drop={drop}>
+    <div class="min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3" role="listbox" tabindex="0" on:dragover={allowDrop} on:drop={drop}>
       {#if dropped.length === 0}
         <p class="text-sm text-gray-700">Faites glisser les éléments.</p>
       {:else}

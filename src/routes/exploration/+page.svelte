@@ -32,9 +32,9 @@
 
   <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
     {#each cards as c}
-      <div on:click={() => (open = c.key)}>
+      <button class="text-left" onclick={() => (open = c.key)} aria-label={`Ouvrir ${c.title}`}>
         <InteractionCard title={c.title} description={c.description} />
-      </div>
+      </button>
     {/each}
   </div>
 </section>
