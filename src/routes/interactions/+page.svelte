@@ -161,6 +161,41 @@
     </div>
   </div>
 
+  <!-- Chapitre 6 — Tri EPI (Drag & Drop) -->
+  <div class="mt-10 card">
+    <div class="font-semibold">Chapitre 6 — Drag & Drop (classer / associer)</div>
+    <p class="mt-1 text-sm text-gray-700">Triez les items en “EPI obligatoires” vs “Non EPI”.</p>
+    <EpiSortDemo on:sort:done={() => { if (!epiDone) { epiDone = true; demo.addProgress(10); demo.award('Badge EPI triés'); } }} />
+    {#if epiDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Tri EPI réussi</div>{/if}
+  </div>
+
+  <!-- Chapitre 7 — Étude de cas chronométrée -->
+  <div class="mt-10 card">
+    <div class="font-semibold">Chapitre 7 — Étude de cas chronométrée</div>
+    <p class="mt-1 text-sm text-gray-700">Répondez rapidement sous pression.</p>
+    <TimedCaseDemo on:timed:done={() => { if (!timedDone) { timedDone = true; demo.addProgress(10); demo.award('Décideur rapide'); } }} />
+    {#if timedDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Étude de cas validée</div>{/if}
+  </div>
+
+  <!-- Chapitre 8 — Checklist engageante -->
+  <div class="mt-10 card">
+    <div class="font-semibold">Chapitre 8 — Checklist engageante</div>
+    <ChecklistDemo on:checklist:done={() => { if (!checklistDone) { checklistDone = true; demo.addProgress(10); demo.award('Checklist validée'); } }} />
+    {#if checklistDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Checklist terminée</div>{/if}
+  </div>
+
+  <!-- Mini social learning (mock) -->
+  <div class="mt-10 card">
+    <div class="font-semibold">Donnez votre avis</div>
+    <form class="mt-3 flex flex-col sm:flex-row gap-2" onsubmit={(e) => { e.preventDefault(); if (comment.trim()) { comments = [{author:'Vous', text: comment}, ...comments]; comment=''; } }}>
+      <input class="flex-1 rounded-md border border-black/10 p-2" placeholder="Votre commentaire" bind:value={comment} />
+      <Button variant="ghost" type="submit">Publier</Button>
+    </form>
+    <div class="mt-3 space-y-2">
+      {#each comments as c}<div class="rounded-md border border-black/10 bg-white px-3 py-2 text-sm"><span class="font-medium">{c.author}</span> — {c.text}</div>{/each}
+    </div>
+  </div>
+
   <!-- Finale -->
   <div class="mt-10 card text-center">
     <div class="font-semibold">Finale — Générez votre certificat</div>
