@@ -93,7 +93,7 @@
       <div class="font-semibold">Heatmap connexions</div>
       <div class="mt-4 grid grid-cols-7 gap-2">
         {#each Array(28) as _, i}
-          {#const inten = (i*7 % 100) < completion ? 'bg-brand-green/70' : 'bg-brand-green/20'}
+          {@const inten = ((i * 7) % 100) < completion ? 'bg-brand-green/70' : 'bg-brand-green/20'}
           <div class={`h-8 rounded ${inten}`}></div>
         {/each}
       </div>
