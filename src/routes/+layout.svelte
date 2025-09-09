@@ -1,6 +1,6 @@
 <script lang="ts">
   import '../app.css';
-  import { lang, highContrast, fontScale, applyAccessibilityToDom } from '$lib/stores/ui';
+  import { lang } from '$lib/stores/ui';
   import { onMount } from 'svelte';
   import Button from '$lib/components/Button.svelte';
   import trapFocus from '$lib/actions/trapFocus';
@@ -14,30 +14,22 @@
   let mobileMenuEl = $state<HTMLDivElement | null>(null);
 
   function setLang(value: 'fr' | 'en') { lang.set(value); }
-  function toggleContrast() { highContrast.update((v) => !v); }
-  function cycleFont() {
-    fontScale.update((v) => (v === '100' ? '112' : v === '112' ? '125' : '100'));
-  }
 
   onMount(() => {
-    const unsub1 = highContrast.subscribe(() => applyAccessibilityToDom());
-    const unsub2 = fontScale.subscribe(() => applyAccessibilityToDom());
     const unsub3 = lang.subscribe((l) => { try { document.documentElement.lang = l; } catch {} });
 
-    // optional ?lang=en support
     try {
       const params = new URLSearchParams(window.location.search);
       const forced = params.get('lang');
       if (forced === 'fr' || forced === 'en') lang.set(forced);
     } catch {}
 
-    applyAccessibilityToDom();
     demo.award('Explorateur');
 
     const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') openMenu = false; };
     window.addEventListener('keydown', onEsc);
 
-    return () => { unsub1(); unsub2(); unsub3(); window.removeEventListener('keydown', onEsc); };
+    return () => { unsub3(); window.removeEventListener('keydown', onEsc); };
   });
 
   const nav = [
@@ -48,9 +40,7 @@
     { label: 'Accessibilité & Langues', href: '/accessibilite-langues' },
     { label: 'Tableau de bord', href: '/tableau-de-bord' },
     { label: 'Intégrations', href: '/integrations' },
-    { label: 'Comparatif', href: '/comparatif' },
-    { label: 'ROI & Témoignages', href: '/roi-temoignages' },
-    { label: 'Contact', href: '/contact' }
+    { label: 'Comparatif', href: '/comparatif' }
   ];
 
   $effect(() => { if (openMenu && mobileMenuEl) mobileMenuEl.focus(); });
@@ -75,11 +65,6 @@
         <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" onclick={() => setLang('fr')}>FR</button>
         <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" onclick={() => setLang('en')}>EN</button>
       </div>
-      <div class="flex items-center gap-2">
-        <button class="header-link" title="Contraste" onclick={toggleContrast}>Contraste</button>
-        <button class="header-link" title="Taille du texte" onclick={cycleFont}>Aa</button>
-      </div>
-      <Button variant="primary" href="/contact" onclick={() => demo.addProgress(3)}>Demander une démo projet</Button>
     </div>
 
     <button class="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-md hover:bg-black/5" onclick={() => openMenu = !openMenu} aria-label="Menu" aria-expanded={openMenu} aria-controls="mobileMenu">
@@ -97,9 +82,6 @@
             <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" onclick={() => setLang('fr')}>FR</button>
             <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" onclick={() => setLang('en')}>EN</button>
           </div>
-          <button class="header-link" onclick={toggleContrast}>Contraste</button>
-          <button class="header-link" onclick={cycleFont}>Taille texte</button>
-          <Button variant="primary" href="/contact" onclick={() => openMenu=false}>Demander une démo projet</Button>
         </div>
       </div>
     </div>
