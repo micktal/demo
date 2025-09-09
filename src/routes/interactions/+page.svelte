@@ -17,9 +17,12 @@
   let hotspotDone = $state(false);
   let memoryDone = $state(false);
   let reactionDone = $state(false);
+  let epiDone = $state(false);
+  let timedDone = $state(false);
+  let checklistDone = $state(false);
   $effect(() => { if (typeof document !== 'undefined' && progress === 100) { fireConfetti(document.body, 180); demo.award('Parcours 100%'); } });
-  const totalChapters = 5;
-  const completed = $derived(Number(quizDone) + Number(scenarioDone) + Number(hotspotDone) + Number(memoryDone) + Number(reactionDone));
+  const totalChapters = 8;
+  const completed = $derived(Number(quizDone) + Number(scenarioDone) + Number(hotspotDone) + Number(memoryDone) + Number(reactionDone) + Number(epiDone) + Number(timedDone) + Number(checklistDone));
   const progress = $derived(Math.round((completed / totalChapters) * 100));
 
   // Certificate modal
