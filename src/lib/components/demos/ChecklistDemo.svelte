@@ -5,13 +5,13 @@
     'Regarder la vidéo',
     'Valider la compréhension'
   ];
-  let done: Record<number, boolean> = {};
+  let done: Record<number, boolean> = {}; let host: HTMLDivElement;
   $effect(() => {
     const all = steps.every((_, i) => done[i]);
-    if (all) fireConfetti(document.body, 80);
+    if (all && host) fireConfetti(host, 80);
   });
 </script>
-<div class="card">
+<div class="card" bind:this={host}>
   <div class="font-medium">Checklist engageante</div>
   <ul class="mt-2 space-y-2">
     {#each steps as s, i}
