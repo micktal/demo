@@ -3,6 +3,7 @@
   import Button from '$lib/components/Button.svelte';
   import { onMount } from 'svelte';
   import { demo, level } from '$lib/stores/demo';
+  import Chart from 'chart.js/auto';
 
   type Filter = { period: string; site: string; population: 'agents' | 'manager' | 'all' };
   let filter: Filter = $state({ period: '30j', site: 'Tous', population: 'all' });
