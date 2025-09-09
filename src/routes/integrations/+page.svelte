@@ -43,19 +43,42 @@
 <section class="w-full bg-brand-green/5">
   <div class="container-1200 py-12 md:py-16 grid-12 items-center gap-6">
     <div class="col-span-12 md:col-span-7">
-      <h1>Connectée à vos outils, prête dès demain.</h1>
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
+      <h1 class="mt-4">Connectée à vos outils, prête dès demain.</h1>
       <p class="mt-4 max-w-2xl">SSO, SCORM/xAPI, exports RH : nos intégrations fluidifient vos process.</p>
     </div>
     <div class="col-span-12 md:col-span-5">
       <div class="rounded-xl overflow-hidden border border-black/10 bg-white p-4">
-        <div class="relative mx-auto" style="width:100%;max-width:420px;height:300px">
-          <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-28 w-28 rounded-full bg-brand-green text-white flex items-center justify-center font-semibold text-center">Plateforme<br/>FPSG</div>
-          <div class="absolute" style="top:6%;left:50%;transform:translate(-50%,-50%)"><div class="px-2 py-1 rounded border border-black/10 bg-white">Workday</div></div>
-          <div class="absolute" style="top:26%;left:90%;transform:translate(-50%,-50%)"><div class="px-2 py-1 rounded border border-black/10 bg-white">SAP</div></div>
-          <div class="absolute" style="top:82%;left:82%;transform:translate(-50%,-50%)"><div class="px-2 py-1 rounded border border-black/10 bg-white">Moodle</div></div>
-          <div class="absolute" style="top:90%;left:48%;transform:translate(-50%,-50%)"><div class="px-2 py-1 rounded border border-black/10 bg-white">Teams</div></div>
-          <div class="absolute" style="top:68%;left:12%;transform:translate(-50%,-50%)"><div class="px-2 py-1 rounded border border-black/10 bg-white">Okta</div></div>
-        </div>
+        <svg viewBox="0 0 800 360" width="100%" height="100%" role="img" aria-label="Schéma d’intégrations (hub)">
+          <rect x="0" y="0" width="800" height="360" fill="#fff"/>
+          <circle cx="400" cy="180" r="56" fill="#0C6A4C"/>
+          <text x="400" y="176" text-anchor="middle" font-size="14" fill="#fff" font-weight="700">Plateforme</text>
+          <text x="400" y="194" text-anchor="middle" font-size="18" fill="#fff" font-weight="700">FPSG</text>
+          <!-- nodes -->
+          <g fill="#0C6A4C" fill-opacity=".12" stroke="#CFE3D7">
+            <circle cx="400" cy="40" r="28"/>
+            <circle cx="700" cy="120" r="28"/>
+            <circle cx="640" cy="300" r="28"/>
+            <circle cx="100" cy="260" r="28"/>
+            <circle cx="140" cy="100" r="28"/>
+          </g>
+          <!-- links -->
+          <g stroke="#CFE3D7" stroke-width="3">
+            <line x1="400" y1="124" x2="400" y2="68"/>
+            <line x1="448" y1="160" x2="672" y2="128"/>
+            <line x1="432" y1="208" x2="616" y2="288"/>
+            <line x1="352" y1="208" x2="124" y2="252"/>
+            <line x1="352" y1="160" x2="152" y2="112"/>
+          </g>
+          <!-- labels -->
+          <g font-size="12" fill="#223">
+            <text x="400" y="44" text-anchor="middle">Workday</text>
+            <text x="700" y="124" text-anchor="middle">SAP</text>
+            <text x="640" y="304" text-anchor="middle">Moodle</text>
+            <text x="100" y="264" text-anchor="middle">Teams</text>
+            <text x="140" y="104" text-anchor="middle">Okta</text>
+          </g>
+        </svg>
       </div>
     </div>
   </div>
