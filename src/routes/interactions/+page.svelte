@@ -72,7 +72,7 @@
 
 <section class="container-1200 pt-12 md:pt-16 pb-16">
   <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
-  <h1>Les interactions de nos plateformes</h1>
+  <h1>{(await import('$lib/i18n')).t('interactions.title','Les interactions de nos plateformes')}</h1>
   <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
     <div class="md:col-span-2 card">
       <div class="flex flex-wrap items-center gap-3">
