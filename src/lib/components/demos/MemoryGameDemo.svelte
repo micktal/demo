@@ -1,5 +1,7 @@
 <script lang="ts">
   import { demo } from '$lib/stores/demo';
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
   let opened: number[] = $state([]);
   let matched: boolean[] = $state(Array(6).fill(false));
   const icons = ['🦺','🧤','🥽','🪖','👷','⛑️'];
@@ -10,7 +12,7 @@
     deck = base; opened = []; matched = Array(6).fill(false);
   }
   shuffle();
-  function clickCard(i: number){ if(opened.length===2 || matched[deck[i]]) return; opened=[...opened,i]; if(opened.length===2){ const [a,b]=opened; if(deck[a]===deck[b]){ matched[deck[a]]=true; opened=[]; if(matched.every(Boolean)){ demo.addScore(2); demo.award('As de la mémoire'); dispatchEvent(new CustomEvent('memory:done',{detail:true})); } } else { setTimeout(()=> opened=[], 700); } } }
+  function clickCard(i: number){ if(opened.length===2 || matched[deck[i]]) return; opened=[...opened,i]; if(opened.length===2){ const [a,b]=opened; if(deck[a]===deck[b]){ matched[deck[a]]=true; opened=[]; if(matched.every(Boolean)){ demo.addScore(2); demo.award('As de la mémoire'); dispatch('memory:done'); } } else { setTimeout(()=> opened=[], 700); } } }
 </script>
 
 <div class="grid grid-cols-4 gap-2">
