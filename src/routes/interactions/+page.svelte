@@ -1,4 +1,154 @@
-<section class="container-1200 py-16">
-  <h1>Interactions</h1>
-  <p class="mt-3">Cette page est prête à être personnalisée. Dites-moi le contenu à générer et je l'ajouterai.</p>
+<script lang="ts">
+  import ProgressBar from '$lib/components/ProgressBar.svelte';
+  import Button from '$lib/components/Button.svelte';
+  import Modal from '$lib/components/Modal.svelte';
+  import { fireConfetti } from '$lib/utils/confetti';
+
+  // Score & progression
+  let score = 0;
+  let quizDone = false;
+  let scenarioDone = false;
+  let hotspotDone = false;
+  $effect(() => { if (progress === 100) fireConfetti(document.body, 150); });
+  const totalChapters = 3;
+  $: completed = (Number(quizDone) + Number(scenarioDone) + Number(hotspotDone));
+  $: progress = Math.round((completed / totalChapters) * 100);
+
+  // Certificate modal
+  let certOpen: string | null = null;
+
+  // Quiz state (3 questions)
+  type Q = { q: string; options: { t: string; ok: boolean }[]; picked?: number; };
+  let questions: Q[] = [
+    { q: 'Un mot de passe doit être…', options: [{ t: 'Partagé avec l’équipe', ok: false }, { t: 'Unique et complexe', ok: true }, { t: 'Collé sur l’écran', ok: false }] },
+    { q: 'En cas d’alerte incendie, vous…', options: [{ t: 'Évacuez par l’issue la plus proche', ok: true }, { t: 'Attendez la fin de la réunion', ok: false }, { t: 'Prenez l’ascenseur', ok: false }] },
+    { q: 'Phishing : vous recevez un mail suspect', options: [{ t: 'Cliquez et entrez vos codes', ok: false }, { t: 'Le signalez et supprimez', ok: true }, { t: 'Le transférez à tous', ok: false }] }
+  ];
+  function pick(i: number, j: number) {
+    if (questions[i].picked != null) return; // lock
+    questions[i].picked = j;
+    if (questions[i].options[j].ok) score += 1;
+    const all = questions.every((x) => x.picked != null);
+    if (all) quizDone = true;
+  }
+
+  // Scenario state (2 choices -> 2 consequences)
+  let scenStep: 0 | 1 | 2 = 0; // 0 choose, 1 good, 2 bad
+  function chooseScenario(good: boolean) {
+    scenStep = good ? 1 : 2;
+    scenarioDone = true;
+    if (good) score += 1;
+  }
+
+  // Hotspots
+  type HP = { label: string; x: number; y: number; found?: boolean };
+  let hotspots: HP[] = [
+    { label: 'Liquide renversé', x: 18, y: 62 },
+    { label: 'Câble au sol', x: 53, y: 70 },
+    { label: 'EPI manquant', x: 78, y: 38 }
+  ];
+  function toggleHotspot(i: number) {
+    hotspots[i].found = true;
+    if (hotspots.every((h) => h.found)) { hotspotDone = true; score += 1; }
+  }
+</script>
+
+<section class="container-1200 pt-12 md:pt-16 pb-16">
+  <h1>Parcours Sécurité & Sûreté – Démo</h1>
+  <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+    <div class="md:col-span-2 card">
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="badge">Score: {score} / 5</div>
+        <div class="badge">Chapitres: {completed}/{totalChapters}</div>
+      </div>
+      <div class="mt-3"><ProgressBar value={progress} /></div>
+    </div>
+    <div class="flex items-center gap-3">
+      <Button variant="primary" on:click={() => certOpen = 'open'}>Générer mon certificat (démo)</Button>
+    </div>
+  </div>
+
+  <!-- Chapitre 1 -->
+  <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+    <div class="card">
+      <div class="font-semibold">Chapitre 1 — Capsule vidéo 45s</div>
+      <div class="mt-3 aspect-video w-full rounded-lg bg-black/10 grid place-items-center text-gray-700">Vidéo (placeholder)</div>
+      <p class="mt-2 text-sm text-gray-700">Sous‑titres activés, transcript disponible.</p>
+    </div>
+    <div class="card">
+      <div class="font-semibold">Quiz (3 questions)</div>
+      <ol class="mt-3 space-y-3">
+        {#each questions as q, i}
+          <li class="border-t first:border-0 border-black/10 pt-3 first:pt-0">
+            <div class="font-medium">{q.q}</div>
+            <div class="mt-2 flex flex-wrap gap-2">
+              {#each q.options as o, j}
+                <button class="btn-ghost" on:click={() => pick(i,j)} disabled={q.picked != null} aria-pressed={q.picked===j}>{o.t}</button>
+              {/each}
+            </div>
+            {#if q.picked != null}
+              <p class="mt-1 text-sm {q.options[q.picked].ok ? 'text-brand-green' : 'text-red-600'}">{q.options[q.picked].ok ? 'Correct' : 'Réponse incorrecte'}</p>
+            {/if}
+          </li>
+        {/each}
+      </ol>
+      {#if quizDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Quiz terminé</div>{/if}
+    </div>
+  </div>
+
+  <!-- Chapitre 2 -->
+  <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+    <div class="card">
+      <div class="font-semibold">Chapitre 2 — Scénario incivilités</div>
+      {#if scenStep === 0}
+        <p class="mt-2">Un usager devient agressif à l’accueil. Que faites‑vous ?</p>
+        <div class="mt-3 flex flex-wrap gap-2">
+          <button class="btn-primary" on:click={() => chooseScenario(true)}>Adopter une posture calme et alerter</button>
+          <button class="btn-ghost" on:click={() => chooseScenario(false)}>Répondre sèchement</button>
+        </div>
+      {:else if scenStep === 1}
+        <div class="mt-3 card">Bonne pratique. Conséquence : désescalade. <span class="text-brand-green font-medium">+1</span></div>
+      {:else}
+        <div class="mt-3 card">Conséquence : escalade et incident. Revoir la procédure.</div>
+      {/if}
+    </div>
+    <div class="card">
+      <div class="font-semibold">Conséquence</div>
+      {#if scenStep === 0}
+        <div class="mt-3 text-sm text-gray-700">Choisissez une option pour voir la suite.</div>
+      {:else if scenStep === 1}
+        <div class="mt-3 aspect-video rounded-lg bg-brand-green/20 grid place-items-center text-brand-green">Vidéo positive (placeholder)</div>
+      {:else}
+        <div class="mt-3 aspect-video rounded-lg bg-black/10 grid place-items-center text-gray-700">Explication texte / vidéo (placeholder)</div>
+      {/if}
+      {#if scenarioDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Scénario terminé</div>{/if}
+    </div>
+  </div>
+
+  <!-- Chapitre 3 -->
+  <div class="mt-10 card">
+    <div class="font-semibold">Chapitre 3 — Cas pratique (hotspots)</div>
+    <div class="mt-4 relative">
+      <div class="aspect-[16/9] w-full rounded-xl bg-gradient-to-br from-brand-green/10 via-white to-brand-green/20"></div>
+      {#each hotspots as h, i}
+        <button class="absolute h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-green text-white text-xs" style={`left:${h.x}%; top:${h.y}%`} on:click={() => toggleHotspot(i)} aria-label={h.label} aria-pressed={h.found}>✓</button>
+      {/each}
+      <div class="absolute left-4 bottom-4 card">Identifiez 3 risques/EPI : {hotspots.filter(h=>h.found).length}/3</div>
+    </div>
+    {#if hotspotDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Cas pratique terminé</div>{/if}
+  </div>
+
+  {#if progress === 100}
+    <div class="mt-8 card">
+      <div class="flex items-center gap-3"><div class="badge bg-brand-green/20 text-brand-green">Badge obtenu</div><span class="font-medium">Parcours complété à 100% — bravo !</span></div>
+    </div>
+  {/if}
 </section>
+
+<Modal bind:openKey={certOpen} title="Certificat (démo)" onClose={() => certOpen = null}>
+  <div class="text-center">
+    <h3 class="text-2xl font-semibold">Attestation de réussite</h3>
+    <p class="mt-2">Parcours Sécurité & Sûreté – Complétion: {progress}% | Score: {score}/5</p>
+    <p class="mt-1 text-sm text-gray-700">Ce certificat est une démonstration.</p>
+  </div>
+</Modal>
