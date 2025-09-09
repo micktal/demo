@@ -40,6 +40,7 @@
   function chooseScenario(good: boolean) {
     scenStep = good ? 1 : 2;
     scenarioDone = true;
+    tScenario = Math.max(1, Math.round((Date.now() - mountedAt)/1000));
     if (good) score += 1;
   }
 
