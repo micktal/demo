@@ -8,11 +8,6 @@
       <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fde36237294f94c318a401159d4c44f61?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
       <h1 class="mt-4">La formation qui agit sur le terrain</h1>
       <p class="mt-4 md:mt-6 max-w-2xl">Passez du papier au e‑learning interactif, traçable et engageant.</p>
-      <div class="mt-6 flex flex-wrap gap-3">
-        <Button variant="primary" href="/exploration">Exploration guidée</Button>
-        <Button variant="ghost" href="/interactions">Voir les interactions</Button>
-        <Button variant="ghost" href="/tableau-de-bord">Tableau de bord Manager</Button>
-      </div>
     </div>
     <div class="col-span-12 md:col-span-5">
       <div class="relative mt-10 md:mt-0">
