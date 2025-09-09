@@ -22,6 +22,7 @@
   let qrOk = $state(false);
 
   let tutorName = $state('');
+  let validationTs = $state('');
   let signOk = $state(false);
   let canvasEl: HTMLCanvasElement | null = null;
   let ctx: CanvasRenderingContext2D | null = null;
@@ -262,7 +263,7 @@
           <input id="afest-qr" type="text" placeholder="Saisir code QR (ex. PB6-ZONE-A-04)" style="padding:8px;border:1px solid #e5e7eb;border-radius:8px" bind:value={qrInput} />
           <button id="afest-qr-btn" style="padding:8px 12px;border:1px solid #0C6A4C;border-radius:8px;background:#f2fbf7" onclick={onQrValidate}>Valider</button>
         </div>
-        <p id="afest-qr-fb" style="margin:12px 0 0 0;color:#0C6A4C;display:{qrOk ? 'block' : 'none'}">✅ QR validé & associé à la mission. Badge “AFEST – Poste lié”.</p>
+        <p id="afest-qr-fb" style="margin:12px 0 0 0;color:#0C6A4C;display:{qrOk ? 'block' : 'none'}">✅ QR validé & associé à la mission. Badge “AFEST ��� Poste lié”.</p>
       </div>
     </Card>
     <Card>
