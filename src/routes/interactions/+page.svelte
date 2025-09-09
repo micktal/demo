@@ -16,6 +16,8 @@
 
   // Certificate modal
   let certOpen = $state<string | null>(null);
+  const mountedAt = Date.now();
+  let tQuiz = $state(0); let tScenario = $state(0); let tHot = $state(0);
 
   // Quiz state (3 questions)
   type Q = { q: string; options: { t: string; ok: boolean }[]; picked?: number; };
