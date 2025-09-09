@@ -1,11 +1,13 @@
 <script lang="ts">
   import { demo } from '$lib/stores/demo';
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
   let state = $state<'idle'|'wait'|'go'|'done'>('idle');
   let msg = $state('Cliquez pour démarrer');
   let start = 0; let timeout: any;
   function begin(){ if(state!=='idle') return; state='wait'; msg='Patientez...'; timeout=setTimeout(()=>{ state='go'; msg='CLIQUEZ !'; start=performance.now(); }, 800+Math.random()*1200); }
   function press(){ if(state==='wait'){ msg='Trop tôt !'; clearTimeout(timeout); state='idle'; }
-    else if(state==='go'){ const t = Math.round(performance.now()-start); msg = `Réaction: ${t} ms`; state='done'; demo.addScore(1); demo.award('Ninja du réflexe'); dispatchEvent(new CustomEvent('reaction:done',{detail:t})); setTimeout(()=> state='idle', 1500); } }
+    else if(state==='go'){ const t = Math.round(performance.now()-start); msg = `Réaction: ${t} ms`; state='done'; demo.addScore(1); demo.award('Ninja du réflexe'); dispatch('reaction:done', t); setTimeout(()=> state='idle', 1500); } }
 </script>
 
 <div class="card text-center">
