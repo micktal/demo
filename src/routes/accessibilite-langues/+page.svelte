@@ -64,11 +64,12 @@
 <section class="w-full bg-gradient-to-br from-white to-bg">
   <div class="container-1200 py-12 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
     <div>
-      <h1>Former partout, à tous.</h1>
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
+      <h1 class="mt-4">Former partout, à tous.</h1>
       <p class="mt-4 max-w-xl">Multi-langues, sous-titres, transcriptions, lecture RTL : vos équipes apprennent mieux, plus vite, où qu’elles soient.</p>
     </div>
     <div>
-      <div class="grid grid-cols-5 gap-3">{#each ['🇫🇷','🇬🇧','🇪🇸','🇩🇪','🇮🇹','🇵🇹','🇷🇴','🇵🇱','🇦🇱','🇸🇦'] as f}<div class="grid place-items-center rounded-lg bg-white shadow-soft py-4 text-2xl">{f}</div>{/each}</div>
+      <div class="grid grid-cols-5 gap-3">{#each ['🇫���','🇬🇧','🇪🇸','🇩🇪','🇮🇹','🇵🇹','🇷🇴','🇵🇱','🇦🇱','🇸🇦'] as f}<div class="grid place-items-center rounded-lg bg-white shadow-soft py-4 text-2xl">{f}</div>{/each}</div>
       <div id="hello-cloud" class="mt-4 relative h-40 border border-black/10 rounded-xl bg-white"></div>
     </div>
   </div>
