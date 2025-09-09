@@ -71,6 +71,12 @@
       <Button variant="primary" onclick={() => certOpen = 'open'}>Générer mon certificat (démo)</Button>
     </div>
   </div>
+  {@const persist = $effect(() => {
+    const avgTimeMin = Math.round(((tQuiz + tScenario + tHot) / 3) / 60);
+    if (typeof window !== 'undefined') {
+      writeDemo({ completion: progress, success: Math.round((score/5)*100), avgTimeMin, incidentsPrevented: scenarioDone ? 1 : 0 });
+    }
+  })}
 
   <!-- Chapitre 1 -->
   <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
