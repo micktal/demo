@@ -46,7 +46,7 @@
   $effect(() => { if (openMenu && mobileMenuEl) mobileMenuEl.focus(); });
 </script>
 
-<header class="sticky top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+<header class="sticky top-0 z-50 border-b border-black/10 bg-gray-50/90 backdrop-blur supports-[backdrop-filter]:bg-gray-50/80 shadow-sm">
   <a href="#main" class="skip-link">Aller au contenu</a>
   <div class="container-1200 h-16 md:h-20 flex items-center justify-between gap-4">
     <a href="/" class="flex items-center gap-3">
