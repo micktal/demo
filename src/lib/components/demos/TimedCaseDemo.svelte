@@ -1,10 +1,10 @@
 <script lang="ts">
   import { fireConfetti } from '$lib/utils/confetti';
-  let time = 20; let interval: any; let done = false; let chosen = '';
+  let time = 20; let interval: any; let done = false; let chosen = ''; let host: HTMLDivElement;
   function start(){ if(interval) return; interval = setInterval(()=>{ time--; if(time<=0){ clearInterval(interval); }},1000); }
-  function choose(ans: string){ chosen = ans; done = ans === 'A'; if(done) fireConfetti(document.body, 60); }
+  function choose(ans: string){ chosen = ans; done = ans === 'A'; if(done && host) fireConfetti(host, 60); }
 </script>
-<div class="card">
+<div class="card" bind:this={host}>
   <div class="flex items-center justify-between"><div class="font-medium">Étude de cas chronométrée</div><div class="badge">{time}s</div></div>
   <p class="mt-2">Vous êtes manager. Un conflit éclate. Quelle première action ?</p>
   <div class="mt-3 flex gap-2 flex-wrap">
