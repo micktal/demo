@@ -91,15 +91,46 @@
 <section class="w-full bg-brand-green/5">
   <div class="container-1200 py-12 md:py-16 grid-12 items-center gap-6">
     <div class="col-span-12 md:col-span-7">
-      <h1>Pilotez vos formations en temps réel.</h1>
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
+      <h1 class="mt-4">Pilotez vos formations en temps réel.</h1>
       <p class="mt-4 max-w-2xl">Suivez la progression de vos équipes, les scores, les badges obtenus et exportez vos preuves pour l’audit.</p>
-      <div class="mt-6 flex gap-3 flex-wrap">
-        <Button href="#kpis" variant="primary">Essayer le tableau de bord</Button>
-        <Button variant="ghost" onclick={exportCsvFromTable}>Exporter une démo CSV</Button>
-      </div>
     </div>
     <div class="col-span-12 md:col-span-5">
-      <div class="rounded-xl overflow-hidden border border-black/10 bg-white aspect-[16/10]"></div>
+      <div class="rounded-xl overflow-hidden border border-black/10 bg-white aspect-[16/10]">
+        <svg viewBox="0 0 800 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dashboard mock: charts and KPIs">
+          <rect x="0" y="0" width="800" height="500" fill="#ffffff"/>
+          <rect x="24" y="24" width="752" height="452" rx="18" fill="#F6FAF8" stroke="#e5e7eb"/>
+          <!-- KPI cards -->
+          <g>
+            <rect x="48" y="56" width="160" height="80" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+            <text x="68" y="86" font-size="12" fill="#556">Progression</text>
+            <text x="68" y="118" font-size="26" fill="#0C6A4C" font-weight="700">78%</text>
+            <rect x="224" y="56" width="160" height="80" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+            <text x="244" y="86" font-size="12" fill="#556">Score moyen</text>
+            <text x="244" y="118" font-size="26" fill="#0C6A4C" font-weight="700">112</text>
+            <rect x="400" y="56" width="160" height="80" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+            <text x="420" y="86" font-size="12" fill="#556">Badges</text>
+            <text x="420" y="118" font-size="26" fill="#0C6A4C" font-weight="700">6</text>
+          </g>
+          <!-- Bar chart -->
+          <g>
+            <rect x="48" y="168" width="360" height="240" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+            <rect x="78" y="370" width="30" height="30" fill="#0C6A4C"/>
+            <rect x="128" y="340" width="30" height="60" fill="#16a34a"/>
+            <rect x="178" y="300" width="30" height="100" fill="#22c55e"/>
+            <rect x="228" y="330" width="30" height="70" fill="#0ea5e9"/>
+            <rect x="278" y="280" width="30" height="120" fill="#f59e0b"/>
+          </g>
+          <!-- Pie / donut chart -->
+          <g>
+            <rect x="432" y="168" width="320" height="240" rx="12" fill="#ffffff" stroke="#e5e7eb"/>
+            <circle cx="592" cy="288" r="70" fill="#e5e7eb"/>
+            <path d="M592 288 L592 218 A70 70 0 0 1 650 320 Z" fill="#0C6A4C"/>
+            <path d="M592 288 L650 320 A70 70 0 0 1 540 340 Z" fill="#16a34a"/>
+            <path d="M592 288 L540 340 A70 70 0 0 1 592 218 Z" fill="#f59e0b"/>
+          </g>
+        </svg>
+      </div>
     </div>
   </div>
 </section>
@@ -173,7 +204,6 @@
       <div class="text-gray-700">Un tableau de bord simple pour les managers, complet pour les auditeurs.</div>
     </div>
     <div class="flex gap-3">
-      <Button href="/contact?from=dashboard-demo" variant="primary">Demander un accès démo</Button>
       <Button variant="ghost" onclick={exportCsvFromTable}>Télécharger un exemple d’export</Button>
     </div>
   </div>
