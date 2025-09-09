@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  export let open = false;
+  export let openKey: string | null = null;
   export let title = '';
   export let onClose: () => void = () => {};
   let dialogEl: HTMLDivElement;
@@ -11,17 +11,17 @@
   }
 
   onMount(() => {
-    if (open) {
-      prevFocus = document.activeElement;
+    if (openKey) {
+      prevFocus = typeof document !== 'undefined' ? document.activeElement : null;
       dialogEl?.focus();
-      document.addEventListener('keydown', handleKey);
+      if (typeof document !== 'undefined') document.addEventListener('keydown', handleKey);
     }
   });
-  onDestroy(() => document.removeEventListener('keydown', handleKey));
-  $effect(() => { if (open) dialogEl?.focus(); });
+  onDestroy(() => { if (typeof document !== 'undefined') document.removeEventListener('keydown', handleKey); });
+  $effect(() => { if (openKey) dialogEl?.focus(); });
 </script>
 
-{#if open}
+{#if openKey}
   <div class="fixed inset-0 z-[60] flex items-center justify-center">
     <div class="absolute inset-0 bg-black/50" on:click={onClose} aria-hidden="true"></div>
     <div bind:this={dialogEl} tabindex="-1" role="dialog" aria-modal="true" aria-label={title}
