@@ -2,7 +2,7 @@
   import KPITile from '$lib/components/KPITile.svelte';
   import Button from '$lib/components/Button.svelte';
   import { onMount } from 'svelte';
-  import { readDemo } from '$lib/utils/demoStorage';
+  import { demo, level } from '$lib/stores/demo';
 
   type Filter = { period: string; site: string; population: 'agents' | 'manager' | 'all' };
   let filter: Filter = $state({ period: '30j', site: 'Tous', population: 'all' });
@@ -12,18 +12,15 @@
   let avgTime = $state(0);
   let incidents = $state(0);
 
-  function load() {
-    const d = readDemo();
-    completion = Math.round(d.completion ?? 0);
-    success = Math.round(d.success ?? 0);
-    avgTime = d.avgTimeMin ?? 0;
-    incidents = d.incidentsPrevented ?? 0;
-  }
   onMount(() => {
-    load();
-    const onStorage = (e: StorageEvent) => { if (e.key === 'fpsgDemo') load(); };
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
+    const unsub = demo.subscribe((d) => {
+      completion = Math.round(d.progress ?? 0);
+      success = Math.min(100, Math.round(((d.score ?? 0) / 5) * 100));
+      // Placeholders computed from progress
+      avgTime = Math.round((d.progress ?? 0) / 10); // approx minutes
+      incidents = Math.round((d.progress ?? 0) / 50);
+    });
+    return () => unsub();
   });
 
   function exportCsv() {
