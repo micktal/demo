@@ -95,10 +95,6 @@
       <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
       <h1 class="mt-4">Papier ou Digital : le match est vite plié.</h1>
       <p class="mt-4 max-w-2xl">Le e-learning transforme vos supports en expériences interactives, mesurables et déployables partout.</p>
-      <div class="mt-6 flex gap-3 flex-wrap">
-        <Button href="#avant-apres" variant="primary">Voir l’Avant/Après interactif</Button>
-        <Button href="#roi" variant="ghost">Calculer mon ROI</Button>
-      </div>
     </div>
     <div class="col-span-12 md:col-span-6">
       <div class="rounded-xl overflow-hidden border border-black/10 bg-white">
@@ -311,9 +307,6 @@
       <h2 class="text-xl font-semibold">Le papier appartient au passé. Votre avenir est digital.</h2>
       <p class="text-gray-700">Transformons un support critique en 10 jours, multi-langues et traçable.</p>
     </div>
-    <div class="flex gap-3">
-      <Button href="/contact?from=comparatif-demo" variant="primary">Demander une démo</Button>
-      <Button href="/interactions" variant="ghost">Voir un module transformé</Button>
-    </div>
+    <div class="flex gap-3"></div>
   </div>
 </section>
