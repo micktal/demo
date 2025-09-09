@@ -23,7 +23,10 @@ function createDemo() {
 
 	store.subscribe((v) => {
 		try {
-			localStorage.setItem(KEY, JSON.stringify(v));
+			const existing = (() => {
+				try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; }
+			})();
+			localStorage.setItem(KEY, JSON.stringify({ ...existing, ...v }));
 		} catch {}
 	});
 
