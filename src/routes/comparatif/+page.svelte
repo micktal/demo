@@ -92,7 +92,8 @@
 <section class="w-full bg-brand-green/5">
   <div class="container-1200 py-12 md:py-16 grid-12 items-center gap-6">
     <div class="col-span-12 md:col-span-6">
-      <h1>Papier ou Digital : le match est vite plié.</h1>
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
+      <h1 class="mt-4">Papier ou Digital : le match est vite plié.</h1>
       <p class="mt-4 max-w-2xl">Le e-learning transforme vos supports en expériences interactives, mesurables et déployables partout.</p>
       <div class="mt-6 flex gap-3 flex-wrap">
         <Button href="#avant-apres" variant="primary">Voir l’Avant/Après interactif</Button>
@@ -101,10 +102,27 @@
     </div>
     <div class="col-span-12 md:col-span-6">
       <div class="rounded-xl overflow-hidden border border-black/10 bg-white">
-        <div class="grid grid-cols-2">
-          <img src="https://via.placeholder.com/640x420?text=Classeur+%2F+PDF" alt="Classeur papier / PDF" class="w-full h-full object-cover" />
-          <img src="https://via.placeholder.com/640x420?text=Tablette+%2F+Module" alt="Tablette avec module digital" class="w-full h-full object-cover" />
-        </div>
+        <svg viewBox="0 0 800 420" width="100%" height="100%" role="img" aria-label="Comparatif: Papier vs Digital">
+          <defs>
+            <linearGradient id="cg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#f8fafc"/><stop offset="100%" stop-color="#f1fbf6"/></linearGradient>
+          </defs>
+          <rect x="0" y="0" width="800" height="420" fill="url(#cg)"/>
+          <!-- Left: Papier -->
+          <rect x="20" y="40" width="360" height="340" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+          <rect x="60" y="80" width="280" height="18" rx="9" fill="#cbd5e1"/>
+          <rect x="60" y="110" width="240" height="18" rx="9" fill="#e2e8f0"/>
+          <rect x="60" y="140" width="200" height="18" rx="9" fill="#e2e8f0"/>
+          <rect x="60" y="180" width="280" height="140" rx="10" fill="#f8fafc" stroke="#e5e7eb"/>
+          <text x="200" y="360" text-anchor="middle" font-size="14" fill="#334155">Papier</text>
+          <!-- Right: Digital -->
+          <rect x="420" y="40" width="360" height="340" rx="16" fill="#ffffff" stroke="#e5e7eb"/>
+          <rect x="450" y="70" width="300" height="200" rx="12" fill="#0C6A4C" fill-opacity="0.12" stroke="#cfe3d7"/>
+          <circle cx="600" cy="170" r="34" fill="#0C6A4C"/>
+          <polygon points="590,152 618,170 590,188" fill="#ffffff"/>
+          <rect x="450" y="290" width="160" height="14" rx="7" fill="#cfe3d7"/>
+          <rect x="450" y="312" width="120" height="14" rx="7" fill="#cfe3d7"/>
+          <text x="600" y="360" text-anchor="middle" font-size="14" fill="#334155">Digital</text>
+        </svg>
       </div>
     </div>
   </div>
