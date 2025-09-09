@@ -1,5 +1,7 @@
 <script lang="ts">
   import { fireConfetti } from '$lib/utils/confetti';
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
   let steps = [
     'Lire la procédure',
     'Regarder la vidéo',
@@ -8,7 +10,7 @@
   let done: Record<number, boolean> = {}; let host: HTMLDivElement;
   $effect(() => {
     const all = steps.every((_, i) => done[i]);
-    if (all && host) fireConfetti(host, 80);
+    if (all && host) { fireConfetti(host, 80); dispatch('checklist:done'); }
   });
 </script>
 <div class="card" bind:this={host}>
