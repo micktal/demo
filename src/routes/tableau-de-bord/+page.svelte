@@ -12,16 +12,36 @@
   let success = $state(0);
   let avgTime = $state(0);
   let incidents = $state(0);
+  let chart1: Chart | null = null;
+  let chart2: Chart | null = null;
 
   onMount(() => {
+    const ctx1 = (document.getElementById('chartProgress') as HTMLCanvasElement | null)?.getContext('2d');
+    const ctx2 = (document.getElementById('chartHeat') as HTMLCanvasElement | null)?.getContext('2d');
+    if (ctx1) {
+      chart1 = new Chart(ctx1, {
+        type: 'line',
+        data: { labels: Array.from({length: 12}, (_,i)=>`S${i+1}`), datasets: [{ label: 'Complétion %', data: Array.from({length:12},()=>completion).map((v,i)=>Math.min(100, Math.max(0, v + (i-6)*2))), borderColor: 'rgb(16,185,129)', fill: false }] },
+        options: { responsive: true, scales: { y: { min: 0, max: 100 } } }
+      });
+    }
+    if (ctx2) {
+      chart2 = new Chart(ctx2, {
+        type: 'bar',
+        data: { labels: Array.from({length:28},(_,i)=>i+1), datasets: [{ label: 'Connexions', data: Array.from({length:28},(_,i)=> Math.round((completion/10)+ (i%5))), backgroundColor: 'rgba(16,185,129,.5)' }] },
+        options: { responsive: true }
+      });
+    }
+
     const unsub = demo.subscribe((d) => {
       completion = Math.round(d.progress ?? 0);
       success = Math.min(100, Math.round(((d.score ?? 0) / 5) * 100));
-      // Placeholders computed from progress
-      avgTime = Math.round((d.progress ?? 0) / 10); // approx minutes
+      avgTime = Math.round((d.progress ?? 0) / 10);
       incidents = Math.round((d.progress ?? 0) / 50);
+      if (chart1) { chart1.data.datasets[0].data = Array.from({length:12},()=>completion).map((v,i)=>Math.min(100, Math.max(0, v + (i-6)*2))); chart1.update(); }
+      if (chart2) { chart2.data.datasets[0].data = Array.from({length:28},(_,i)=> Math.round((completion/10)+ (i%5))); chart2.update(); }
     });
-    return () => unsub();
+    return () => { unsub(); chart1?.destroy(); chart2?.destroy(); };
   });
 
   function exportCsv() {
@@ -92,32 +112,3 @@
     </div>
   </div>
 </section>
-
-<script>
-  let chart1: Chart | null = null;
-  let chart2: Chart | null = null;
-  onMount(() => {
-    const ctx1 = (document.getElementById('chartProgress') as HTMLCanvasElement).getContext('2d');
-    const ctx2 = (document.getElementById('chartHeat') as HTMLCanvasElement).getContext('2d');
-    if (!ctx1 || !ctx2) return;
-    chart1 = new Chart(ctx1, {
-      type: 'line',
-      data: { labels: Array.from({length: 12}, (_,i)=>`S${i+1}`), datasets: [{ label: 'Complétion %', data: Array.from({length:12},()=>completion).map((v,i)=>Math.min(100, Math.max(0, v + (i-6)*2))), borderColor: 'rgb(16,185,129)', fill: false }] },
-      options: { responsive: true, scales: { y: { min: 0, max: 100 } } }
-    });
-    chart2 = new Chart(ctx2, {
-      type: 'bar',
-      data: { labels: Array.from({length:28},(_,i)=>i+1), datasets: [{ label: 'Connexions', data: Array.from({length:28},(_,i)=> Math.round((completion/10)+ (i%5))), backgroundColor: 'rgba(16,185,129,.5)' }] },
-      options: { responsive: true }
-    });
-    const unsub = demo.subscribe(d => {
-      completion = Math.round(d.progress ?? 0);
-      success = Math.min(100, Math.round(((d.score ?? 0) / 5) * 100));
-      avgTime = Math.round((d.progress ?? 0) / 10);
-      incidents = Math.round((d.progress ?? 0) / 50);
-      if (chart1) { chart1.data.datasets[0].data = Array.from({length:12},()=>completion).map((v,i)=>Math.min(100, Math.max(0, v + (i-6)*2))); chart1.update(); }
-      if (chart2) { chart2.data.datasets[0].data = Array.from({length:28},(_,i)=> Math.round((completion/10)+ (i%5))); chart2.update(); }
-    });
-    return () => { unsub(); chart1?.destroy(); chart2?.destroy(); };
-  });
-</script>
