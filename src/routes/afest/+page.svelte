@@ -183,15 +183,49 @@
     </div>
     <div class="col-span-12 md:col-span-5">
       <div class="relative mt-10 md:mt-0">
-        <div class="aspect-[16/10] w-full rounded-xl bg-gradient-to-br from-brand-green/10 via-white to-brand-green/20 shadow-soft flex items-center justify-center">
-          <div class="grid grid-cols-3 gap-2 p-4 w-full">
-            <div class="h-16 rounded-lg bg-white/70 border border-black/10"></div>
-            <div class="h-16 rounded-lg bg-white/70 border border-black/10"></div>
-            <div class="h-16 rounded-lg bg-white/70 border border-black/10"></div>
-            <div class="h-16 rounded-lg bg-white/70 border border-black/10"></div>
-            <div class="h-16 rounded-lg bg-white/70 border border-black/10"></div>
-            <div class="h-16 rounded-lg bg-white/70 border border-black/10"></div>
-          </div>
+        <div class="aspect-[16/10] w-full rounded-xl overflow-hidden border border-black/5 bg-white shadow-soft">
+          <svg viewBox="0 0 800 500" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AFEST: poste, checklist, photo, QR, signature">
+            <defs>
+              <linearGradient id="ag" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#F1FBF6"/>
+                <stop offset="100%" stop-color="#E6FAF0"/>
+              </linearGradient>
+            </defs>
+            <rect x="0" y="0" width="800" height="500" fill="url(#ag)"/>
+
+            <circle cx="110" cy="110" r="56" fill="#0C6A4C" opacity="0.12"/>
+            <circle cx="690" cy="110" r="40" fill="#0C6A4C" opacity="0.16"/>
+            <circle cx="620" cy="380" r="70" fill="#0C6A4C" opacity="0.10"/>
+
+            <!-- Checklist tile -->
+            <rect x="70" y="220" rx="18" ry="18" width="220" height="140" fill="#fff" stroke="#DCE7E1"/>
+            <rect x="96" y="246" width="120" height="12" rx="6" fill="#0C6A4C" opacity="0.18"/>
+            <rect x="96" y="270" width="100" height="12" rx="6" fill="#0C6A4C" opacity="0.18"/>
+            <path d="M250 244 l10 12 18 -24" stroke="#0C6A4C" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M250 268 l10 12 18 -24" stroke="#0C6A4C" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+            <!-- Photo proof tile -->
+            <rect x="560" y="220" rx="18" ry="18" width="180" height="140" fill="#fff" stroke="#DCE7E1"/>
+            <rect x="590" y="250" rx="8" ry="8" width="120" height="70" fill="#F3F9F5" stroke="#CFE3D7"/>
+            <circle cx="650" cy="285" r="16" fill="#0C6A4C" opacity="0.9"/>
+            <rect x="612" y="245" width="26" height="12" rx="4" fill="#0C6A4C" opacity="0.5"/>
+
+            <!-- QR + signature tile -->
+            <rect x="300" y="320" rx="18" ry="18" width="220" height="150" fill="#fff" stroke="#DCE7E1"/>
+            <rect x="320" y="340" width="60" height="60" fill="#0C6A4C" opacity="0.08"/>
+            <rect x="325" y="345" width="50" height="50" fill="#0C6A4C" opacity="0.12"/>
+            <rect x="335" y="355" width="12" height="12" fill="#0C6A4C"/>
+            <rect x="355" y="355" width="8" height="18" fill="#0C6A4C"/>
+            <rect x="335" y="375" width="8" height="8" fill="#0C6A4C"/>
+            <rect x="350" y="375" width="22" height="8" fill="#0C6A4C"/>
+            <line x1="385" y1="405" x2="490" y2="405" stroke="#CFE3D7" stroke-width="3"/>
+            <path d="M395 400 q10 10 20 -2 t22 0 t20 -4 t18 6" stroke="#0C6A4C" stroke-width="3" fill="none"/>
+
+            <!-- Play tile (formation) -->
+            <rect x="300" y="90" rx="18" ry="18" width="220" height="150" fill="#fff" stroke="#DCE7E1"/>
+            <circle cx="410" cy="165" r="36" fill="#0C6A4C" opacity="0.9"/>
+            <polygon points="398,148 432,166 398,184" fill="#ffffff"/>
+          </svg>
         </div>
         <div class="absolute -top-6 -right-6 h-24 w-24 rounded-full bg-brand-green/20 blur-2xl"></div>
       </div>
