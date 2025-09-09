@@ -177,12 +177,9 @@
 <section class="container-1200 pt-12 md:pt-16 pb-12 md:pb-16">
   <div class="grid-12 items-center">
     <div class="col-span-12 md:col-span-7">
-      <h1>L’AFEST, la formation en situation réelle.</h1>
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
+      <h1 class="mt-4">L’AFEST, la formation en situation réelle.</h1>
       <p class="mt-4 md:mt-6 max-w-2xl">Du terrain au digital : preuves, guidage et validation opposable.</p>
-      <div class="mt-6 flex flex-wrap gap-3">
-        <Button variant="primary" href="#mission">Essayer une mission AFEST</Button>
-        <Button variant="ghost" href="#dashboard">Voir la traçabilité</Button>
-      </div>
     </div>
     <div class="col-span-12 md:col-span-5">
       <div class="relative mt-10 md:mt-0">
