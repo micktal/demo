@@ -6,10 +6,11 @@
   import trapFocus from '$lib/actions/trapFocus';
   import KpiStrip from '$lib/components/KpiStrip.svelte';
   import { page } from '$app/stores';
+  import { demo } from '$lib/stores/demo';
 
   let { children } = $props();
 
-  let openMenu = false;
+  let openMenu = $state(false);
   let mobileMenuEl: HTMLDivElement;
 
   function setLang(value: 'fr' | 'en') { lang.set(value); }
@@ -21,8 +22,22 @@
   onMount(() => {
     const unsub1 = highContrast.subscribe(() => applyAccessibilityToDom());
     const unsub2 = fontScale.subscribe(() => applyAccessibilityToDom());
+    const unsub3 = lang.subscribe((l) => { try { document.documentElement.lang = l; } catch {} });
+
+    // optional ?lang=en support
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const forced = params.get('lang');
+      if (forced === 'fr' || forced === 'en') lang.set(forced);
+    } catch {}
+
     applyAccessibilityToDom();
-    return () => { unsub1(); unsub2(); };
+    demo.award('Explorateur');
+
+    const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') openMenu = false; };
+    window.addEventListener('keydown', onEsc);
+
+    return () => { unsub1(); unsub2(); unsub3(); window.removeEventListener('keydown', onEsc); };
   });
 
   const nav = [
@@ -56,35 +71,35 @@
     </nav>
 
     <div class="hidden lg:flex items-center gap-3">
-      <div class="flex rounded-lg border border-black/10 overflow-hidden">
-        <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" on:click={() => setLang('fr')}>FR</button>
-        <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" on:click={() => setLang('en')}>EN</button>
+      <div class="flex rounded-lg border border-black/10 overflow-hidden" role="group" aria-label="Langue">
+        <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" onclick={() => setLang('fr')}>FR</button>
+        <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" onclick={() => setLang('en')}>EN</button>
       </div>
       <div class="flex items-center gap-2">
-        <button class="header-link" title="Contraste" on:click={toggleContrast}>Contraste</button>
-        <button class="header-link" title="Taille du texte" on:click={cycleFont}>A1y A</button>
+        <button class="header-link" title="Contraste" onclick={toggleContrast}>Contraste</button>
+        <button class="header-link" title="Taille du texte" onclick={cycleFont}>Aa</button>
       </div>
-      <Button variant="primary" href="/contact">Demander une démo projet</Button>
+      <Button variant="primary" href="/contact" onclick={() => demo.addProgress(3)}>Demander une démo projet</Button>
     </div>
 
-    <button class="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-md hover:bg-black/5" on:click={() => openMenu = !openMenu} aria-label="Menu">
+    <button class="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-md hover:bg-black/5" onclick={() => openMenu = !openMenu} aria-label="Menu" aria-expanded={openMenu} aria-controls="mobileMenu">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
   </div>
   {#if openMenu}
-    <div class="lg:hidden border-t border-black/5 bg-white" role="dialog" aria-modal="true" aria-label="Menu" use:trapFocus>
+    <div id="mobileMenu" class="lg:hidden border-t border-black/5 bg-white" role="dialog" aria-modal="true" aria-label="Menu" use:trapFocus>
       <div class="container-1200 py-3 flex flex-col gap-3" tabindex="-1" bind:this={mobileMenuEl}>
         {#each nav as item}
-          <a class="header-link py-2" href={item.href} aria-current={$page.url.pathname === item.href ? 'page' : undefined} on:click={() => openMenu=false}>{item.label}</a>
+          <a class="header-link py-2" href={item.href} aria-current={$page.url.pathname === item.href ? 'page' : undefined} onclick={() => openMenu=false}>{item.label}</a>
         {/each}
         <div class="flex items-center gap-3 pt-2">
-          <div class="flex rounded-lg border border-black/10 overflow-hidden">
-            <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" on:click={() => setLang('fr')}>FR</button>
-            <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" on:click={() => setLang('en')}>EN</button>
+          <div class="flex rounded-lg border border-black/10 overflow-hidden" role="group" aria-label="Langue">
+            <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" onclick={() => setLang('fr')}>FR</button>
+            <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" onclick={() => setLang('en')}>EN</button>
           </div>
-          <button class="header-link" on:click={toggleContrast}>Contraste</button>
-          <button class="header-link" on:click={cycleFont}>Taille texte</button>
-          <Button variant="primary" href="/contact">Demander une démo projet</Button>
+          <button class="header-link" onclick={toggleContrast}>Contraste</button>
+          <button class="header-link" onclick={cycleFont}>Taille texte</button>
+          <Button variant="primary" href="/contact" onclick={() => openMenu=false}>Demander une démo projet</Button>
         </div>
       </div>
     </div>
