@@ -50,7 +50,7 @@
   <a href="#main" class="skip-link">Aller au contenu</a>
   <div class="container-1200 h-16 md:h-20 flex items-center justify-between gap-4">
     <a href="/" class="flex items-center gap-3">
-      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F13137c2a909f405dab2ca3233793a766?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-8 w-auto" />
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F13137c2a909f405dab2ca3233793a766?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 md:h-12 w-auto" />
       <span class="sr-only">Fiducial FPSG</span>
     </a>
 
