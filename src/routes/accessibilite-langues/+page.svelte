@@ -66,10 +66,6 @@
     <div>
       <h1>Former partout, à tous.</h1>
       <p class="mt-4 max-w-xl">Multi-langues, sous-titres, transcriptions, lecture RTL : vos équipes apprennent mieux, plus vite, où qu’elles soient.</p>
-      <div class="mt-6 flex gap-3 flex-wrap">
-        <Button variant="primary" href="/exploration">Essayer la démo multilingue</Button>
-        <Button variant="ghost" href="#captions">Voir les sous-titres & transcripts</Button>
-      </div>
     </div>
     <div>
       <div class="grid grid-cols-5 gap-3">{#each ['🇫🇷','🇬🇧','🇪🇸','🇩🇪','🇮🇹','🇵🇹','🇷🇴','🇵🇱','🇦🇱','🇸🇦'] as f}<div class="grid place-items-center rounded-lg bg-white shadow-soft py-4 text-2xl">{f}</div>{/each}</div>
@@ -244,10 +240,6 @@
     <div>
       <h3>Passez en multilingue, sans friction.</h3>
       <p class="mt-2 text-gray-700">On transforme vos supports & on déploie vos langues prioritaires.</p>
-    </div>
-    <div class="flex gap-3">
-      <Button variant="primary" href="/contact">Demander un chiffrage</Button>
-      <Button variant="ghost" href="/exploration">Voir une démo en 5 minutes</Button>
     </div>
   </div>
 </section>
