@@ -3,6 +3,7 @@
   import { lang } from '$lib/stores/ui';
   import { onMount } from 'svelte';
   import Button from '$lib/components/Button.svelte';
+  import { t } from '$lib/i18n';
   import trapFocus from '$lib/actions/trapFocus';
   import KpiStrip from '$lib/components/KpiStrip.svelte';
   import { page } from '$app/stores';
@@ -33,21 +34,21 @@
   });
 
   const nav = [
-    { label: 'Accueil', href: '/' },
-    { label: 'Interactions', href: '/interactions' },
-    { label: 'Parcours', href: '/parcours' },
-    { label: 'AFEST', href: '/afest' },
-    { label: 'Accessibilité & Langues', href: '/accessibilite-langues' },
-    { label: 'Tableau de bord', href: '/tableau-de-bord' },
-    { label: 'Intégrations', href: '/integrations' },
-    { label: 'Comparatif', href: '/comparatif' }
+    { label: t('nav.home'), href: '/' },
+    { label: t('nav.interactions'), href: '/interactions' },
+    { label: t('nav.paths'), href: '/parcours' },
+    { label: t('nav.afest'), href: '/afest' },
+    { label: t('nav.a11y'), href: '/accessibilite-langues' },
+    { label: t('nav.dashboard'), href: '/tableau-de-bord' },
+    { label: t('nav.integrations'), href: '/integrations' },
+    { label: t('nav.compare'), href: '/comparatif' }
   ];
 
   $effect(() => { if (openMenu && mobileMenuEl) mobileMenuEl.focus(); });
 </script>
 
 <header class="sticky top-0 z-50 border-b border-black/10 bg-gray-50/90 backdrop-blur supports-[backdrop-filter]:bg-gray-50/80 shadow-sm">
-  <a href="#main" class="skip-link">Aller au contenu</a>
+  <a href="#main" class="skip-link">{t('skip')}</a>
   <div class="container-1200 h-16 md:h-20 flex items-center justify-between gap-4">
     <a href="/" class="flex items-center gap-3">
       <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F13137c2a909f405dab2ca3233793a766?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 md:h-12 w-auto" />
@@ -103,7 +104,7 @@
       <p class="mt-3 text-sm text-white/70">Plateforme e‑learning premium, centrée sur l'impact et l'accessibilité.</p>
     </div>
     <div>
-      <div class="font-semibold mb-3">Navigation</div>
+      <div class="font-semibold mb-3">{t('footer.nav')}</div>
       <ul class="space-y-2 text-white/80">
         {#each nav as item}
           <li><a href={item.href} class="hover:text-white">{item.label}</a></li>
@@ -111,14 +112,14 @@
       </ul>
     </div>
     <div>
-      <div class="font-semibold mb-3">Légal</div>
+      <div class="font-semibold mb-3">{t('footer.legal')}</div>
       <ul class="space-y-2 text-white/80">
         <li><a href="/rgpd" class="hover:text-white">RGPD</a></li>
         <li><a href="/mentions" class="hover:text-white">Mentions</a></li>
       </ul>
     </div>
     <div>
-      <div class="font-semibold mb-3">Contact</div>
+      <div class="font-semibold mb-3">{t('footer.contact')}</div>
       <p class="text-white/80">contact@votre-domaine.com<br/>+33 1 23 45 67 89</p>
       <div class="mt-4 flex items-center gap-3">
         <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn" class="hover:text-white/90"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1-.02-5Zm.02 6.5H2v11h3V10Zm7.5 0h-3v11h3v-6.1c0-1.67 2-1.8 2 0V21h3v-6.75c0-4.66-5.5-4.48-5.5-2.19V10Z"/></svg></a>
