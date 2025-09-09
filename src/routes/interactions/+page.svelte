@@ -9,10 +9,10 @@
   let quizDone = false;
   let scenarioDone = false;
   let hotspotDone = false;
-  $effect(() => { if (progress === 100) fireConfetti(document.body, 150); });
+  $effect(() => { if (typeof document !== 'undefined' && progress === 100) fireConfetti(document.body, 150); });
   const totalChapters = 3;
-  $: completed = (Number(quizDone) + Number(scenarioDone) + Number(hotspotDone));
-  $: progress = Math.round((completed / totalChapters) * 100);
+  const completed = $derived(Number(quizDone) + Number(scenarioDone) + Number(hotspotDone));
+  const progress = $derived(Math.round((completed / totalChapters) * 100));
 
   // Certificate modal
   let certOpen: string | null = null;
