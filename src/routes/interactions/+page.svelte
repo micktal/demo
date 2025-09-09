@@ -3,6 +3,7 @@
   import Button from '$lib/components/Button.svelte';
   import Modal from '$lib/components/Modal.svelte';
   import { fireConfetti } from '$lib/utils/confetti';
+  import { writeDemo } from '$lib/utils/demoStorage';
 
   // Score & progression
   let score = $state(0);
