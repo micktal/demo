@@ -12,6 +12,7 @@
       <div class="mt-6 flex flex-wrap gap-3">
         <Button variant="primary" href="/exploration">Exploration guidée</Button>
         <Button variant="ghost" href="/interactions">Voir les interactions</Button>
+        <Button variant="ghost" href="/tableau-de-bord">Tableau de bord Manager</Button>
       </div>
     </div>
     <div class="col-span-12 md:col-span-5">
