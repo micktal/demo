@@ -185,12 +185,12 @@
   <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
     {#each [
       ['EPI','PPE','EPP','EIP','OZO','Pajisje Mbrojtëse','معدات الوقاية الشخصية'],
-      ['Incivilité','disruptive behavior','incivilidad','incivilitate','niegrzeczne zachowanie','mosmirësjellje','سلوك غي�� لائق'],
+      ['Incivilité','disruptive behavior','incivilidad','incivilitate','niegrzeczne zachowanie','mosmirësjellje','سلوك غير لائق.'],
       ['Contrôle d’accès','access control','control de acceso','controlul accesului','kontrola dostępu','kontrolli i hyrjes','التحكم في الوصول']
     ] as g}
       <div class="card group">
         <div class="font-semibold">{g[0]}</div>
-        <div class="mt-1 text-gray-700">EN {g[1]} • ES {g[2]} • RO {g[3]} • PL {g[4]} • SQ {g[5]} • AR {g[6]}</div>
+        <div class="mt-1 text-gray-700"><p>EN {g[1]} • ES {g[2]} • RO {g[3]} • PL {g[4]} • SQ {g[5]} • AR {g[6]}</p></div>
       </div>
     {/each}
   </div>
