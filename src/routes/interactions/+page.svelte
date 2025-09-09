@@ -5,25 +5,25 @@
   import { fireConfetti } from '$lib/utils/confetti';
 
   // Score & progression
-  let score = 0;
-  let quizDone = false;
-  let scenarioDone = false;
-  let hotspotDone = false;
+  let score = $state(0);
+  let quizDone = $state(false);
+  let scenarioDone = $state(false);
+  let hotspotDone = $state(false);
   $effect(() => { if (typeof document !== 'undefined' && progress === 100) fireConfetti(document.body, 150); });
   const totalChapters = 3;
   const completed = $derived(Number(quizDone) + Number(scenarioDone) + Number(hotspotDone));
   const progress = $derived(Math.round((completed / totalChapters) * 100));
 
   // Certificate modal
-  let certOpen: string | null = null;
+  let certOpen = $state<string | null>(null);
 
   // Quiz state (3 questions)
   type Q = { q: string; options: { t: string; ok: boolean }[]; picked?: number; };
-  let questions: Q[] = [
+  let questions = $state<Q[]>([
     { q: 'Un mot de passe doit être…', options: [{ t: 'Partagé avec l’équipe', ok: false }, { t: 'Unique et complexe', ok: true }, { t: 'Collé sur l’écran', ok: false }] },
     { q: 'En cas d’alerte incendie, vous…', options: [{ t: 'Évacuez par l’issue la plus proche', ok: true }, { t: 'Attendez la fin de la réunion', ok: false }, { t: 'Prenez l’ascenseur', ok: false }] },
     { q: 'Phishing : vous recevez un mail suspect', options: [{ t: 'Cliquez et entrez vos codes', ok: false }, { t: 'Le signalez et supprimez', ok: true }, { t: 'Le transférez à tous', ok: false }] }
-  ];
+  ]);
   function pick(i: number, j: number) {
     if (questions[i].picked != null) return; // lock
     questions[i].picked = j;
@@ -33,7 +33,7 @@
   }
 
   // Scenario state (2 choices -> 2 consequences)
-  let scenStep: 0 | 1 | 2 = 0; // 0 choose, 1 good, 2 bad
+  let scenStep = $state<0 | 1 | 2>(0); // 0 choose, 1 good, 2 bad
   function chooseScenario(good: boolean) {
     scenStep = good ? 1 : 2;
     scenarioDone = true;
@@ -42,11 +42,11 @@
 
   // Hotspots
   type HP = { label: string; x: number; y: number; found?: boolean };
-  let hotspots: HP[] = [
+  let hotspots = $state<HP[]>([
     { label: 'Liquide renversé', x: 18, y: 62 },
     { label: 'Câble au sol', x: 53, y: 70 },
     { label: 'EPI manquant', x: 78, y: 38 }
-  ];
+  ]);
   function toggleHotspot(i: number) {
     hotspots[i].found = true;
     if (hotspots.every((h) => h.found)) { hotspotDone = true; score += 1; }
@@ -64,7 +64,7 @@
       <div class="mt-3"><ProgressBar value={progress} /></div>
     </div>
     <div class="flex items-center gap-3">
-      <Button variant="primary" on:click={() => certOpen = 'open'}>Générer mon certificat (démo)</Button>
+      <Button variant="primary" onclick={() => certOpen = 'open'}>Générer mon certificat (démo)</Button>
     </div>
   </div>
 
@@ -83,7 +83,7 @@
             <div class="font-medium">{q.q}</div>
             <div class="mt-2 flex flex-wrap gap-2">
               {#each q.options as o, j}
-                <button class="btn-ghost" on:click={() => pick(i,j)} disabled={q.picked != null} aria-pressed={q.picked===j}>{o.t}</button>
+                <button class="btn-ghost" onclick={() => pick(i,j)} disabled={q.picked != null} aria-pressed={q.picked===j}>{o.t}</button>
               {/each}
             </div>
             {#if q.picked != null}
@@ -103,8 +103,8 @@
       {#if scenStep === 0}
         <p class="mt-2">Un usager devient agressif à l’accueil. Que faites‑vous ?</p>
         <div class="mt-3 flex flex-wrap gap-2">
-          <button class="btn-primary" on:click={() => chooseScenario(true)}>Adopter une posture calme et alerter</button>
-          <button class="btn-ghost" on:click={() => chooseScenario(false)}>Répondre sèchement</button>
+          <button class="btn-primary" onclick={() => chooseScenario(true)}>Adopter une posture calme et alerter</button>
+          <button class="btn-ghost" onclick={() => chooseScenario(false)}>Répondre sèchement</button>
         </div>
       {:else if scenStep === 1}
         <div class="mt-3 card">Bonne pratique. Conséquence : désescalade. <span class="text-brand-green font-medium">+1</span></div>
@@ -131,7 +131,7 @@
     <div class="mt-4 relative">
       <div class="aspect-[16/9] w-full rounded-xl bg-gradient-to-br from-brand-green/10 via-white to-brand-green/20"></div>
       {#each hotspots as h, i}
-        <button class="absolute h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-green text-white text-xs" style={`left:${h.x}%; top:${h.y}%`} on:click={() => toggleHotspot(i)} aria-label={h.label} aria-pressed={h.found}>✓</button>
+        <button class="absolute h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-green text-white text-xs" style={`left:${h.x}%; top:${h.y}%`} onclick={() => toggleHotspot(i)} aria-label={h.label} aria-pressed={h.found}>✓</button>
       {/each}
       <div class="absolute left-4 bottom-4 card">Identifiez 3 risques/EPI : {hotspots.filter(h=>h.found).length}/3</div>
     </div>
