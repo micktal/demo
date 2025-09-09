@@ -43,16 +43,16 @@
   <h1>Tableau de bord Manager (pilotage & traçabilité)</h1>
   <div class="mt-4 grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8 items-end">
     <div class="card">
-      <label class="text-sm text-gray-700">Période</label>
-      <select class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={filter.period}>
+      <label class="text-sm text-gray-700" for="filter-period">Période</label>
+      <select id="filter-period" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={filter.period}>
         <option value="7j">7 jours</option>
         <option value="30j">30 jours</option>
         <option value="90j">90 jours</option>
       </select>
     </div>
     <div class="card">
-      <label class="text-sm text-gray-700">Site</label>
-      <select class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={filter.site}>
+      <label class="text-sm text-gray-700" for="filter-site">Site</label>
+      <select id="filter-site" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={filter.site}>
         <option>Tous</option>
         <option>Paris</option>
         <option>Lyon</option>
@@ -60,8 +60,8 @@
       </select>
     </div>
     <div class="card">
-      <label class="text-sm text-gray-700">Population</label>
-      <select class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={filter.population}>
+      <label class="text-sm text-gray-700" for="filter-population">Population</label>
+      <select id="filter-population" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={filter.population}>
         <option value="all">Tous</option>
         <option value="agents">Agents</option>
         <option value="manager">Manager</option>
