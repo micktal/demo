@@ -83,19 +83,41 @@
   <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
     <div class="card">
       <div class="font-semibold">Progression</div>
-      <div class="mt-4 h-40 rounded-lg bg-gradient-to-b from-brand-green/10 to-white relative overflow-hidden">
-        <div class="absolute left-0 bottom-6 h-2 bg-brand-green" style={`width:${completion}%`}></div>
-      </div>
+      <canvas id="chartProgress" class="mt-4"></canvas>
     </div>
     <div class="card">
-      <div class="font-semibold">Heatmap connexions</div>
-      <div class="mt-4 grid grid-cols-7 gap-2">
-        {#each Array(28) as _, i}
-          {@const inten = ((i * 7) % 100) < completion ? 'bg-brand-green/70' : 'bg-brand-green/20'}
-          <div class={`h-8 rounded ${inten}`}></div>
-        {/each}
-      </div>
+      <div class="font-semibold">Connexions (heatmap)</div>
+      <canvas id="chartHeat" class="mt-4"></canvas>
       <p class="mt-2 text-sm text-gray-700">Intensité approximée en fonction de la complétion (démo).</p>
     </div>
   </div>
 </section>
+
+<script>
+  let chart1: Chart | null = null;
+  let chart2: Chart | null = null;
+  onMount(() => {
+    const ctx1 = (document.getElementById('chartProgress') as HTMLCanvasElement).getContext('2d');
+    const ctx2 = (document.getElementById('chartHeat') as HTMLCanvasElement).getContext('2d');
+    if (!ctx1 || !ctx2) return;
+    chart1 = new Chart(ctx1, {
+      type: 'line',
+      data: { labels: Array.from({length: 12}, (_,i)=>`S${i+1}`), datasets: [{ label: 'Complétion %', data: Array.from({length:12},()=>completion).map((v,i)=>Math.min(100, Math.max(0, v + (i-6)*2))), borderColor: 'rgb(16,185,129)', fill: false }] },
+      options: { responsive: true, scales: { y: { min: 0, max: 100 } } }
+    });
+    chart2 = new Chart(ctx2, {
+      type: 'bar',
+      data: { labels: Array.from({length:28},(_,i)=>i+1), datasets: [{ label: 'Connexions', data: Array.from({length:28},(_,i)=> Math.round((completion/10)+ (i%5))), backgroundColor: 'rgba(16,185,129,.5)' }] },
+      options: { responsive: true }
+    });
+    const unsub = demo.subscribe(d => {
+      completion = Math.round(d.progress ?? 0);
+      success = Math.min(100, Math.round(((d.score ?? 0) / 5) * 100));
+      avgTime = Math.round((d.progress ?? 0) / 10);
+      incidents = Math.round((d.progress ?? 0) / 50);
+      if (chart1) { chart1.data.datasets[0].data = Array.from({length:12},()=>completion).map((v,i)=>Math.min(100, Math.max(0, v + (i-6)*2))); chart1.update(); }
+      if (chart2) { chart2.data.datasets[0].data = Array.from({length:28},(_,i)=> Math.round((completion/10)+ (i%5))); chart2.update(); }
+    });
+    return () => { unsub(); chart1?.destroy(); chart2?.destroy(); };
+  });
+</script>
