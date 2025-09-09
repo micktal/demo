@@ -1,12 +1,11 @@
 <script lang="ts">
   import Button from './Button.svelte';
-  import Badge from './Badge.svelte';
-</script>
+  </script>
 
 <section class="container-1200 pt-12 md:pt-16 pb-12 md:pb-16">
   <div class="grid-12 items-center">
     <div class="col-span-12 md:col-span-7">
-      <div class="flex items-center gap-3"><Badge>Démo e‑learning • FPSG</Badge></div>
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fde36237294f94c318a401159d4c44f61?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
       <h1 class="mt-4">La formation qui agit sur le terrain</h1>
       <p class="mt-4 md:mt-6 max-w-2xl">Passez du papier au e‑learning interactif, traçable et engageant.</p>
       <div class="mt-6 flex flex-wrap gap-3">
