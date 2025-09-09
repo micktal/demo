@@ -163,7 +163,7 @@
       if (s.checklist) checklist = { ...checklist, ...s.checklist };
       if (s.proofs) proofs = s.proofs;
       if (s.qr) { qr = s.qr; qrInput = s.qr.code; }
-      if (s.validation) { tutorName = s.validation.tutor; }
+      if (s.validation) { tutorName = s.validation.tutor; validationTs = s.validation.ts; }
       if (s.feedback) { feedbackText = s.feedback.text; }
     } catch {}
   });
