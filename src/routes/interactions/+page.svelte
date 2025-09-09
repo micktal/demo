@@ -6,6 +6,9 @@
   import { demo } from '$lib/stores/demo';
   import MemoryGameDemo from '$lib/components/demos/MemoryGameDemo.svelte';
   import ReactionDemo from '$lib/components/demos/ReactionDemo.svelte';
+  import EpiSortDemo from '$lib/components/demos/EpiSortDemo.svelte';
+  import TimedCaseDemo from '$lib/components/demos/TimedCaseDemo.svelte';
+  import ChecklistDemo from '$lib/components/demos/ChecklistDemo.svelte';
 
   // Score & progression
   let score = $state(0);
