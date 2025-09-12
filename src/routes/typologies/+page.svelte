@@ -1,5 +1,6 @@
 <script lang="ts">
   import Button from '$lib/components/Button.svelte';
+  import { t } from '$lib/i18n';
 
   const KEY = 'fpsgDemo';
   function readS() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } }
@@ -9,16 +10,17 @@
   function addScore(sc = 0) { try { const s = readS(); const v = (s.score || 0) + sc; mergeSave({ score: v }); } catch {} }
 
   type CatKey = 'LMS'|'Social'|'Business'|'MOOC'|'Repo'|'LXS'|'Custom'|'Apps';
-  const cats: Record<CatKey, { title: string; short: string; icon: string; orientation: string; strengths: string; use: string }>= {
-    LMS: { title:'Learning Management Systems (LMS)', short:'Web‑based, centralisent cours, suivi et évaluations.', icon:'📚', orientation:'Gestion & conformité', strengths:'Suivi, rôles, évaluations, intégrations SSO/SCORM', use:'Corporate et académique' },
-    Social: { title:'Social Learning', short:'Forums, feedbacks pairs, meilleure complétion.', icon:'💬', orientation:'Communauté & entraide', strengths:'Interactions, peer review, engagement', use:'Groupes métiers, partage de pratiques' },
-    Business: { title:'Business Training', short:'Montée en compétences orientée performance.', icon:'🏭', orientation:'KPI & efficacité', strengths:'Parcours ciblés, évaluation des compétences', use:'Ventes, sécurité, qualité' },
-    MOOC: { title:'MOOCs', short:'Cours massifs, rythme libre, ouverts/payant.', icon:'🌍', orientation:'Ouverture & volume', strengths:'Catalogue large, flexibilité', use:'Upskilling large audience' },
-    Repo: { title:'Destination Site', short:'Répertoires type Coursera/Udemy avec outils auteur.', icon:'🗂️', orientation:'Marketplace de contenus', strengths:'Découverte, ratings, auteurs multiples', use:'Portails de formation' },
-    LXS: { title:'Learning Experience Systems (LXS)', short:'Expériences immersives, personnalisées.', icon:'✨', orientation:'Expérience & personnalisation', strengths:'Parcours adaptatifs, analytics UX', use:'Onboarding, change management' },
-    Custom: { title:'Sur‑mesure', short:'Développement spécifique à vos besoins.', icon:'🛠️', orientation:'Adéquation totale', strengths:'Liberté fonctionnelle et UX', use:'Cas complexes, intégrations spécifiques' },
-    Apps: { title:'Learning Apps', short:'Microlearning mobile, jeux et quêtes.', icon:'📱', orientation:'Mobile & microlearning', strengths:'Sessions courtes, gamification', use:'Terrain, just‑in‑time' }
-  };
+  const catKeys: CatKey[] = ['LMS','Social','Business','MOOC','Repo','LXS','Custom','Apps'];
+  function cTitle(k: CatKey){ return t(`typologies.cat.${k}.title`, {
+    LMS:'Learning Management Systems (LMS)', Social:'Social Learning', Business:'Business Training', MOOC:'MOOCs', Repo:'Destination Site', LXS:'Learning Experience Systems (LXS)', Custom:'Sur‑mesure', Apps:'Learning Apps'
+  }[k]); }
+  function cShort(k: CatKey){ return t(`typologies.cat.${k}.short`, {
+    LMS:'Web‑based, centralisent cours, suivi et évaluations.', Social:'Forums, feedbacks pairs, meilleure complétion.', Business:'Montée en compétences orientée performance.', MOOC:'Cours massifs, rythme libre, ouverts/payant.', Repo:'Répertoires type Coursera/Udemy avec outils auteur.', LXS:'Expériences immersives, personnalisées.', Custom:'Développement spécifique à vos besoins.', Apps:'Microlearning mobile, jeux et quêtes.'
+  }[k]); }
+  function cOrientation(k: CatKey){ return t(`typologies.cat.${k}.orientation`, { LMS:'Gestion & conformité', Social:'Communauté & entraide', Business:'KPI & efficacité', MOOC:'Ouverture & volume', Repo:'Marketplace de contenus', LXS:'Expérience & personnalisation', Custom:'Adéquation totale', Apps:'Mobile & microlearning' }[k]); }
+  function cStrengths(k: CatKey){ return t(`typologies.cat.${k}.strengths`, { LMS:'Suivi, rôles, évaluations, intégrations SSO/SCORM', Social:'Interactions, peer review, engagement', Business:'Parcours ciblés, évaluation des compétences', MOOC:'Catalogue large, flexibilité', Repo:'Découverte, ratings, auteurs multiples', LXS:'Parcours adaptatifs, analytics UX', Custom:'Liberté fonctionnelle et UX', Apps:'Sessions courtes, gamification' }[k]); }
+  function cUse(k: CatKey){ return t(`typologies.cat.${k}.use`, { LMS:'Corporate et académique', Social:'Groupes métiers, partage de pratiques', Business:'Ventes, sécurité, qualité', MOOC:'Upskilling large audience', Repo:'Portails de formation', LXS:'Onboarding, change management', Custom:'Cas complexes, intégrations spécifiques', Apps:'Terrain, just‑in‑time' }[k]); }
+  function cDetails(k: CatKey){ return t(`typologies.cat.${k}.details`, { LMS:'Administration des formations, catalogues, rôles (apprenant/formateur), reporting SCORM/xAPI.', Social:'Ajoute forums, fils de discussion, likes, peer review et missions collaboratives.', Business:'Ciblé métiers; compétences mesurées, plans d’action et KPIs opérationnels.', MOOC:'Large audience; parcours à rythme libre, certificats, parfois monétisation.', Repo:'Catalogue de contenus avec recherche, évaluations et outils auteur intégrés.', LXS:'Personnalisation, parcours adaptatifs, analytics d’usage.', Custom:'Développement spécifique: intégrations SI, UX dédiée, logique métier avancée.', Apps:'Micro‑sessions mobiles gamifiées, notifications et mode hors‑ligne.' }[k]); }
 
   let active: CatKey | null = null;
   function openCat(k: CatKey){ active = k; addProgress(5); addScore(2); awardBadge(k); }
@@ -53,16 +55,16 @@
 <section class="w-full bg-brand-green/5">
   <div class="container-1200 py-12 md:py-16 grid-12 items-center gap-6">
     <div class="col-span-12 md:col-span-6">
-      <h1>Quels types de plateformes e‑learning existe‑t‑il ?</h1>
-      <p class="mt-3 max-w-2xl">Du LMS traditionnel aux Learning Apps, découvrez les grandes familles de solutions digitales.</p>
+      <h1>{t('typologies.hero.title','Quels types de plateformes e‑learning existe‑t‑il ?')}</h1>
+      <p class="mt-3 max-w-2xl">{t('typologies.hero.subtitle','Du LMS traditionnel aux Learning Apps, découvrez les grandes familles de solutions digitales.')}</p>
       <div class="mt-4 flex gap-2 flex-wrap">
-        <a href="#grid" class="btn-primary">Voir les 8 catégories</a>
-        <a href="#interactive" class="btn-ghost">Comparer</a>
+        <a href="#grid" class="btn-primary">{t('typologies.cta.grid','Voir les 8 catégories')}</a>
+        <a href="#interactive" class="btn-ghost">{t('typologies.cta.compare','Comparer')}</a>
       </div>
     </div>
     <div class="col-span-12 md:col-span-6">
       <div class="rounded-xl overflow-hidden border border-black/10 bg-white p-4">
-        <svg viewBox="0 0 800 400" class="w-full h-auto" role="img" aria-label="Constellation des typologies">
+        <svg viewBox="0 0 800 400" class="w-full h-auto" role="img" aria-label={t('typologies.constellation','Constellation des typologies')}>
           <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0C6A4C"/><stop offset="100%" stop-color="#16a34a"/></linearGradient></defs>
           <circle cx="400" cy="200" r="10" fill="url(#lg)" />
           {#each [
@@ -81,13 +83,12 @@
 <!-- Grid 8 catégories -->
 <section id="grid" class="container-1200 pt-10 md:pt-12">
   <div class="grid" style="grid-template: none / repeat(auto-fit,minmax(250px,1fr));gap:16px">
-    {#each Object.entries(cats) as [k, c]}
+    {#each catKeys as k}
       <div class="rounded-xl border border-black/10 bg-white p-4 cursor-pointer hover:border-brand-green hover:-translate-y-0.5 transition" onclick={() => { openCat(k as CatKey); toggleExpand(k as CatKey); }} aria-expanded={expanded[k as CatKey] ? 'true' : 'false'}>
-
-        <div class="font-semibold mt-1">{c.title}</div>
-        <p class="text-sm text-gray-700 mt-1">{c.short}</p>
+        <div class="font-semibold mt-1">{cTitle(k as CatKey)}</div>
+        <p class="text-sm text-gray-700 mt-1">{cShort(k as CatKey)}</p>
         {#if expanded[k as CatKey]}
-          <p class="mt-2 text-sm text-gray-700">{details[k as CatKey]}</p>
+          <p class="mt-2 text-sm text-gray-700">{cDetails(k as CatKey)}</p>
         {/if}
       </div>
     {/each}
@@ -99,34 +100,34 @@
 <section id="interactive" class="container-1200 pt-10">
   <div class="rounded-2xl border border-black/10 bg-white p-4">
     <div class="flex gap-2 flex-wrap">
-      {#each Object.keys(cats) as k}
-        <button class="px-3 py-2 rounded-lg border border-black/10 bg-white hover:border-brand-green" aria-pressed={active===k} onclick={() => (active = k as CatKey)}>{cats[k as CatKey].title}</button>
+      {#each catKeys as k}
+        <button class="px-3 py-2 rounded-lg border border-black/10 bg-white hover:border-brand-green" aria-pressed={active===k} onclick={() => (active = k as CatKey)}>{cTitle(k as CatKey)}</button>
       {/each}
     </div>
     {#if active}
       <div class="mt-3">
-        <div class="font-semibold">{cats[active].title}</div>
+        <div class="font-semibold">{cTitle(active)}</div>
         <ul class="text-sm text-gray-700 list-disc pl-5 mt-1">
-          <li><strong>Orientation:</strong> {cats[active].orientation}</li>
-          <li><strong>Points forts:</strong> {cats[active].strengths}</li>
-          <li><strong>Usages typiques:</strong> {cats[active].use}</li>
+          <li><strong>{t('typologies.labels.orientation','Orientation')}:</strong> {cOrientation(active)}</li>
+          <li><strong>{t('typologies.labels.strengths','Points forts')}:</strong> {cStrengths(active)}</li>
+          <li><strong>{t('typologies.labels.uses','Usages typiques')}:</strong> {cUse(active)}</li>
         </ul>
       </div>
     {/if}
 
     <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
       <div>
-        <div class="text-sm font-medium">Comparateur — Catégorie A</div>
+        <div class="text-sm font-medium">{t('typologies.compare.a','Comparateur — Catégorie A')}</div>
         <div class="mt-2 flex flex-wrap gap-2">
-          {#each Object.keys(cats) as k}
+          {#each catKeys as k}
             <button class="btn-ghost" aria-pressed={compA===k} onclick={() => pickA(k as CatKey)}>{k}</button>
           {/each}
         </div>
       </div>
       <div>
-        <div class="text-sm font-medium">Comparateur — Catégorie B</div>
+        <div class="text-sm font-medium">{t('typologies.compare.b','Comparateur — Catégorie B')}</div>
         <div class="mt-2 flex flex-wrap gap-2">
-          {#each Object.keys(cats) as k}
+          {#each catKeys as k}
             <button class="btn-ghost" aria-pressed={compB===k} onclick={() => pickB(k as CatKey)}>{k}</button>
           {/each}
         </div>
@@ -138,15 +139,15 @@
         <table class="w-full" style="border-collapse:collapse;min-width:680px">
           <thead>
             <tr class="bg-slate-50">
-              <th class="p-2 border-b border-slate-200 text-left">Critère</th>
-              <th class="p-2 border-b border-slate-200 text-left">{cats[compA as CatKey].title}</th>
-              <th class="p-2 border-b border-slate-200 text-left">{cats[compB as CatKey].title}</th>
+              <th class="p-2 border-b border-slate-200 text-left">{t('typologies.compare.criterion','Critère')}</th>
+              <th class="p-2 border-b border-slate-200 text-left">{cTitle(compA as CatKey)}</th>
+              <th class="p-2 border-b border-slate-200 text-left">{cTitle(compB as CatKey)}</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td class="p-2 border-b">Orientation</td><td class="p-2 border-b">{cats[compA as CatKey].orientation}</td><td class="p-2 border-b">{cats[compB as CatKey].orientation}</td></tr>
-            <tr><td class="p-2 border-b">Points forts</td><td class="p-2 border-b">{cats[compA as CatKey].strengths}</td><td class="p-2 border-b">{cats[compB as CatKey].strengths}</td></tr>
-            <tr><td class="p-2 border-b">Usages</td><td class="p-2 border-b">{cats[compA as CatKey].use}</td><td class="p-2 border-b">{cats[compB as CatKey].use}</td></tr>
+            <tr><td class="p-2 border-b">{t('typologies.labels.orientation','Orientation')}</td><td class="p-2 border-b">{cOrientation(compA as CatKey)}</td><td class="p-2 border-b">{cOrientation(compB as CatKey)}</td></tr>
+            <tr><td class="p-2 border-b">{t('typologies.labels.strengths','Points forts')}</td><td class="p-2 border-b">{cStrengths(compA as CatKey)}</td><td class="p-2 border-b">{cStrengths(compB as CatKey)}</td></tr>
+            <tr><td class="p-2 border-b">{t('typologies.labels.uses','Usages')}</td><td class="p-2 border-b">{cUse(compA as CatKey)}</td><td class="p-2 border-b">{cUse(compB as CatKey)}</td></tr>
           </tbody>
         </table>
       </div>
@@ -157,10 +158,10 @@
 <!-- Conclusion -->
 <section class="container-1200 pt-12 pb-16">
   <div class="card">
-    <div class="font-semibold">Comment choisir ?</div>
-    <p class="mt-2 text-gray-700">Le choix dépend de vos objectifs : formation réglementaire, social learning, montée en compétences, microlearning… Notre expertise consiste à conseiller la meilleure combinaison.</p>
+    <div class="font-semibold">{t('typologies.conclusion.title','Comment choisir ?')}</div>
+    <p class="mt-2 text-gray-700">{t('typologies.conclusion.text','Le choix dépend de vos objectifs : formation réglementaire, social learning, montée en compétences, microlearning… Notre expertise consiste à conseiller la meilleure combinaison.')}</p>
     <div class="mt-3">
-      <Button href="/contact" variant="primary">Demander un audit plateforme</Button>
+      <Button href="/contact" variant="primary">{t('typologies.conclusion.cta','Demander un audit plateforme')}</Button>
     </div>
   </div>
 </section>
