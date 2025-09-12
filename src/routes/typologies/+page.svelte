@@ -66,10 +66,10 @@
 
 <!-- Grid 8 catégories -->
 <section id="grid" class="container-1200 pt-10 md:pt-12">
-  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px">
+  <div class="grid" style="grid-template: none / repeat(auto-fit,minmax(250px,1fr));gap:16px">
     {#each Object.entries(cats) as [k, c]}
       <div class="rounded-xl border border-black/10 bg-white p-4 cursor-pointer hover:border-brand-green hover:-translate-y-0.5 transition" onclick={() => openCat(k as CatKey)}>
-        <div class="text-2xl">{c.icon}</div>
+
         <div class="font-semibold mt-1">{c.title}</div>
         <p class="text-sm text-gray-700 mt-1">{c.short}</p>
       </div>
