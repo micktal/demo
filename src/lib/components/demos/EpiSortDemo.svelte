@@ -3,22 +3,38 @@
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
   type Item = { label: string; epi: boolean };
-  let items: Item[] = [
+  const source: Item[] = [
     {label:'Gants anti‑coupure', epi:true},
     {label:'Écharpe', epi:false},
     {label:'Casquette', epi:false},
     {label:'Gilet HV', epi:true},
     {label:'Chaussures sécu', epi:true}
   ];
-  let left: Item[] = items; let epiBox: Item[] = []; let nonBox: Item[] = [];
-  const drag = (e: DragEvent, it: Item) => { if (!e.dataTransfer) return; e.dataTransfer.setData('text/plain', it.label); e.dataTransfer.effectAllowed = 'move'; };
-  function drop(to: 'epi'|'non', e: DragEvent){ e.preventDefault(); const label = e.dataTransfer?.getData('text/plain');
-    const idx = left.findIndex((i)=>i.label===label); if(idx>-1){ const [it]=left.splice(idx,1); (to==='epi'?epiBox:nonBox).push(it); check(); }
+  const total = source.length;
+  let left: Item[] = [...source];
+  let epiBox: Item[] = [];
+  let nonBox: Item[] = [];
+
+  const drag = (e: DragEvent, it: Item) => {
+    if (!e.dataTransfer) return;
+    e.dataTransfer.setData('text/plain', it.label);
+    e.dataTransfer.setData('text', it.label);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+  function drop(to: 'epi'|'non', e: DragEvent){
+    e.preventDefault(); e.stopPropagation();
+    const label = (e.dataTransfer?.getData('text/plain') || e.dataTransfer?.getData('text') || '').trim();
+    if (!label) return;
+    const idx = left.findIndex((i)=>i.label===label);
+    if(idx>-1){ const [it]=left.splice(idx,1); (to==='epi'?epiBox:nonBox).push(it); check(); }
   }
-  const allow = (e: DragEvent)=> { e.preventDefault(); };
-  function clickItem(it: Item){ const idx = left.findIndex(i=>i.label===it.label); if(idx>-1){ const [x]=left.splice(idx,1); (x.epi?epiBox:nonBox).push(x); check(); } }
+  const allow = (e: DragEvent)=> { e.preventDefault(); e.dataTransfer && (e.dataTransfer.dropEffect = 'move'); };
+  function clickItem(it: Item){
+    const idx = left.findIndex(i=>i.label===it.label);
+    if(idx>-1){ const [x]=left.splice(idx,1); (x.epi?epiBox:nonBox).push(x); check(); }
+  }
   function check(){
-    const ok = epiBox.every(i=>i.epi) && nonBox.every(i=>!i.epi) && (epiBox.length+nonBox.length===items.length);
+    const ok = epiBox.every(i=>i.epi) && nonBox.every(i=>!i.epi) && (epiBox.length+nonBox.length===total);
     if(ok){ fireConfetti(container, 120); dispatch('sort:done'); }
   }
   let container: HTMLDivElement;
