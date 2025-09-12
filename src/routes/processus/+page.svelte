@@ -2,6 +2,7 @@
   import Button from '$lib/components/Button.svelte';
   import Card from '$lib/components/Card.svelte';
   import { onMount } from 'svelte';
+  import Avatar from '$lib/components/Avatar.svelte';
 
   const KEY = 'fpsgDemo';
   function readS() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } }
@@ -36,7 +37,7 @@
 
   // SECTION 4 — RACI bonus
   let raciFb = '';
-  onMount(() => { addProgress(3); addScore(2); awardBadge('RACI compris'); raciFb = 'Gouvernance clarifiée (RACI).'; });
+  onMount(() => { addProgress(3); addScore(2); awardBadge('RACI compris'); raciFb = 'Gouvernance clarifiée (RACI).'; refreshLeaderboard(); refreshBadges(); refreshStreakFromStore(); });
 
   // SECTION 5 — Avant/Après slider
   let aaVal = 50; let aaWidth = '50%'; let aaDone = false;
@@ -104,6 +105,37 @@
     const blob = new Blob([ics], { type: 'text/calendar' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'atelier_cadrage.ics'; a.click();
     addProgress(4); addScore(2); awardBadge('Atelier planifié');
+  }
+  // Gamif/social state
+  type LBRow = { name: string; points: number };
+  let leaderboard: LBRow[] = [];
+  function refreshLeaderboard(){
+    const s = readS();
+    const me = { name: 'Vous', points: Math.max(0, Math.round(s.score || 0)) };
+    const others: LBRow[] = [
+      { name: 'Amina', points: 120 },
+      { name: 'Léo', points: 95 },
+      { name: 'Sophie', points: 82 },
+      { name: 'Marco', points: 76 }
+    ];
+    leaderboard = [...others, me].sort((a,b)=>b.points-a.points).slice(0,5);
+  }
+  let publicBadges: string[] = [];
+  function refreshBadges(){ const s = readS(); publicBadges = Array.isArray(s.badges) ? s.badges : []; }
+
+  // Streaks
+  let streakDays = 0; let lastStreakDate = '';
+  function ymd(d: Date){ return d.toISOString().slice(0,10); }
+  function refreshStreakFromStore(){ try { const s = readS(); const st = s.streak || {}; streakDays = st.days || 0; lastStreakDate = st.last || ''; } catch {} }
+  function markStreak(){
+    const today = ymd(new Date());
+    const s = readS(); const st = s.streak || {}; const last = st.last || '';
+    const yesterday = ymd(new Date(Date.now() - 24*3600*1000));
+    let days = st.days || 0;
+    if (last === today) { /* already marked */ }
+    else if (last === yesterday) { days = days + 1; }
+    else { days = 1; }
+    mergeSave({ streak: { days, last: today } }); streakDays = days; lastStreakDate = today; addProgress(2); addScore(1); awardBadge('Streak'); refreshLeaderboard(); refreshBadges();
   }
 </script>
 
@@ -410,6 +442,87 @@
       <div class="card text-center"><div class="text-2xl font-semibold text-brand-green">+37%</div><div class="text-xs text-gray-600">Engagement</div></div>
       <div class="card text-center"><div class="text-2xl font-semibold text-brand-green">24h</div><div class="text-xs text-gray-600">Déploiement</div></div>
       <div class="card text-center"><div class="text-2xl font-semibold text-brand-green">0</div><div class="text-xs text-gray-600">Incidents majeurs</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8b — Gamification & Social -->
+<section class="container-1200 pt-10">
+  <h3 class="m-0 mb-3">Gamification & Social</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-start">
+    <div class="rounded-2xl border border-black/10 bg-white p-4">
+      <div class="font-semibold">Profil</div>
+      <div class="mt-3 flex items-center gap-3">
+        <Avatar expression="happy" size={72} />
+        <div>
+          <div class="font-medium">Apprenant Démo</div>
+          <div class="text-sm text-gray-700">Streak: {streakDays} jour(s)</div>
+        </div>
+      </div>
+      <button class="btn-ghost mt-3" onclick={markStreak}>Je me connecte aujourd’hui</button>
+    </div>
+
+    <div class="rounded-2xl border border-black/10 bg-white p-4">
+      <div class="font-semibold">Classement</div>
+      <ol class="mt-2 space-y-1">
+        {#each leaderboard as row, i}
+          <li class="flex justify-between"><span>{i+1}. {row.name}</span><strong>{row.points}</strong></li>
+        {/each}
+      </ol>
+    </div>
+
+    <div class="rounded-2xl border border-black/10 bg-white p-4">
+      <div class="font-semibold">Badges publics</div>
+      <div class="mt-2 flex flex-wrap gap-2">
+        {#if publicBadges.length === 0}
+          <span class="text-sm text-gray-600">Aucun badge pour le moment.</span>
+        {:else}
+          {#each publicBadges as b}<span class="badge">{b}</span>{/each}
+        {/if}
+      </div>
+    </div>
+
+    <div class="rounded-2xl border border-black/10 bg-white p-4">
+      <div class="font-semibold">Témoignages vidéo</div>
+      <div class="mt-2 space-y-2">
+        <div class="aspect-video rounded-lg overflow-hidden border border-black/10">
+          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Témoignage 1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <div class="aspect-video rounded-lg overflow-hidden border border-black/10">
+          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/oHg5SJYRHA0" title="Témoignage 2" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8c — Cas clients & Templates -->
+<section class="container-1200 pt-10">
+  <h3 class="m-0 mb-3">Cas clients sectoriels & templates</h3>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="card">
+      <div class="font-semibold">Industrie</div>
+      <p class="mt-1 text-sm text-gray-700">Procédures sécurité, EPI, audits.</p>
+      <div class="mt-2 flex gap-2">
+        <a class="btn-ghost" href="/templates/raci-template.csv" download>RACI .csv</a>
+        <a class="btn-ghost" href="/templates/gantt-template.csv" download>GANTT .csv</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="font-semibold">Retail</div>
+      <p class="mt-1 text-sm text-gray-700">Accueil client, sûreté, inventaires.</p>
+      <div class="mt-2 flex gap-2">
+        <a class="btn-ghost" href="/templates/raci-template.csv" download>RACI .csv</a>
+        <a class="btn-ghost" href="/templates/gantt-template.csv" download>GANTT .csv</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="font-semibold">Services</div>
+      <p class="mt-1 text-sm text-gray-700">AFEST, conformité, qualité.</p>
+      <div class="mt-2 flex gap-2">
+        <a class="btn-ghost" href="/templates/raci-template.csv" download>RACI .csv</a>
+        <a class="btn-ghost" href="/templates/gantt-template.csv" download>GANTT .csv</a>
+      </div>
     </div>
   </div>
 </section>
