@@ -1,0 +1,219 @@
+<script lang="ts">
+  import Button from '$lib/components/Button.svelte';
+  import Card from '$lib/components/Card.svelte';
+  import { onMount } from 'svelte';
+
+  const KEY = 'fpsgDemo';
+  function readS() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } }
+  function mergeSave(partial: Record<string, any>) { try { const s = readS(); localStorage.setItem(KEY, JSON.stringify({ ...s, ...partial })); } catch {} }
+  function awardBadge(b: string) { try { const s = readS(); const badges = Array.isArray(s.badges) ? s.badges : []; if (!badges.includes(b)) { badges.push(b); } mergeSave({ badges }); } catch {} }
+  function addProgress(p = 0) { try { const s = readS(); const v = Math.min(100, Math.round((s.progress || 0) + p)); mergeSave({ progress: v }); } catch {} }
+  function addScore(sc = 0) { try { const s = readS(); const v = (s.score || 0) + sc; mergeSave({ score: v }); } catch {} }
+
+  // SECTION 2 — TIMELINE PROCESSUS
+  type Step = 'analyse'|'bloom'|'raci'|'story'|'prod'|'deploy';
+  const copy: Record<Step, string> = {
+    analyse:'Recueil besoins, publics, contraintes, risques, objectifs mesurables.',
+    bloom:'Transposition des objectifs sur la taxonomie (Se souvenir → Créer).',
+    raci:'Rôles clarifiés : qui fait quoi et quand (Responsable, Accountable, Consulté, Informé).',
+    story:'Storyboard chapitré, prototype cliquable à votre charte.',
+    prod:'Intégrations, médias, accessibilité, QA fonctionnelle & technique.',
+    deploy:'SCORM/xAPI, SSO, KPI & tableau de bord, relances automatiques.'
+  };
+  const badgeMap: Record<Step, string> = { analyse:'Analyse validée', bloom:'Bloom mappée', raci:'RACI cadré', story:'Prototype validé', prod:'QA OK', deploy:'Déployé' };
+  let tDesc = '';
+  function clickStep(k: Step) {
+    tDesc = '✅ ' + copy[k];
+    addProgress(5); addScore(3); awardBadge(badgeMap[k]);
+  }
+
+  // SECTION 3 — BLOOM Avant/Après
+  let bloomView: 'before'|'after' = 'before';
+  function setBloom(v: 'before'|'after') {
+    bloomView = v;
+    if (v === 'after') { addProgress(6); addScore(3); awardBadge('Bloom démontrée'); }
+  }
+
+  // SECTION 4 — RACI bonus
+  let raciFb = '';
+  onMount(() => { addProgress(3); addScore(2); awardBadge('RACI compris'); raciFb = 'Gouvernance clarifiée (RACI).'; });
+
+  // SECTION 5 — Avant/Après slider
+  let aaVal = 50; let aaWidth = '50%'; let aaDone = false;
+  function onRange(input: number) {
+    aaVal = input; aaWidth = input + '%';
+    if (!aaDone && input === 100) { aaDone = true; addProgress(5); addScore(3); awardBadge('Transformation comparée'); }
+  }
+</script>
+
+<svelte:head>
+  <title>Processus e-learning : andragogie, Bloom, RACI & GANTT – Fiducial FPSG</title>
+  <meta name="description" content="Du PDF à la compétence : analyse andragogique, taxonomie de Bloom, RACI, GANTT, prototypage et livraison SCORM/xAPI." />
+</svelte:head>
+
+<!-- SECTION 1 — HERO -->
+<section class="w-full bg-brand-green/5">
+  <div class="container-1200 py-12 md:py-16 grid-12 items-center gap-6">
+    <div class="col-span-12 md:col-span-6">
+      <h1>Du PDF à la compétence acquise.</h1>
+      <p class="mt-3 max-w-2xl">Analyse andragogique, taxonomie de Bloom, gouvernance RACI et GANTT : un processus rigoureux, une expérience engageante.</p>
+      <div class="mt-4 flex flex-wrap gap-2">
+        <a href="#timeline" class="btn-primary">Voir les étapes</a>
+        <a href="#avant-apres" class="btn-ghost">Comparer Avant/Après</a>
+      </div>
+    </div>
+    <div class="col-span-12 md:col-span-6">
+      <div class="rounded-xl overflow-hidden border border-black/10 bg-white p-4">
+        <div class="grid grid-cols-2 gap-2">
+          <div class="aspect-video rounded-lg bg-gray-200 grid place-items-center text-gray-600">PDF statique</div>
+          <div class="aspect-video rounded-lg bg-brand-green/20 grid place-items-center text-brand-green">Module interactif</div>
+        </div>
+        <div class="mt-3">
+          <svg viewBox="0 0 800 80" class="w-full h-auto" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0C6A4C"/><stop offset="100%" stop-color="#16a34a"/></linearGradient></defs><line x1="40" y1="40" x2="760" y2="40" stroke="url(#lg)" stroke-width="6" stroke-linecap="round"/>{#each [40,180,320,460,600,760] as x}<circle cx={x} cy="40" r="10" fill="#fff" stroke="#0C6A4C" stroke-width="3" />{/each}</svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2 — TIMELINE PROCESSUS -->
+<section id="timeline" class="container-1200 pt-10 md:pt-12">
+  <div id="proc-timeline" class="rounded-2xl border border-black/10 bg-white p-4">
+    <h3 class="m-0">Notre processus en 6 étapes</h3>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px">
+      <button class="t-step" data-k="analyse" on:click={() => clickStep('analyse')}>1. Analyse andragogique</button>
+      <button class="t-step" data-k="bloom" on:click={() => clickStep('bloom')}>2. Mapping Bloom</button>
+      <button class="t-step" data-k="raci" on:click={() => clickStep('raci')}>3. Cadrage RACI</button>
+      <button class="t-step" data-k="story" on:click={() => clickStep('story')}>4. Storyboard & prototype</button>
+      <button class="t-step" data-k="prod" on:click={() => clickStep('prod')}>5. Production & QA</button>
+      <button class="t-step" data-k="deploy" on:click={() => clickStep('deploy')}>6. Déploiement & KPI</button>
+    </div>
+    <div id="t-desc" class="mt-3 text-brand-green">{tDesc}</div>
+  </div>
+  <style>
+    #proc-timeline .t-step{padding:10px;border:1px solid #e5e7eb;border-radius:10px;background:#fff;cursor:pointer;text-align:left}
+    #proc-timeline .t-step:hover{border-color:#0C6A4C;color:#0C6A4C}
+  </style>
+</section>
+
+<!-- SECTION 3 — ANDRAGOGIE + BLOOM -->
+<section class="container-1200 pt-10">
+  <div id="bloom-card" class="rounded-2xl border border-black/10 bg-white p-4">
+    <div class="flex gap-2 flex-wrap mb-2">
+      <button class="b-btn" data-v="before" on:click={() => setBloom('before')}>Avant (PDF)</button>
+      <button class="b-btn" data-v="after" on:click={() => setBloom('after')}>Après (e-learning)</button>
+    </div>
+    {#if bloomView==='before'}
+      <div id="b-before">
+        <h3 class="m-0">Avant — niveaux 1–2</h3>
+        <ul class="text-gray-600 list-disc pl-5 mt-2"><li><strong>Se souvenir</strong> : lecture passive, liste de consignes</li><li><strong>Comprendre</strong> : reformulation théorique</li><li>Faible engagement, pas de preuves</li></ul>
+      </div>
+    {:else}
+      <div id="b-after">
+        <h3 class="m-0">Après — niveaux 3–5 (→6)</h3>
+        <ul class="text-brand-green list-disc pl-5 mt-2"><li><strong>Appliquer</strong> : quiz, checklists traçables, AFEST</li><li><strong>Analyser</strong> : scénarios à embranchements</li><li><strong>Évaluer</strong> : décisions argumentées, feedback</li><li><em>Créer</em> : RETEX, plan d’action</li></ul>
+        <p class="mt-2 text-brand-green">✅Progression cognitive mesurable (Bloom).</p>
+      </div>
+    {/if}
+  </div>
+  <style>
+    #bloom-card .b-btn{padding:8px 12px;border:1px solid #e5e7eb;border-radius:10px;background:#fff;cursor:pointer}
+    #bloom-card .b-btn:hover{border-color:#0C6A4C;color:#0C6A4C}
+  </style>
+</section>
+
+<!-- SECTION 4 — MATRICE RACI -->
+<section class="container-1200 pt-10">
+  <div id="raci" class="rounded-2xl border border-black/10 bg-white p-4 overflow-auto">
+    <table class="w-full" style="border-collapse:collapse;min-width:680px">
+      <thead>
+        <tr class="bg-slate-50">
+          <th class="p-2 border-b border-slate-200 text-left">Livrable / Étape</th>
+          <th class="p-2 border-b border-slate-200 text-left">Ingé Pédago</th>
+          <th class="p-2 border-b border-slate-200 text-left">Chef de Projet</th>
+          <th class="p-2 border-b border-slate-200 text-left">Expert Métier</th>
+          <th class="p-2 border-b border-slate-200 text-left">Client RH/QHSE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="p-2 border-b">Analyse & objectifs</td><td class="p-2 border-b">R</td><td class="p-2 border-b">A</td><td class="p-2 border-b">C</td><td class="p-2 border-b">I</td></tr>
+        <tr><td class="p-2 border-b">Storyboard</td><td class="p-2 border-b">R</td><td class="p-2 border-b">A</td><td class="p-2 border-b">C</td><td class="p-2 border-b">I</td></tr>
+        <tr><td class="p-2 border-b">Prototype</td><td class="p-2 border-b">R</td><td class="p-2 border-b">A</td><td class="p-2 border-b">C</td><td class="p-2 border-b">I</td></tr>
+        <tr><td class="p-2 border-b">Production</td><td class="p-2 border-b">C</td><td class="p-2 border-b">A</td><td class="p-2 border-b">R</td><td class="p-2 border-b">I</td></tr>
+        <tr><td class="p-2 border-b">QA & accessibilité</td><td class="p-2 border-b">C</td><td class="p-2 border-b">A</td><td class="p-2 border-b">I</td><td class="p-2 border-b">R</td></tr>
+        <tr><td class="p-2 border-b">Déploiement & KPI</td><td class="p-2 border-b">I</td><td class="p-2 border-b">A</td><td class="p-2 border-b">C</td><td class="p-2 border-b">R</td></tr>
+      </tbody>
+    </table>
+    <p class="mt-2 text-brand-green" id="raci-fb">{raciFb}</p>
+  </div>
+</section>
+
+<!-- SECTION 5 — AVANT / APRÈS -->
+<section id="avant-apres" class="container-1200 pt-10">
+  <div id="aa" class="rounded-2xl border border-black/10 bg-white p-4">
+    <h3 class="m-0 mb-2">Avant / Après : du PDF à l’expérience</h3>
+    <div class="relative w-full" style="max-width:100%">
+      <div class="rounded-lg overflow-hidden border border-slate-200" style="position:relative;max-width:100%;aspect-ratio:16/9;background:#fff">
+        <img src="https://via.placeholder.com/1280x720?text=PDF+statique" alt="Avant" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1)" />
+        <div id="aa-mask" style={`position:absolute;inset:0;width:${aaWidth};overflow:hidden`}>
+          <img src="https://via.placeholder.com/1280x720/DCFCE7?text=Module+interactif" alt="Après" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+        </div>
+      </div>
+    </div>
+    <input id="aa-range" type="range" min="0" max="100" bind:value={aaVal} on:input={(e:any)=>onRange(+e.currentTarget.value)} class="w-full mt-3" />
+  </div>
+</section>
+
+<!-- SECTION 6 — MINI GANTT -->
+<section class="container-1200 pt-10">
+  <div id="gantt" class="rounded-2xl border border-black/10 bg-white p-4">
+    <h3 class="m-0">Planning indicatif</h3>
+    <div class="grid" style="grid-template-columns:140px 1fr;gap:10px">
+      <div>Analyse</div><div><div class="bar" style="width:20%"></div></div>
+      <div>Storyboard</div><div><div class="bar" style="width:35%"></div></div>
+      <div>Prototype</div><div><div class="bar" style="width:55%"></div></div>
+      <div>Production</div><div><div class="bar" style="width:80%"></div></div>
+      <div>QA & Déploiement</div><div><div class="bar" style="width:100%"></div></div>
+    </div>
+  </div>
+  <style>
+    #gantt .bar{height:12px;background:#0C6A4C;border-radius:999px}
+  </style>
+</section>
+
+<!-- SECTION 7 — QA, ACCESSIBILITÉ & CONFORMITÉ -->
+<section class="container-1200 pt-10">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <Card><div class="p-4"><div class="font-semibold">Accessibilité</div><ul class="mt-2 list-disc pl-5 text-gray-700"><li>Contraste, clavier, ARIA</li><li>Sous‑titres & transcripts</li></ul></div></Card>
+    <Card><div class="p-4"><div class="font-semibold">Tech</div><ul class="mt-2 list-disc pl-5 text-gray-700"><li>SCORM/xAPI</li><li>SSO (Azure/Okta)</li><li>Hébergement UE</li></ul></div></Card>
+    <Card><div class="p-4"><div class="font-semibold">Opposabilité</div><ul class="mt-2 list-disc pl-5 text-gray-700"><li>Logs / horodatage</li><li>Preuves AFEST</li><li>Certificats</li></ul></div></Card>
+    <Card><div class="p-4"><div class="font-semibold">Sécurité</div><ul class="mt-2 list-disc pl-5 text-gray-700"><li>RGPD, purge</li><li>Droits d’accès</li></ul></div></Card>
+  </div>
+</section>
+
+<!-- SECTION 8 — LIVRAISON & KPI -->
+<section class="container-1200 pt-10">
+  <div class="rounded-2xl border border-black/10 bg-white p-4">
+    <div class="font-semibold">Livraison & KPI</div>
+    <p class="mt-2 text-gray-700">Export SCORM/xAPI, intégrations RH/LMS, dashboards KPI, relances automatiques.</p>
+    <div class="mt-3 grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="card text-center"><div class="text-2xl font-semibold text-brand-green">98%</div><div class="text-xs text-gray-600">Taux de complétion</div></div>
+      <div class="card text-center"><div class="text-2xl font-semibold text-brand-green">+37%</div><div class="text-xs text-gray-600">Engagement</div></div>
+      <div class="card text-center"><div class="text-2xl font-semibold text-brand-green">24h</div><div class="text-xs text-gray-600">Déploiement</div></div>
+      <div class="card text-center"><div class="text-2xl font-semibold text-brand-green">0</div><div class="text-xs text-gray-600">Incidents majeurs</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 9 — CTA FINAL -->
+<section class="container-1200 pt-12 pb-16">
+  <div class="card flex flex-col md:flex-row items-center justify-between gap-4">
+    <div>
+      <div class="text-xl font-semibold">Confiez-nous vos PDF, obtenez des parcours engageants & auditables.</div>
+    </div>
+    <div class="flex gap-3">
+      <Button href="/contact" variant="primary">Planifier un atelier de cadrage</Button>
+      <Button href="/roi-temoignages" variant="ghost">Voir un cas client sectoriel</Button>
+    </div>
+  </div>
+</section>
