@@ -44,6 +44,67 @@
     aaVal = input; aaWidth = input + '%';
     if (!aaDone && input === 100) { aaDone = true; addProgress(5); addScore(3); awardBadge('Transformation comparée'); }
   }
+
+  // Voice-over (synthèse vocale)
+  let speaking = false;
+  const voText = 'Exemple de voice-over: vous interagissez avec le module, répondez aux questions et progressez.';
+  function toggleVoice() {
+    try {
+      const synth: SpeechSynthesis | undefined = typeof window !== 'undefined' ? window.speechSynthesis : undefined;
+      if (!synth) { alert('Synthèse vocale non disponible sur ce navigateur.'); return; }
+      if (speaking) { synth.cancel(); speaking = false; return; }
+      const u = new SpeechSynthesisUtterance(voText);
+      u.lang = 'fr-FR'; u.rate = 1; u.pitch = 1; u.onend = () => { speaking = false; };
+      speaking = true; synth.speak(u); addProgress(2); addScore(1); awardBadge('Voice-over testé');
+    } catch {}
+  }
+
+  // Mini-quiz Avant/Après
+  let aaPicked: number | null = null;
+  const aaOptions = [
+    { t: 'Lecture passive du PDF', ok: false },
+    { t: 'Interactions + feedback immédiat', ok: true }
+  ];
+  function aaPick(j: number) {
+    if (aaPicked != null) return;
+    aaPicked = j; if (aaOptions[j].ok) { addProgress(3); addScore(2); awardBadge('Mini-quiz Avant/Après'); }
+  }
+
+  // ROI Calculator
+  let learners = 200; let hoursSaved = 1.5; let costPerHour = 35; let travelPerLearner = 20; let projectCost = 5000;
+  $: savingsTime = Math.max(0, Math.round(learners * hoursSaved * costPerHour));
+  $: savingsTravel = Math.max(0, Math.round(learners * travelPerLearner));
+  $: totalSavings = savingsTime + savingsTravel;
+  $: roiPct = projectCost > 0 ? Math.round(((totalSavings - projectCost) / projectCost) * 100) : 0;
+  function markRoiUsed() { addProgress(4); addScore(2); awardBadge('ROI estimé'); }
+
+  // Calendrier atelier (.ics)
+  let calDate = '';
+  let calTime = '10:00';
+  let calDur = 60; // minutes
+  let calTopic = 'Atelier de cadrage e-learning';
+  function pad(n: number) { return (n < 10 ? '0' : '') + n; }
+  function toIcsDate(dateStr: string, timeStr: string, durMin: number) {
+    const [y, m, d] = dateStr.split('-').map((x) => +x);
+    const [hh, mm] = timeStr.split(':').map((x) => +x);
+    const start = new Date(y, (m - 1), d, hh, mm);
+    const end = new Date(start.getTime() + durMin * 60000);
+    const fmt = (dt: Date) => `${dt.getFullYear()}${pad(dt.getMonth() + 1)}${pad(dt.getDate())}T${pad(dt.getHours())}${pad(dt.getMinutes())}00`;
+    return { dtstart: fmt(start), dtend: fmt(end) };
+  }
+  function downloadICS() {
+    if (!calDate) { alert('Choisissez une date.'); return; }
+    const { dtstart, dtend } = toIcsDate(calDate, calTime, calDur);
+    const ics = [
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Fiducial FPSG//Processus//FR',
+      'BEGIN:VEVENT',`UID:${Date.now()}@fpsg`,`DTSTAMP:${toIcsDate(calDate, calTime, 0).dtstart}Z`,
+      `DTSTART:${dtstart}`,`DTEND:${dtend}`,`SUMMARY:${calTopic}`,
+      'DESCRIPTION:Atelier de cadrage avec l\'équipe pédagogique.','END:VEVENT','END:VCALENDAR'
+    ].join('\r\n');
+    const blob = new Blob([ics], { type: 'text/calendar' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'atelier_cadrage.ics'; a.click();
+    addProgress(4); addScore(2); awardBadge('Atelier planifié');
+  }
 </script>
 
 <svelte:head>
@@ -234,6 +295,26 @@
       </div>
     </div>
     <input id="aa-range" type="range" min="0" max="100" bind:value={aaVal} on:input={(e:any)=>onRange(+e.currentTarget.value)} class="w-full mt-3" />
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+      <div class="rounded-lg border border-black/10 bg-white p-3">
+        <div class="flex items-center justify-between gap-3">
+          <div class="font-medium">Voice‑over</div>
+          <button class="btn-ghost" onclick={toggleVoice} aria-pressed={speaking}>{speaking ? 'Arrêter' : 'Écouter'}</button>
+        </div>
+        <p class="mt-2 text-sm text-gray-700">Synthèse vocale intégrée (démo).</p>
+      </div>
+      <div class="rounded-lg border border-black/10 bg-white p-3">
+        <div class="font-medium">Mini‑quiz</div>
+        <div class="mt-2 flex flex-wrap gap-2">
+          {#each aaOptions as o, j}
+            <button class="btn-ghost" onclick={() => aaPick(j)} disabled={aaPicked != null} aria-pressed={aaPicked===j}>{o.t}</button>
+          {/each}
+        </div>
+        {#if aaPicked != null}
+          <p class="mt-2 text-sm {aaOptions[aaPicked].ok ? 'text-brand-green' : 'text-red-600'}">{aaOptions[aaPicked].ok ? 'Correct' : 'Réponse incorrecte'}</p>
+        {/if}
+      </div>
+    </div>
   </div>
 </section>
 
@@ -252,6 +333,61 @@
   <style>
     #gantt .bar{height:12px;background:#0C6A4C;border-radius:999px}
   </style>
+</section>
+
+<!-- SECTION 6b — CALCULATEUR ROI -->
+<section class="container-1200 pt-10">
+  <div class="rounded-2xl border border-black/10 bg-white p-4">
+    <h3 class="m-0">Calculateur ROI (démo)</h3>
+    <div class="mt-3 grid grid-cols-1 md:grid-cols-5 gap-3 items-end">
+      <label class="block">Apprenants
+        <input type="number" min="1" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={learners} on:change={markRoiUsed} />
+      </label>
+      <label class="block">Heures gagnées / apprenant
+        <input type="number" step="0.1" min="0" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={hoursSaved} on:change={markRoiUsed} />
+      </label>
+      <label class="block">Coût horaire (€)
+        <input type="number" min="0" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={costPerHour} on:change={markRoiUsed} />
+      </label>
+      <label class="block">Frais déplacement / apprenant (€)
+        <input type="number" min="0" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={travelPerLearner} on:change={markRoiUsed} />
+      </label>
+      <label class="block">Coût projet (€)
+        <input type="number" min="0" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={projectCost} on:change={markRoiUsed} />
+      </label>
+    </div>
+    <div class="mt-4 grid grid-cols-1 md:grid-cols-4 gap-3">
+      <div class="card text-center"><div class="text-xl font-semibold text-brand-green">{savingsTime.toLocaleString()} €</div><div class="text-xs text-gray-600">Gain temps</div></div>
+      <div class="card text-center"><div class="text-xl font-semibold text-brand-green">{savingsTravel.toLocaleString()} €</div><div class="text-xs text-gray-600">Frais évités</div></div>
+      <div class="card text-center"><div class="text-xl font-semibold text-brand-green">{totalSavings.toLocaleString()} €</div><div class="text-xs text-gray-600">Gains totaux</div></div>
+      <div class="card text-center"><div class="text-xl font-semibold {roiPct>=0?'text-brand-green':'text-red-600'}">{roiPct}%</div><div class="text-xs text-gray-600">ROI estimé</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6c — CALENDRIER ATELIER INTÉGRÉ -->
+<section class="container-1200 pt-10">
+  <div class="rounded-2xl border border-black/10 bg-white p-4">
+    <h3 class="m-0">Planifier un atelier</h3>
+    <div class="mt-3 grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
+      <label class="block">Date
+        <input type="date" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={calDate} />
+      </label>
+      <label class="block">Heure
+        <input type="time" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={calTime} />
+      </label>
+      <label class="block">Durée (min)
+        <input type="number" min="15" step="15" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={calDur} />
+      </label>
+      <label class="block">Sujet
+        <input type="text" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={calTopic} />
+      </label>
+    </div>
+    <div class="mt-3 flex flex-wrap gap-3">
+      <button class="btn-primary" onclick={downloadICS}>Ajouter au calendrier (.ics)</button>
+      <a class="btn-ghost" href="/contact" target="_blank" rel="noopener">Demander ce créneau</a>
+    </div>
+  </div>
 </section>
 
 <!-- SECTION 7 — QA, ACCESSIBILITÉ & CONFORMITÉ -->
