@@ -7,6 +7,7 @@
   import { t } from '$lib/i18n';
   import MemoryGameDemo from '$lib/components/demos/MemoryGameDemo.svelte';
   import ReactionDemo from '$lib/components/demos/ReactionDemo.svelte';
+  import Avatar from '$lib/components/Avatar.svelte';
   import EpiSortDemo from '$lib/components/demos/EpiSortDemo.svelte';
   import TimedCaseDemo from '$lib/components/demos/TimedCaseDemo.svelte';
   import ChecklistDemo from '$lib/components/demos/ChecklistDemo.svelte';
@@ -36,7 +37,7 @@
   // Quiz state (3 questions)
   type Q = { q: string; options: { t: string; ok: boolean }[]; picked?: number; };
   let questions = $state<Q[]>([
-    { q: 'Un mot de passe doit être…', options: [{ t: 'Partagé avec l’équipe', ok: false }, { t: 'Unique et complexe', ok: true }, { t: 'Collé sur l’écran', ok: false }] },
+    { q: 'Un mot de passe doit être…', options: [{ t: 'Partagé avec l’équipe', ok: false }, { t: 'Unique et complexe', ok: true }, { t: 'Collé sur l’��cran', ok: false }] },
     { q: 'En cas d’alerte incendie, vous…', options: [{ t: 'Évacuez par l’issue la plus proche', ok: true }, { t: 'Attendez la fin de la réunion', ok: false }, { t: 'Prenez l’ascenseur', ok: false }] },
     { q: 'Phishing : vous recevez un mail suspect', options: [{ t: 'Cliquez et entrez vos codes', ok: false }, { t: 'Le signalez et supprimez', ok: true }, { t: 'Le transférez à tous', ok: false }] }
   ]);
@@ -54,7 +55,7 @@
     scenStep = good ? 1 : 2;
     scenarioDone = true;
     tScenario = Math.max(1, Math.round((Date.now() - mountedAt)/1000));
-    if (good) { score += 1; demo.addScore(1); }
+    if (good) { score += 1; demo.addScore(1); if (typeof document !== 'undefined') fireConfetti(document.body, 120); }
     demo.addProgress(33);
   }
 
@@ -132,11 +133,17 @@
     <div class="card">
       <div class="font-semibold">Conséquence</div>
       {#if scenStep === 0}
-        <div class="mt-3 text-sm text-gray-700">Choisissez une option pour voir la suite.</div>
+        <div class="mt-3">
+          <Avatar expression="neutral" message="Choisissez une option pour voir la suite." size={160} />
+        </div>
       {:else if scenStep === 1}
-        <div class="mt-3 aspect-video rounded-lg bg-brand-green/20 grid place-items-center text-brand-green">Vidéo positive (placeholder)</div>
+        <div class="mt-3">
+          <Avatar expression="happy" message="Bravo ! Vous gardez votre calme, alertez le référent et désamorcez la situation. +1 point." size={160} />
+        </div>
       {:else}
-        <div class="mt-3 aspect-video rounded-lg bg-black/10 grid place-items-center text-gray-700">Explication texte / vidéo (placeholder)</div>
+        <div class="mt-3">
+          <Avatar expression="sad" message="Réponse sèche : l’incident s’aggrave. Revoir la procédure et adopter la posture recommandée." size={160} />
+        </div>
       {/if}
       {#if scenarioDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Scénario terminé</div>{/if}
     </div>
