@@ -111,7 +111,7 @@
     {:else}
       <div id="b-after">
         <h3 class="m-0">Après — niveaux 3–5 (→6)</h3>
-        <ul class="text-brand-green list-disc pl-5 mt-2"><li><strong>Appliquer</strong> : quiz, checklists traçables, AFEST</li><li><strong>Analyser</strong> : scénarios à embranchements</li><li><strong>Évaluer</strong> : décisions argumentées, feedback</li><li><em>Créer</em> : RETEX, plan d’action</li></ul>
+        <ul class="text-brand-green list-disc pl-5 mt-2"><li><strong>Appliquer</strong> : quiz, checklists traçables, AFEST</li><li><strong>Analyser</strong> : scénarios à embranchements</li><li><strong>Évaluer</strong> : décisions argument��es, feedback</li><li><em>Créer</em> : RETEX, plan d’action</li></ul>
         <p class="mt-2 text-brand-green">✅Progression cognitive mesurable (Bloom).</p>
       </div>
     {/if}
@@ -154,9 +154,82 @@
     <h3 class="m-0 mb-2">Avant / Après : du PDF à l’expérience</h3>
     <div class="relative w-full" style="max-width:100%">
       <div class="rounded-lg overflow-hidden border border-slate-200" style="position:relative;max-width:100%;aspect-ratio:16/9;background:#fff">
-        <img src="https://via.placeholder.com/1280x720?text=PDF+statique" alt="Avant" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1)" />
+        <svg viewBox="0 0 1600 900" class="absolute inset-0 w-full h-full" role="img" aria-label="Avant: PDF statique">
+          <defs>
+            <linearGradient id="pdfbg" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f8fafc"/>
+              <stop offset="100%" stop-color="#eef2f7"/>
+            </linearGradient>
+          </defs>
+          <rect x="0" y="0" width="1600" height="900" fill="url(#pdfbg)"/>
+          <g>
+            <rect x="280" y="90" width="1040" height="720" rx="16" fill="#e5e7eb" stroke="#cbd5e1"/>
+            <rect x="320" y="140" width="960" height="24" fill="#d1d5db"/>
+            {#each Array(10) as _, i}
+              <rect x="320" y={190 + i*52} width={i%2? 720: 880} height="14" fill="#d1d5db" opacity="0.9"/>
+            {/each}
+            <rect x="320" y="720" width="420" height="18" fill="#d1d5db"/>
+            <rect x="860" y="720" width="280" height="18" fill="#d1d5db"/>
+            <g transform="translate(320,140)">
+              <rect x="-200" y="-40" width="160" height="60" rx="8" fill="#9ca3af"/>
+              <text x="-120" y="-5" text-anchor="middle" font-size="22" fill="#111827">PDF</text>
+            </g>
+          </g>
+        </svg>
         <div id="aa-mask" style={`position:absolute;inset:0;width:${aaWidth};overflow:hidden`}>
-          <img src="https://via.placeholder.com/1280x720/DCFCE7?text=Module+interactif" alt="Après" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" />
+          <svg viewBox="0 0 1600 900" class="w-full h-full" role="img" aria-label="Après: module interactif">
+            <defs>
+              <linearGradient id="modbg" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#f0fdf4"/>
+                <stop offset="100%" stop-color="#dcfce7"/>
+              </linearGradient>
+              <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#0C6A4C"/>
+                <stop offset="100%" stop-color="#16a34a"/>
+              </linearGradient>
+              <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000" flood-opacity="0.12" />
+              </filter>
+            </defs>
+            <rect x="0" y="0" width="1600" height="900" fill="url(#modbg)"/>
+            <g filter="url(#soft)">
+              <rect x="220" y="120" width="1160" height="80" rx="12" fill="#ffffff" stroke="#e2e8f0"/>
+              <rect x="240" y="150" width="280" height="20" rx="10" fill="#0C6A4C" opacity="0.15"/>
+              <rect x="540" y="150" width="180" height="20" rx="10" fill="#0C6A4C" opacity="0.15"/>
+              <rect x="740" y="150" width="120" height="20" rx="10" fill="#0C6A4C" opacity="0.15"/>
+            </g>
+            <g filter="url(#soft)">
+              <rect x="220" y="240" width="540" height="300" rx="14" fill="#ffffff" stroke="#e2e8f0"/>
+              <circle cx="350" cy="370" r="60" fill="#0C6A4C" opacity="0.15"/>
+              <polygon points="330,350 410,390 330,430" fill="#0C6A4C"/>
+              <rect x="260" y="480" width="400" height="16" rx="8" fill="#e5e7eb"/>
+              <rect x="260" y="510" width="220" height="16" rx="8" fill="#e5e7eb"/>
+            </g>
+            <g filter="url(#soft)">
+              <rect x="800" y="240" width="580" height="300" rx="14" fill="#ffffff" stroke="#e2e8f0"/>
+              <rect x="840" y="280" width="500" height="16" rx="8" fill="#e5e7eb"/>
+              <rect x="840" y="310" width="360" height="16" rx="8" fill="#e5e7eb"/>
+              <rect x="840" y="360" width="520" height="14" rx="7" fill="#e5e7eb"/>
+              <rect x="840" y="420" width="420" height="10" rx="5" fill="#e5e7eb"/>
+              <rect x="840" y="450" width="520" height="10" rx="5" fill="#e5e7eb"/>
+              <rect x="840" y="480" width="280" height="10" rx="5" fill="#e5e7eb"/>
+            </g>
+            <g>
+              <rect x="220" y="580" width="1160" height="18" rx="9" fill="#e5e7eb"/>
+              <rect x="220" y="580" width="560" height="18" rx="9" fill="url(#bar)"/>
+            </g>
+            <g filter="url(#soft)">
+              <rect x="220" y="620" width="320" height="64" rx="12" fill="#0C6A4C"/>
+              <text x="380" y="660" text-anchor="middle" font-size="24" fill="#ffffff">Démarrer</text>
+              <rect x="560" y="620" width="220" height="64" rx="12" fill="#f0fdf4" stroke="#0C6A4C"/>
+              <text x="670" y="660" text-anchor="middle" font-size="22" fill="#0C6A4C">Voir le quiz</text>
+            </g>
+            <g opacity="0.9">
+              <circle cx="1280" cy="560" r="16" fill="#0C6A4C"/>
+              <circle cx="1320" cy="600" r="16" fill="#0C6A4C"/>
+              <circle cx="1360" cy="560" r="16" fill="#0C6A4C"/>
+            </g>
+          </svg>
         </div>
       </div>
     </div>
