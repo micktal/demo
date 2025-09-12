@@ -157,7 +157,7 @@
 <section class="container-1200 pt-10">
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
     <Card><div class="p-4"><div class="font-semibold">RGPD</div><div class="text-sm text-gray-700 mt-1">minimisation des données, purge auto.</div></div></Card>
-    <Card><div class="p-4"><div class="font-semibold">Sécurité</div><div class="text-sm text-gray-700 mt-1">h��bergement UE, chiffrement AES.</div></div></Card>
+    <Card><div class="p-4"><div class="font-semibold">Sécurité</div><div class="text-sm text-gray-700 mt-1">hébergement UE, chiffrement AES.</div></div></Card>
     <Card><div class="p-4"><div class="font-semibold">Interopérabilité</div><div class="text-sm text-gray-700 mt-1">SCORM, xAPI, API.</div></div></Card>
     <Card><div class="p-4"><div class="font-semibold">Audit</div><div class="text-sm text-gray-700 mt-1">exports opposables.</div></div></Card>
   </div>
