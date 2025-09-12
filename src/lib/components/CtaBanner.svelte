@@ -6,6 +6,9 @@
     <div>
       <h3>En 10 jours, transformez un PDF en module interactif.</h3>
       <p class="mt-2 text-gray-700">Accompagnement de bout en bout et modèles prêts à l’emploi.</p>
+      <div class="mt-4">
+        <Button href="/processus" variant="primary" target="_blank" rel="noopener">Voir le processus</Button>
+      </div>
     </div>
   </div>
 </section>
