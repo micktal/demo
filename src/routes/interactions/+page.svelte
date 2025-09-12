@@ -37,7 +37,7 @@
   // Quiz state (3 questions)
   type Q = { q: string; options: { t: string; ok: boolean }[]; picked?: number; };
   let questions = $state<Q[]>([
-    { q: 'Un mot de passe doit être…', options: [{ t: 'Partagé avec l’équipe', ok: false }, { t: 'Unique et complexe', ok: true }, { t: 'Collé sur l’��cran', ok: false }] },
+    { q: 'Un mot de passe doit être…', options: [{ t: 'Partagé avec l’équipe', ok: false }, { t: 'Unique et complexe', ok: true }, { t: 'Collé sur l’écran', ok: false }] },
     { q: 'En cas d’alerte incendie, vous…', options: [{ t: 'Évacuez par l’issue la plus proche', ok: true }, { t: 'Attendez la fin de la réunion', ok: false }, { t: 'Prenez l’ascenseur', ok: false }] },
     { q: 'Phishing : vous recevez un mail suspect', options: [{ t: 'Cliquez et entrez vos codes', ok: false }, { t: 'Le signalez et supprimez', ok: true }, { t: 'Le transférez à tous', ok: false }] }
   ]);
