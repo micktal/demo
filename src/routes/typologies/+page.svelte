@@ -28,6 +28,20 @@
   let compB: CatKey | '' = '';
   function pickA(k: CatKey){ compA = k; }
   function pickB(k: CatKey){ compB = k; }
+
+  // Details & expansion per card
+  const details: Record<CatKey, string> = {
+    LMS: "Administration des formations, catalogues, rôles (apprenant/formateur), reporting SCORM/xAPI.",
+    Social: "Ajoute forums, fils de discussion, likes, peer review et missions collaboratives.",
+    Business: "Ciblé métiers; compétences mesurées, plans d’action et KPIs opérationnels.",
+    MOOC: "Large audience; parcours à rythme libre, certificats, parfois monétisation.",
+    Repo: "Catalogue de contenus avec recherche, évaluations et outils auteur intégrés.",
+    LXS: "Oriente l’expérience: personnalisation, parcours adaptatifs, analytics d’usage.",
+    Custom: "Développement spécifique: intégrations SI, UX dédiée, logique métier avancée.",
+    Apps: "Micro‑sessions mobiles gamifiées, notifications et mode hors‑ligne."
+  };
+  let expanded: Partial<Record<CatKey, boolean>> = {};
+  function toggleExpand(k: CatKey){ expanded[k] = !expanded[k]; }
 </script>
 
 <svelte:head>
@@ -68,10 +82,13 @@
 <section id="grid" class="container-1200 pt-10 md:pt-12">
   <div class="grid" style="grid-template: none / repeat(auto-fit,minmax(250px,1fr));gap:16px">
     {#each Object.entries(cats) as [k, c]}
-      <div class="rounded-xl border border-black/10 bg-white p-4 cursor-pointer hover:border-brand-green hover:-translate-y-0.5 transition" onclick={() => openCat(k as CatKey)}>
+      <div class="rounded-xl border border-black/10 bg-white p-4 cursor-pointer hover:border-brand-green hover:-translate-y-0.5 transition" onclick={() => { openCat(k as CatKey); toggleExpand(k as CatKey); }} aria-expanded={expanded[k as CatKey] ? 'true' : 'false'}>
 
         <div class="font-semibold mt-1">{c.title}</div>
         <p class="text-sm text-gray-700 mt-1">{c.short}</p>
+        {#if expanded[k as CatKey]}
+          <p class="mt-2 text-sm text-gray-700">{details[k as CatKey]}</p>
+        {/if}
       </div>
     {/each}
   </div>
