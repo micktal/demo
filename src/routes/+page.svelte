@@ -17,24 +17,6 @@
   </div>
 </section>
 
-<section class="container-1200 pt-6 md:pt-10">
-  <div class="grid-12">
-    <div class="col-span-12">
-      <div class="rounded-xl overflow-hidden shadow-lg">
-        <video
-          class="w-full h-auto"
-          controls
-          playsinline
-          preload="metadata"
-          src="https://cdn.builder.io/o/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fedaf0f8287ba4b0f8ac21c19a30c54d7?alt=media&token=f69f48cb-0831-48f0-b74d-b8bdf7d56ec8&apiKey=d93d9a0ec7824aa1ac4d890a1f90a2ec"
-          aria-label="Présentation vidéo">
-          Votre navigateur ne supporte pas la lecture vidéo.
-        </video>
-      </div>
-    </div>
-  </div>
-</section>
-
 <WhyNow />
 <ClientsStrip />
 <CtaBanner />
