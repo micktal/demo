@@ -24,14 +24,14 @@
     download(csv, 'export_demo.csv', 'text/csv');
     demo.addProgress(5); demo.addScore(3); demo.award('Export RH testé');
     mergeSave({});
-    hubInfo = '✅ Export CSV généré.';
+    hubInfo = 'Export CSV généré.';
   }
   function onExportJSON() {
     const s = (() => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; } })();
     download(JSON.stringify(s, null, 2), 'export_demo.json', 'application/json');
     demo.addProgress(5); demo.addScore(3); demo.award('Export RH testé');
     mergeSave({});
-    hubInfo = '✅ Export JSON généré.';
+    hubInfo = 'Export JSON généré.';
   }
 </script>
 
