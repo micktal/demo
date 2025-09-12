@@ -142,12 +142,12 @@
   <div id="proc-timeline" class="rounded-2xl border border-black/10 bg-white p-4">
     <h3 class="m-0">Notre processus en 6 étapes</h3>
     <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px">
-      <button class="t-step" data-k="analyse" on:click={() => clickStep('analyse')}>1. Analyse andragogique</button>
-      <button class="t-step" data-k="bloom" on:click={() => clickStep('bloom')}>2. Mapping Bloom</button>
-      <button class="t-step" data-k="raci" on:click={() => clickStep('raci')}>3. Cadrage RACI</button>
-      <button class="t-step" data-k="story" on:click={() => clickStep('story')}>4. Storyboard & prototype</button>
-      <button class="t-step" data-k="prod" on:click={() => clickStep('prod')}>5. Production & QA</button>
-      <button class="t-step" data-k="deploy" on:click={() => clickStep('deploy')}>6. Déploiement & KPI</button>
+      <button class="t-step" data-k="analyse" onclick={() => clickStep('analyse')}>1. Analyse andragogique</button>
+      <button class="t-step" data-k="bloom" onclick={() => clickStep('bloom')}>2. Mapping Bloom</button>
+      <button class="t-step" data-k="raci" onclick={() => clickStep('raci')}>3. Cadrage RACI</button>
+      <button class="t-step" data-k="story" onclick={() => clickStep('story')}>4. Storyboard & prototype</button>
+      <button class="t-step" data-k="prod" onclick={() => clickStep('prod')}>5. Production & QA</button>
+      <button class="t-step" data-k="deploy" onclick={() => clickStep('deploy')}>6. Déploiement & KPI</button>
     </div>
     <div id="t-desc" class="mt-3 text-brand-green">{tDesc}</div>
   </div>
@@ -161,8 +161,8 @@
 <section class="container-1200 pt-10">
   <div id="bloom-card" class="rounded-2xl border border-black/10 bg-white p-4">
     <div class="flex gap-2 flex-wrap mb-2">
-      <button class="b-btn" data-v="before" on:click={() => setBloom('before')}>Avant (PDF)</button>
-      <button class="b-btn" data-v="after" on:click={() => setBloom('after')}>Après (e-learning)</button>
+      <button class="b-btn" data-v="before" onclick={() => setBloom('before')}>Avant (PDF)</button>
+      <button class="b-btn" data-v="after" onclick={() => setBloom('after')}>Après (e-learning)</button>
     </div>
     {#if bloomView==='before'}
       <div id="b-before">
@@ -294,7 +294,7 @@
         </div>
       </div>
     </div>
-    <input id="aa-range" type="range" min="0" max="100" bind:value={aaVal} on:input={(e:any)=>onRange(+e.currentTarget.value)} class="w-full mt-3" />
+    <input id="aa-range" type="range" min="0" max="100" bind:value={aaVal} oninput={(e:any)=>onRange(+e.currentTarget.value)} class="w-full mt-3" />
     <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
       <div class="rounded-lg border border-black/10 bg-white p-3">
         <div class="flex items-center justify-between gap-3">
@@ -341,19 +341,19 @@
     <h3 class="m-0">Calculateur ROI (démo)</h3>
     <div class="mt-3 grid grid-cols-1 md:grid-cols-5 gap-3 items-end">
       <label class="block">Apprenants
-        <input type="number" min="1" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={learners} on:change={markRoiUsed} />
+        <input type="number" min="1" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={learners} onchange={markRoiUsed} />
       </label>
       <label class="block">Heures gagnées / apprenant
-        <input type="number" step="0.1" min="0" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={hoursSaved} on:change={markRoiUsed} />
+        <input type="number" step="0.1" min="0" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={hoursSaved} onchange={markRoiUsed} />
       </label>
       <label class="block">Coût horaire (€)
-        <input type="number" min="0" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={costPerHour} on:change={markRoiUsed} />
+        <input type="number" min="0" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={costPerHour} onchange={markRoiUsed} />
       </label>
       <label class="block">Frais déplacement / apprenant (€)
-        <input type="number" min="0" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={travelPerLearner} on:change={markRoiUsed} />
+        <input type="number" min="0" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={travelPerLearner} onchange={markRoiUsed} />
       </label>
       <label class="block">Coût projet (€)
-        <input type="number" min="0" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={projectCost} on:change={markRoiUsed} />
+        <input type="number" min="0" class="mt-1 w-full rounded-md border border-black/10 p-2" bind:value={projectCost} onchange={markRoiUsed} />
       </label>
     </div>
     <div class="mt-4 grid grid-cols-1 md:grid-cols-4 gap-3">
