@@ -156,6 +156,26 @@
   </div>
 </section>
 
+<!-- SECTION 3B — VISUELS / CONTEXTE -->
+<section class="container-1200 pt-10">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
+    <div class="card p-0 overflow-hidden">
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F27dea9e56bb24d58b6d88bd9cc287c64?format=webp&width=1200" alt="Saisie de compte‑rendu sur ordinateur portable" class="w-full h-auto" />
+      <div class="p-4">
+        <div class="font-semibold">Saisie et suivi</div>
+        <p class="mt-1 text-gray-700 text-sm">Les apprenants consignent leurs missions et évaluations directement en ligne. Chaque action est horodatée pour une traçabilité simple et exploitable.</p>
+      </div>
+    </div>
+    <div class="card p-0 overflow-hidden">
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fc34a3093958c423b8386d6bc8b73dc5d?format=webp&width=1200" alt="Analyse des résultats et point d’équipe" class="w-full h-auto" />
+      <div class="p-4">
+        <div class="font-semibold">Analyse en équipe</div>
+        <p class="mt-1 text-gray-700 text-sm">Les managers pilotent l’avancement par site, accompagnent les stagiaires et partagent des exports clairs lors des points d’équipe ou des audits.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SECTION 4 — Tableau apprenants (mock + export) -->
 <section id="table" class="container-1200 pt-10">
   <table id="dash-table" style="width:100%;border-collapse:collapse;margin:24px 0">
