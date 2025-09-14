@@ -47,6 +47,7 @@
 
       if (splash && !localStorage.getItem(KEY)) {
         splash.hidden = false;
+        skipBtn?.focus();
         document.documentElement.classList.add('fpsg-no-scroll');
         const auto = setTimeout(() => { try { localStorage.setItem(KEY, '1'); } catch {} hideSplash(); }, 2200);
 
