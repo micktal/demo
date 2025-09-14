@@ -159,6 +159,22 @@
   </div>
 </section>
 
+<!-- SECTION 4C — VIDÉO EXPLICATIVE -->
+<section class="container-1200 pt-10">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+    <div class="card p-0 overflow-hidden">
+      <video class="w-full h-auto" controls playsinline preload="metadata" poster="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=1200" aria-label="Vidéo explicative du parcours">
+        <source src="https://cdn.builder.io/o/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F232c2cc2be334ceab0cf55986c680070?alt=media&token=307327f1-ea19-479c-9057-e981cccb6598&apiKey=d93d9a0ec7824aa1ac4d890a1f90a2ec" type="video/mp4" />
+        Votre navigateur ne supporte pas la lecture vidéo.
+      </video>
+    </div>
+    <div class="card">
+      <div class="font-semibold">Présentation du parcours</div>
+      <p class="mt-1 text-gray-700 text-sm">Cette courte vidéo présente les grandes étapes: inscription, modules interactifs, missions AFEST, évaluation et certificat. Elle illustre comment nous suivons la progression et rendons chaque étape claire et mesurable.</p>
+    </div>
+  </div>
+</section>
+
 <!-- SECTION 5 — GAMIFICATION (XP & Niveaux) -->
 <section class="container-1200 pt-10">
   <div class="rounded-2xl border border-black/10 bg-white p-4 flex gap-4 items-center flex-wrap">
@@ -178,7 +194,7 @@
     {#if bloomView==='before'}
       <div>
         <h3>Avant : niveaux 1–2</h3>
-        <ul class="text-gray-600 list-disc pl-5"><li><strong>Se souvenir</strong> : mémorisation de consignes</li><li><strong>Comprendre</strong> : reformuler, sans mise en pratique</li><li>Peu de traçabilité, pas d’évaluation authentique</li></ul>
+        <ul class="text-gray-600 list-disc pl-5"><li><strong>Se souvenir</strong> : mémorisation de consignes</li><li><strong>Comprendre</strong> : reformuler, sans mise en pratique</li><li>Peu de traçabilité, pas d���évaluation authentique</li></ul>
       </div>
     {:else}
       <div>
