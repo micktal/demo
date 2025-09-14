@@ -96,33 +96,19 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
     <div class="md:col-span-2 card">
       <div class="flex flex-wrap items-center gap-2">
-        <button class="btn-ghost" onclick={() => { captionsOn = !captionsOn; syncTracks(); }}>{captionsOn ? 'Sous-titres ON' : 'Sous-titres OFF'}</button>
-        <select class="px-3 py-2 rounded-md border border-black/10" bind:value={trackLang} onchange={syncTracks} aria-label="Langue des sous-titres">
-          <option value="fr">FR</option>
-          <option value="en">EN</option>
-          <option value="es">ES</option>
-          <option value="ar">AR</option>
-        </select>
-        <button class="btn-primary" onclick={() => showTranscript = !showTranscript}>Transcript</button>
+        <button class="btn-ghost" onclick={() => { captionsOn = !captionsOn; if (videoEl?.textTracks?.[0]) { videoEl.textTracks[0].mode = captionsOn ? 'showing' : 'disabled'; } }}>{captionsOn ? 'Sous-titres ON' : 'Sous-titres OFF'}</button>
+        <button class="btn-primary" onclick={() => showTranscript = !showTranscript}>{showTranscript ? 'Masquer le transcript' : 'Transcript'}</button>
       </div>
-      <video bind:this={videoEl} controls class="mt-4 w-full rounded-lg">
-        <source src="" />
-        <track kind="captions" srcLang="fr" label="FR" />
-        <track kind="captions" srcLang="en" label="EN" />
-        <track kind="captions" srcLang="es" label="ES" />
-        <track kind="captions" srcLang="ar" label="AR" />
+      <video bind:this={videoEl} controls playsinline preload="metadata" class="mt-4 w-full rounded-lg" aria-label="Vidéo explicative — Français">
+        <source src="https://cdn.builder.io/o/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fc61de13919a74d7a8098797dfe854975?alt=media&token=1a26655c-19d5-4e07-be64-a0bebc32fb06&apiKey=d93d9a0ec7824aa1ac4d890a1f90a2ec" type="video/mp4" />
+        <track kind="subtitles" srclang="fr" label="Français" src="/subtitles/procedures-fr.vtt" default />
       </video>
       {#if showTranscript}
         <div class="mt-4">
           <details open class="rounded-lg border border-black/10 bg-white p-3">
-            <summary class="font-medium cursor-pointer">Transcript (FR)</summary>
-            <p class="mt-2 text-sm text-gray-700">Dans ce module, vous apprendrez à accueillir un visiteur en toute sécurité : contrôle d’identité, gestion d’une incivilité, et application des EPI selon la zone.</p>
+            <summary class="font-medium cursor-pointer">Transcription (FR)</summary>
+            <p class="mt-2 text-sm text-gray-700">Avez-vous remarqué à quel point la formation traditionnelle repose sur des PDF statiques ? Cela ressemble souvent à une lecture passive avec peu d'engagement. Absolument, et des études montrent que l'apprentissage passif entraîne une faible rétention et aucun véritable suivi des progrès. C'est là que les modules d'apprentissage en ligne de FPSG entrent en jeu : ils convertissent ces PDF en expériences interactives avec des quiz, des vidéos et des badges. C'est vrai, et en appliquant la taxonomie de Bloom, les apprenants ne se contentent pas de mémoriser ; ils analysent et créent, ce qui permet d'approfondir leur compréhension. J'ai vu comment la gamification, comme l'obtention de badges et le suivi de la progression, stimulent réellement la motivation pendant l'entraînement. De plus, les responsables obtiennent des tableaux de bord en temps réel indiquant les scores et les taux d'achèvement, garantissant ainsi la conformité et la préparation aux audits. FPSG ne se contente donc pas d'informer les apprenants ; il crée une expérience éducative engageante et mesurable. Exactement, transformer la formation d'une corvée en un parcours interactif qui profite à toutes les personnes impliquées.</p>
           </details>
-          <div class="mt-3 grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div class="card text-sm">EN: In this module, you will learn to safely welcome a visitor...</div>
-            <div class="card text-sm">ES: En este módulo, aprenderá a recibir a un visitante con seguridad...</div>
-            <div class="card text-sm">AR: في ه��ا الدرس، ستتعلم استقبال الزائر بأمان...</div>
-          </div>
         </div>
       {/if}
     </div>
