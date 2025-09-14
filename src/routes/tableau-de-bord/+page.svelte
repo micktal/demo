@@ -297,7 +297,7 @@
   </div>
 
   <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
-    <button id="exportCsv" class="btn" on:click={exportCsv2}>Exporter CSV</button>
+    <button id="exportCsv" class="btn" onclick={exportCsv2}>Exporter CSV</button>
     <span style="color:#0C6A4C" id="exp-msg">{exportMsg}</span>
   </div>
 
