@@ -36,11 +36,35 @@
   let comments = $state([{author:'Responsable site', text:'Nous appliquons cette règle dans notre site.'},{author:'Manager', text:'Les EPI sont vérifiés en entrée, merci.'}]);
 
   // Quiz state (3 questions)
-  type Q = { q: string; options: { t: string; ok: boolean }[]; picked?: number; };
+  type Q = { q: string; options: { t: string; ok: boolean; fb: string }[]; picked?: number; tips?: string[] };
   let questions = $state<Q[]>([
-    { q: 'Un mot de passe doit être…', options: [{ t: 'Partagé avec l’équipe', ok: false }, { t: 'Unique et complexe', ok: true }, { t: 'Collé sur l’écran', ok: false }] },
-    { q: 'En cas d’alerte incendie, vous…', options: [{ t: 'Évacuez par l’issue la plus proche', ok: true }, { t: 'Attendez la fin de la réunion', ok: false }, { t: 'Prenez l’ascenseur', ok: false }] },
-    { q: 'Phishing : vous recevez un mail suspect', options: [{ t: 'Cliquez et entrez vos codes', ok: false }, { t: 'Le signalez et supprimez', ok: true }, { t: 'Le transférez à tous', ok: false }] }
+    {
+      q: 'Un mot de passe doit être…',
+      options: [
+        { t: 'Partagé avec l’équipe', ok: false, fb: 'Mauvaise pratique : un mot de passe est personnel. Le partage augmente le risque d’intrusion et empêche l’horodatage fiable.' },
+        { t: 'Unique et complexe', ok: true, fb: 'Exact : longueur ≥ 12, mélange lettres/chiffres/symboles et pas de réutilisation. Activez un gestionnaire de mots de passe.' },
+        { t: 'Collé sur l’écran', ok: false, fb: 'Risque majeur : visibilité publique et prise de photo possible. Préférez un coffre chiffré.' }
+      ],
+      tips: ['≥ 12 caractères', '3 types de caractères', 'Pas de réutilisation', 'Gestionnaire recommandé']
+    },
+    {
+      q: 'En cas d’alerte incendie, vous…',
+      options: [
+        { t: 'Évacuez par l’issue la plus proche', ok: true, fb: 'Correct : coupez les équipements si possible, aidez les personnes proches et rejoignez le point de rassemblement.' },
+        { t: 'Attendez la fin de la réunion', ok: false, fb: 'Incorrect : évacuation immédiate requise. Chaque seconde compte.' },
+        { t: 'Prenez l’ascenseur', ok: false, fb: 'Dangereux : utilisez uniquement les escaliers pour éviter les pannes et fumées.' }
+      ],
+      tips: ['Pas d’ascenseur', 'Aidez/guidez', 'Point de rassemblement', 'Suivez les consignes du guide‑file']
+    },
+    {
+      q: 'Phishing : vous recevez un mail suspect',
+      options: [
+        { t: 'Cliquez et entrez vos codes', ok: false, fb: 'Non : ne cliquez pas. Les liens peuvent usurper des sites et voler vos identifiants.' },
+        { t: 'Le signalez et supprimez', ok: true, fb: 'Bien joué : utilisez le bouton de signalement, prévenez l’IT et supprimez le message.' },
+        { t: 'Le transférez à tous', ok: false, fb: 'Mauvaise idée : vous propagez le risque. Signalez plutôt aux référents.' }
+      ],
+      tips: ['Vérifier l’expéditeur', 'Survoler les liens', 'Jamais d’info sensible par email', 'Doubler avec une vérification hors canal']
+    }
   ]);
   function pick(i: number, j: number) {
     if (questions[i].picked != null) return; // lock
@@ -158,11 +182,19 @@
             <div class="font-medium">{q.q}</div>
             <div class="mt-2 flex flex-wrap gap-2">
               {#each q.options as o, j}
-                <button class="btn-ghost" onclick={() => pick(i,j)} disabled={q.picked != null} aria-pressed={q.picked===j}>{o.t}</button>
+                <button class="{q.picked===j ? (o.ok ? 'btn-primary' : 'btn-ghost') : 'btn-ghost'}" onclick={() => pick(i,j)} disabled={q.picked != null} aria-pressed={q.picked===j}>{o.t}</button>
               {/each}
             </div>
             {#if q.picked != null}
-              <p class="mt-1 text-sm {q.options[q.picked].ok ? 'text-brand-green' : 'text-red-600'}">{q.options[q.picked].ok ? 'Correct' : 'Réponse incorrecte'}</p>
+              <div class="mt-2 rounded-lg border p-3 {q.options[q.picked].ok ? 'border-emerald-300 bg-emerald-50' : 'border-red-300 bg-red-50'}">
+                <div class="font-medium">Feedback</div>
+                <p class="mt-1 text-sm text-gray-800">{q.options[q.picked].fb}</p>
+                {#if q.tips?.length}
+                  <ul class="mt-2 list-disc pl-5 text-sm text-gray-700 grid grid-cols-1 sm:grid-cols-2 gap-x-6">
+                    {#each q.tips as tip}<li>{tip}</li>{/each}
+                  </ul>
+                {/if}
+              </div>
             {/if}
           </li>
         {/each}
@@ -175,16 +207,52 @@
   <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
     <div class="card">
       <div class="font-semibold">Chapitre 2 — Scénario incivilités</div>
-      {#if scenStep === 0}
-        <p class="mt-2">Un usager devient agressif à l’accueil. Que faites‑vous ?</p>
-        <div class="mt-3 flex flex-wrap gap-2">
-          <button class="btn-primary" onclick={() => chooseScenario(true)}>Adopter une posture calme et alerter</button>
-          <button class="btn-ghost" onclick={() => chooseScenario(false)}>Répondre sèchement</button>
+      <div class="mt-2 text-sm text-gray-700">
+        <p><strong>Contexte :</strong> 8h45, hall d’accueil d’un site sensible. Un usager impatient élève la voix suite à une attente prolongée.</p>
+        <div class="mt-2 grid grid-cols-2 gap-3">
+          <div class="rounded-lg border border-black/10 p-3">
+            <div class="font-medium">Rôles</div>
+            <ul class="mt-1 text-sm list-disc pl-5">
+              <li><strong>Vous</strong> — Agent d’accueil</li>
+              <li>Usager mécontent</li>
+              <li>Référent sécurité</li>
+              <li>Manager de site</li>
+            </ul>
+          </div>
+          <div class="rounded-lg border border-black/10 p-3">
+            <div class="font-medium">Votre responsabilité</div>
+            <ul class="mt-1 text-sm list-disc pl-5">
+              <li>Assurer l’accueil en sécurité</li>
+              <li>Appliquer la procédure de désescalade</li>
+              <li>Alerter le référent si nécessaire</li>
+              <li>Tracer l’événement</li>
+            </ul>
+          </div>
         </div>
+      </div>
+      {#if scenStep === 0}
+        <p class="mt-3">Le ton monte. Quelle première action réalisez‑vous ?</p>
+        <div class="mt-3 flex flex-wrap gap-2">
+          <button class="btn-primary" onclick={() => chooseScenario(true)}>Posture calme + distance de sécurité + alerte référent</button>
+          <button class="btn-ghost" onclick={() => chooseScenario(false)}>Répondre sèchement et accélérer la procédure</button>
+        </div>
+        <details class="mt-3 rounded-lg border border-black/10 bg-white p-3">
+          <summary class="cursor-pointer font-medium text-gray-900">Procédure recommandée</summary>
+          <ol class="mt-2 list-decimal pl-5 text-sm text-gray-700 space-y-1">
+            <li>Adopter une voix posée, se nommer et nommer la situation</li>
+            <li>Créer une distance et proposer un endroit plus calme</li>
+            <li>Alerter le référent via le canal prévu</li>
+            <li>Consigner l’événement après retour au calme</li>
+          </ol>
+        </details>
       {:else if scenStep === 1}
-        <div class="mt-3 card">Bonne pratique. Conséquence : désescalade. <span class="text-brand-green font-medium">+1</span></div>
+        <div class="mt-3 card">
+          Désescalade en cours : l’usager baisse le ton, le référent arrive. Vous sécurisez la zone et documentez l’incident. <span class="text-brand-green font-medium">+1</span>
+        </div>
       {:else}
-        <div class="mt-3 card">Conséquence : escalade et incident. Revoir la procédure.</div>
+        <div class="mt-3 card">
+          Mauvaise option : échange conflictuel, risque d’escalade. Appliquez la procédure de désescalade et alertez sans délai.
+        </div>
       {/if}
     </div>
     <div class="card">
@@ -194,12 +262,22 @@
           <Avatar expression="neutral" message="Choisissez une option pour voir la suite." size={160} />
         </div>
       {:else if scenStep === 1}
-        <div class="mt-3">
-          <Avatar expression="happy" message="Bravo ! Vous gardez votre calme, alertez le référent et désamorcez la situation. +1 point." size={160} />
+        <div class="mt-3 space-y-3">
+          <Avatar expression="happy" message="Bravo ! Vous gardez votre calme et alertez le référent." size={160} />
+          <ul class="text-sm list-disc pl-5">
+            <li>Réorienter l’usager vers un espace plus calme</li>
+            <li>Noter les faits (heure, mots, témoins)</li>
+            <li>Rédiger un signalement bref</li>
+          </ul>
         </div>
       {:else}
-        <div class="mt-3">
-          <Avatar expression="sad" message="Réponse sèche : l’incident s’aggrave. Revoir la procédure et adopter la posture recommandée." size={160} />
+        <div class="mt-3 space-y-3">
+          <Avatar expression="sad" message="Le conflit s’aggrave." size={160} />
+          <ul class="text-sm list-disc pl-5">
+            <li>Couper court et alerter le référent</li>
+            <li>Ne pas poursuivre l’échange</li>
+            <li>Appliquer le protocole d’incident</li>
+          </ul>
         </div>
       {/if}
       {#if scenarioDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Scénario terminé</div>{/if}
