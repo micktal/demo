@@ -9,6 +9,9 @@
       <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fde36237294f94c318a401159d4c44f61?format=webp&width=800" alt="FIDUCIAL FPSG" class="h-10 w-auto" />
       <h1 class="mt-4">{t('home.title','La formation qui agit sur le terrain')}</h1>
       <p class="mt-4 md:mt-6 max-w-2xl">{t('home.subtitle','Passez du papier au e‑learning interactif, traçable et engageant.')}</p>
+      <div class="mt-6 flex gap-3">
+        <Button href="/processus" variant="primary">{t('cta.processus','Voir le processus')}</Button>
+      </div>
     </div>
     <div class="col-span-12 md:col-span-5">
       <div class="relative mt-10 md:mt-0">
