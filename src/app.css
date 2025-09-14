@@ -30,7 +30,7 @@ html[data-fontscale='125'] { font-size: 125%; }
   body { @apply font-sans; }
   :focus-visible { @apply outline-none ring-2 ring-brand-green ring-offset-2 ring-offset-white; }
   h1 { @apply font-semibold text-gray-900; font-size: 48px; line-height: 56px; }
-  h2 { @apply font-semibold text-gray-900; font-size: 36px; line-height: 44px; }
+  h2 { @apply font-semibold text-gray-900 mt-6 md:mt-8 mb-4 md:mb-6; font-size: 36px; line-height: 44px; }
   h3 { @apply font-semibold text-gray-900; font-size: 24px; line-height: 32px; }
   p { @apply text-gray-700; font-size: 16px; line-height: 24px; }
 }
@@ -39,8 +39,8 @@ html[data-fontscale='125'] { font-size: 125%; }
   .container-1200 { @apply max-w-[1200px] mx-auto px-6 md:px-8; }
   .card { @apply bg-white shadow-soft rounded-xl p-6 md:p-8 border border-black/5; border-radius: var(--radius-xl); }
   .btn { @apply inline-flex items-center justify-center gap-2 font-medium rounded-lg transition-colors duration-200; }
-  .btn-primary { @apply btn bg-brand-green text-white hover:bg-brand-green/90 px-5 py-2.5 shadow-soft; }
-  .btn-ghost { @apply btn bg-transparent text-gray-900 hover:bg-black/5 px-5 py-2.5 border border-gray-400/30; }
+  .btn-primary { @apply btn bg-brand-green text-white hover:bg-brand-green/85 hover:shadow-md px-5 py-2.5 shadow-soft; }
+  .btn-ghost { @apply btn bg-transparent text-gray-900 hover:bg-black/10 px-5 py-2.5 border border-gray-400/50; }
   .badge { @apply inline-flex items-center rounded-full bg-black/5 px-3 py-1 text-sm font-medium text-gray-700; }
   .grid-12 { @apply grid grid-cols-12 gap-6 md:gap-8; }
   .header-link { @apply text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors; }
