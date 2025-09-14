@@ -15,6 +15,8 @@
   let epiBox: Item[] = [];
   let nonBox: Item[] = [];
   let dragging: Item | null = null;
+  let selected: Item | null = null;
+  let live = '';
 
   const drag = (e: DragEvent, it: Item) => {
     dragging = it;
@@ -39,9 +41,12 @@
     dragging = null;
   }
   const allow = (e: DragEvent)=> { e.preventDefault(); if(e.dataTransfer) e.dataTransfer.dropEffect = 'move'; };
-  function clickItem(it: Item){
-    const idx = left.findIndex(i=>i.label===it.label);
-    if(idx>-1){ const [x]=left.splice(idx,1); (x.epi?epiBox:nonBox).push(x); check(); }
+  function pickForPlacement(it: Item){ selected = it; live = `Sélectionné: ${it.label}`; }
+  function place(to: 'epi'|'non'){
+    if(!selected) return;
+    const idx = left.findIndex(i=>i.label===selected!.label);
+    if(idx>-1){ const [x]=left.splice(idx,1); (to==='epi'?epiBox:nonBox).push(x); live = `Déposé: ${x.label} dans ${to==='epi'?'EPI':'Non EPI'}`; check(); }
+    selected = null; dragging = null;
   }
   function check(){
     const ok = epiBox.every(i=>i.epi) && nonBox.every(i=>!i.epi) && (epiBox.length+nonBox.length===total);
@@ -50,24 +55,25 @@
   let container: HTMLDivElement;
 </script>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-4" bind:this={container}>
+  <div class="sr-only" aria-live="polite">{live}</div>
   <div>
     <div class="font-medium mb-2">À trier</div>
     <div class="flex flex-wrap gap-2">
       {#each left as it}
-        <div class="badge cursor-move" role="option" aria-selected="false" tabindex="0" draggable={true} ondragstart={(e)=>drag(e,it)} ondragend={()=> dragging=null} onclick={()=>clickItem(it)}>{it.label}</div>
+        <div class="badge cursor-move" role="option" aria-selected={selected?.label===it.label} aria-grabbed={selected?.label===it.label} tabindex="0" draggable={true} ondragstart={(e)=>{drag(e,it); selected=it;}} ondragend={()=> {dragging=null;}} onclick={()=>pickForPlacement(it)} onkeydown={(e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); pickForPlacement(it);} }}>{it.label}</div>
       {/each}
     </div>
   </div>
   <div>
     <div class="font-medium mb-2">EPI obligatoires</div>
-    <div class="min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3" role="listbox" tabindex="0" ondragover={allow} ondragenter={allow} ondrop={(e)=>drop('epi',e)}>
+    <div class={`min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3 ${selected ? 'ring-2 ring-brand-green/60' : ''}`} role="listbox" tabindex="0" ondragover={allow} ondragenter={allow} ondrop={(e)=>drop('epi',e)} onclick={()=>place('epi')} onkeydown={(e)=>{ if(e.key==='Enter') place('epi'); }}>
       {#if epiBox.length===0}<p class="text-sm text-gray-700">Déposez ici</p>{/if}
       <div class="flex flex-wrap gap-2">{#each epiBox as e}<div class="badge bg-brand-green/20 text-brand-green">{e.label}</div>{/each}</div>
     </div>
   </div>
   <div>
     <div class="font-medium mb-2">Non EPI</div>
-    <div class="min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3" role="listbox" tabindex="0" ondragover={allow} ondragenter={allow} ondrop={(e)=>drop('non',e)}>
+    <div class={`min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3 ${selected ? 'ring-2 ring-brand-green/60' : ''}`} role="listbox" tabindex="0" ondragover={allow} ondragenter={allow} ondrop={(e)=>drop('non',e)} onclick={()=>place('non')} onkeydown={(e)=>{ if(e.key==='Enter') place('non'); }}>
       {#if nonBox.length===0}<p class="text-sm text-gray-700">Déposez ici</p>{/if}
       <div class="flex flex-wrap gap-2">{#each nonBox as e}<div class="badge">{e.label}</div>{/each}</div>
     </div>
