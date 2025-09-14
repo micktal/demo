@@ -14,16 +14,10 @@
   let openMenu = $state(false);
   let mobileMenuEl = $state<HTMLDivElement | null>(null);
 
-  function setLang(value: 'fr' | 'en') { lang.set(value); }
 
   onMount(() => {
     const unsub3 = lang.subscribe((l) => { try { document.documentElement.lang = l; } catch {} });
 
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const forced = params.get('lang');
-      if (forced === 'fr' || forced === 'en') lang.set(forced);
-    } catch {}
 
     demo.award('Explorateur');
 
@@ -101,12 +95,6 @@
       {/each}
     </nav>
 
-    <div class="hidden lg:flex items-center gap-3">
-      <div class="flex rounded-lg border border-black/10 overflow-hidden" role="group" aria-label="Langue">
-        <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" onclick={() => setLang('fr')}>FR</button>
-        <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" onclick={() => setLang('en')}>EN</button>
-      </div>
-    </div>
 
     <button class="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-md hover:bg-black/5" onclick={() => openMenu = !openMenu} aria-label="Menu" aria-expanded={openMenu} aria-controls="mobileMenu">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
@@ -118,12 +106,6 @@
         {#each nav as item}
           <a class="header-link py-2" href={item.href} aria-current={$page.url.pathname === item.href ? 'page' : undefined} onclick={() => openMenu=false}>{item.label}</a>
         {/each}
-        <div class="flex items-center gap-3 pt-2">
-          <div class="flex rounded-lg border border-black/10 overflow-hidden" role="group" aria-label="Langue">
-            <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" onclick={() => setLang('fr')}>FR</button>
-            <button class="px-3 py-1.5 text-sm font-medium hover:bg-black/5" onclick={() => setLang('en')}>EN</button>
-          </div>
-        </div>
       </div>
     </div>
   {/if}
