@@ -86,6 +86,22 @@
     <div class="flex items-center gap-3"></div>
   </div>
 
+  <!-- UX Intro Section -->
+  <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <div>
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F5b2571e19df143c898dd32d2b34f7208?format=webp&width=1200" alt="Apprenants découvrant un module sur ordinateur portable" class="w-full h-auto rounded-xl border border-black/10 shadow-soft" />
+    </div>
+    <div class="card">
+      <div class="font-semibold text-gray-900">Pensée “user‑first”</div>
+      <p class="mt-2">Nos parcours privilégient la clarté et la fluidité : micro‑interactions, retours immédiats, et actions guidées. Chaque écran est optimisé pour réduire la charge cognitive et maintenir l’engagement.</p>
+      <ul class="mt-3 list-disc pl-5 text-sm text-gray-700 space-y-1">
+        <li>Compatibilité mobile et accès clavier complet</li>
+        <li>Animations douces respectant <code>prefers-reduced-motion</code></li>
+        <li>Feedbacks positifs, badges et progression visibles</li>
+      </ul>
+    </div>
+  </div>
+
   <!-- Chapitre 1 -->
   <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
     <div class="card">
@@ -215,6 +231,22 @@
       <div class="absolute left-4 bottom-4 card">Identifiez 3 risques/EPI : {hotspots.filter(h=>h.found).length}/3</div>
     </div>
     {#if hotspotDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Cas pratique terminé</div>{/if}
+  </div>
+
+  <!-- UX Evidence Section -->
+  <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+    <div class="order-2 md:order-1 card">
+      <div class="font-semibold text-gray-900">Interactions qui comptent</div>
+      <p class="mt-2">Scénarios réalistes, mini‑jeux et évaluations formatives renforcent la mémorisation. Nous traçons la complétion, le temps et les compétences pour mesurer l’impact.</p>
+      <div class="mt-3 grid grid-cols-3 gap-3 text-center">
+        <div class="rounded-xl border border-black/10 p-3"><div class="text-3xl font-semibold text-brand-green">78%</div><div class="text-sm text-gray-700">de complétion</div></div>
+        <div class="rounded-xl border border-black/10 p-3"><div class="text-3xl font-semibold text-brand-green">+KPIs</div><div class="text-sm text-gray-700">progression & score</div></div>
+        <div class="rounded-xl border border-black/10 p-3"><div class="text-3xl font-semibold text-brand-green">A11Y</div><div class="text-sm text-gray-700">accessible</div></div>
+      </div>
+    </div>
+    <div class="order-1 md:order-2">
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fec41d5587301482e8cd7896ef87ad7c6?format=webp&width=1200" alt="Utilisateur interagissant avec un module sur laptop" class="w-full h-auto rounded-xl border border-black/10 shadow-soft" />
+    </div>
   </div>
 
   <!-- Chapitre 4 -->
