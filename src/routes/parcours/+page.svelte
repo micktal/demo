@@ -139,6 +139,26 @@
   </div>
 </section>
 
+<!-- SECTION 4B — VISUELS PARCOURS -->
+<section class="container-1200 pt-10">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-start">
+    <div class="card p-0 overflow-hidden">
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F9dcda2e30a0741e8bf359383668724d2?format=webp&width=1200" alt="Ingénierie pédagogique et données projetées" class="w-full h-auto" />
+      <div class="p-4">
+        <div class="font-semibold">Conception des parcours</div>
+        <p class="mt-1 text-gray-700 text-sm">Nous structurons les objectifs, scénarisons les modules et alignons chaque étape avec des indicateurs mesurables (temps, complétion, compétences) pour piloter l’impact.</p>
+      </div>
+    </div>
+    <div class="card p-0 overflow-hidden">
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fbbe8be2e02fa4d25b3779dec489f574a?format=webp&width=1200" alt="Atelier d'équipe autour d'un laptop" class="w-full h-auto" />
+      <div class="p-4">
+        <div class="font-semibold">Expérience apprenant</div>
+        <p class="mt-1 text-gray-700 text-sm">Tests utilisateurs, micro‑interactions et feedbacks continus pour maintenir l’engagement et faciliter l’adoption sur le terrain, en individuel comme en équipe.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SECTION 5 — GAMIFICATION (XP & Niveaux) -->
 <section class="container-1200 pt-10">
   <div class="rounded-2xl border border-black/10 bg-white p-4 flex gap-4 items-center flex-wrap">
