@@ -8,7 +8,6 @@
   import MemoryGameDemo from '$lib/components/demos/MemoryGameDemo.svelte';
   import ReactionDemo from '$lib/components/demos/ReactionDemo.svelte';
   import Avatar from '$lib/components/Avatar.svelte';
-  import EpiSortDemo from '$lib/components/demos/EpiSortDemo.svelte';
   import TimedCaseDemo from '$lib/components/demos/TimedCaseDemo.svelte';
   import ChecklistDemo from '$lib/components/demos/ChecklistDemo.svelte';
 
@@ -19,12 +18,11 @@
   let hotspotDone = $state(false);
   let memoryDone = $state(false);
   let reactionDone = $state(false);
-  let epiDone = $state(false);
   let timedDone = $state(false);
   let checklistDone = $state(false);
   $effect(() => { if (typeof document !== 'undefined' && progress === 100) { fireConfetti(document.body, 180); demo.award('Parcours 100%'); } });
-  const totalChapters = 8;
-  const completed = $derived(Number(quizDone) + Number(scenarioDone) + Number(hotspotDone) + Number(memoryDone) + Number(reactionDone) + Number(epiDone) + Number(timedDone) + Number(checklistDone));
+  const totalChapters = 7;
+  const completed = $derived(Number(quizDone) + Number(scenarioDone) + Number(hotspotDone) + Number(memoryDone) + Number(reactionDone) + Number(timedDone) + Number(checklistDone));
   const progress = $derived(Math.round((completed / totalChapters) * 100));
   let vidLang = $state<'fr' | 'en'>('fr');
 
@@ -103,7 +101,7 @@
   <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
     <div class="md:col-span-2 card">
       <div class="flex flex-wrap items-center gap-3">
-        <div class="badge">Score: {score} / 5</div>
+        <div class="badge">Score: {score} / 4</div>
         <div class="badge">Chapitres: {completed}/{totalChapters}</div>
       </div>
       <div class="mt-3"><ProgressBar value={progress} /></div>
@@ -382,25 +380,18 @@
     </div>
   </div>
 
-  <!-- Chapitre 6 — Tri EPI (Drag & Drop) -->
-  <div class="mt-10 card">
-    <div class="font-semibold">Chapitre 6 — Drag & Drop (classer / associer)</div>
-    <p class="mt-1 text-sm text-gray-700">Triez les items en “EPI obligatoires” vs “Non EPI”.</p>
-    <EpiSortDemo on:sort:done={() => { if (!epiDone) { epiDone = true; demo.addProgress(10); demo.award('Badge EPI triés'); } }} />
-    {#if epiDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Tri EPI réussi</div>{/if}
-  </div>
 
   <!-- Chapitre 7 — Étude de cas chronométrée -->
   <div class="mt-10 card">
-    <div class="font-semibold">Chapitre 7 — Étude de cas chronométrée</div>
+    <div class="font-semibold">Chapitre 6 — Étude de cas chronométrée</div>
     <p class="mt-1 text-sm text-gray-700">Cliquez d’abord « Démarrer » pour lancer le chrono (20 s), puis répondez sous pression.</p>
-    <TimedCaseDemo on:timed:done={() => { if (!timedDone) { timedDone = true; demo.addProgress(10); demo.award('Décideur rapide'); } }} />
+    <TimedCaseDemo on:timed:done={() => { if (!timedDone) { timedDone = true; score += 1; demo.addScore(1); demo.addProgress(10); demo.award('Décideur rapide'); } }} />
     {#if timedDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Étude de cas validée</div>{/if}
   </div>
 
   <!-- Chapitre 8 — Checklist engageante -->
   <div class="mt-10 card">
-    <div class="font-semibold">Chapitre 8 — Checklist engageante</div>
+    <div class="font-semibold">Chapitre 7 — Checklist engageante</div>
     <ChecklistDemo on:checklist:done={() => { if (!checklistDone) { checklistDone = true; demo.addProgress(10); demo.award('Checklist validée'); } }} />
     {#if checklistDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Checklist terminée</div>{/if}
   </div>
