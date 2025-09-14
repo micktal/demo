@@ -30,6 +30,37 @@
     const onEsc = (e: KeyboardEvent) => { if (e.key === 'Escape') openMenu = false; };
     window.addEventListener('keydown', onEsc);
 
+    // FPSG Splash (first visit)
+    try {
+      const KEY = 'fpsgSplashShown';
+      const splash = document.getElementById('fpsg-splash');
+      const skipBtn = splash?.querySelector('.fpsg-skip') as HTMLButtonElement | null;
+
+      // API to reset from console
+      (window as any).fpsgResetSplash = () => { try { localStorage.removeItem(KEY); } catch {} };
+
+      function hideSplash() {
+        if (!splash) return;
+        splash.classList.add('fpsg-leave');
+        setTimeout(() => { splash.hidden = true; document.documentElement.classList.remove('fpsg-no-scroll'); }, 420);
+      }
+
+      if (splash && !localStorage.getItem(KEY)) {
+        splash.hidden = false;
+        document.documentElement.classList.add('fpsg-no-scroll');
+        const auto = setTimeout(() => { try { localStorage.setItem(KEY, '1'); } catch {} hideSplash(); }, 2200);
+
+        skipBtn?.addEventListener('click', () => { clearTimeout(auto); try { localStorage.setItem(KEY, '1'); } catch {} hideSplash(); });
+        splash.addEventListener('click', (e) => {
+          if (e.target === splash || (e.target as HTMLElement).classList.contains('fpsg-splash__inner')) {
+            clearTimeout(auto); try { localStorage.setItem(KEY, '1'); } catch {} hideSplash();
+          }
+        });
+        const onEscClose = (e: KeyboardEvent) => { if (e.key === 'Escape') { clearTimeout(auto); try { localStorage.setItem(KEY, '1'); } catch {} hideSplash(); } };
+        window.addEventListener('keydown', onEscClose);
+      }
+    } catch {}
+
     return () => { unsub3(); window.removeEventListener('keydown', onEsc); };
   });
 
@@ -46,6 +77,14 @@
 
   $effect(() => { if (openMenu && mobileMenuEl) mobileMenuEl.focus(); });
 </script>
+
+<!-- FPSG • Splash plein écran (1ère visite) -->
+<div id="fpsg-splash" role="dialog" aria-modal="true" aria-label="Ouverture FPSG" hidden>
+  <div class="fpsg-splash__inner">
+    <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F13137c2a909f405dab2ca3233793a766?format=webp&width=800" alt="FIDUCIAL FPSG" class="fpsg-splash__logo" />
+    <button class="fpsg-skip" type="button" aria-label="Passer l'intro (Entrée)">Passer</button>
+  </div>
+</div>
 
 <header class="sticky top-0 z-50 border-b border-black/10 bg-gray-50/90 backdrop-blur supports-[backdrop-filter]:bg-gray-50/80 shadow-sm">
   <a href="#main" class="skip-link">{t('skip')}</a>
