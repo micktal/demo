@@ -54,3 +54,18 @@ html[data-fontscale='125'] { font-size: 125%; }
 .skip-link{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .skip-link:focus{left:16px;top:12px;width:auto;height:auto;background:#fff;border:2px solid var(--brand-green,#0C6A4C);padding:6px 10px;border-radius:8px;z-index:100}
 .header-link[aria-current="page"]{color:var(--brand-green,#0C6A4C);font-weight:600}
+
+/* FPSG Splash (global styles) */
+:root { --fpsg-green:#0C6A4C; }
+#fpsg-splash[hidden]{ display:none !important; }
+#fpsg-splash{ position:fixed; inset:0; z-index:99999; background:#fff; display:grid; place-items:center; }
+.fpsg-splash__inner{ display:grid; gap:16px; place-items:center; }
+.fpsg-splash__logo{ width:min(52vw,420px); height:auto; opacity:0; transform:scale(.96); animation:fpsg-in .8s ease forwards, fpsg-pulse 1.4s ease .8s 1; }
+.fpsg-skip{ padding:8px 14px; border-radius:999px; border:1px solid color-mix(in oklab, var(--fpsg-green) 50%, #ffffff); background:#f2fbf7; color:var(--fpsg-green); font-weight:600; cursor:pointer; }
+.fpsg-skip:focus-visible{ outline:3px solid var(--fpsg-green); outline-offset:2px; }
+@keyframes fpsg-in { to { opacity:1; transform:scale(1); } }
+@keyframes fpsg-pulse { 0%{ transform:scale(1); } 50%{ transform:scale(1.02); } 100%{ transform:scale(1); } }
+.fpsg-leave{ animation:fpsg-out .45s ease forwards; }
+@keyframes fpsg-out { to { opacity:0; transform:scale(.98); } }
+@media (prefers-reduced-motion: reduce){ .fpsg-splash__logo{ animation:none; opacity:1; transform:none; } }
+.fpsg-no-scroll{ overflow:hidden; }
