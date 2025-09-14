@@ -393,7 +393,7 @@
   <!-- Chapitre 7 — Étude de cas chronométrée -->
   <div class="mt-10 card">
     <div class="font-semibold">Chapitre 7 — Étude de cas chronométrée</div>
-    <p class="mt-1 text-sm text-gray-700">Répondez rapidement sous pression.</p>
+    <p class="mt-1 text-sm text-gray-700">Cliquez d’abord « Démarrer » pour lancer le chrono (20 s), puis répondez sous pression.</p>
     <TimedCaseDemo on:timed:done={() => { if (!timedDone) { timedDone = true; demo.addProgress(10); demo.award('Décideur rapide'); } }} />
     {#if timedDone}<div class="mt-3 badge bg-brand-green/20 text-brand-green">Étude de cas validée</div>{/if}
   </div>
