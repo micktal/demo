@@ -14,21 +14,31 @@
   let left: Item[] = [...source];
   let epiBox: Item[] = [];
   let nonBox: Item[] = [];
+  let dragging: Item | null = null;
 
   const drag = (e: DragEvent, it: Item) => {
+    dragging = it;
     if (!e.dataTransfer) return;
-    e.dataTransfer.setData('text/plain', it.label);
-    e.dataTransfer.setData('text', it.label);
+    try {
+      e.dataTransfer.setData('text/plain', it.label);
+      e.dataTransfer.setData('text', it.label);
+      e.dataTransfer.setData('application/json', JSON.stringify({label: it.label}));
+    } catch {}
     e.dataTransfer.effectAllowed = 'move';
   };
   function drop(to: 'epi'|'non', e: DragEvent){
     e.preventDefault(); e.stopPropagation();
-    const label = (e.dataTransfer?.getData('text/plain') || e.dataTransfer?.getData('text') || '').trim();
+    let label = (e.dataTransfer?.getData('text/plain') || e.dataTransfer?.getData('text') || '').trim();
+    if (!label) {
+      try { const j = e.dataTransfer?.getData('application/json'); if (j) label = (JSON.parse(j)||{}).label || ''; } catch {}
+    }
+    if (!label && dragging) label = dragging.label;
     if (!label) return;
     const idx = left.findIndex((i)=>i.label===label);
     if(idx>-1){ const [it]=left.splice(idx,1); (to==='epi'?epiBox:nonBox).push(it); check(); }
+    dragging = null;
   }
-  const allow = (e: DragEvent)=> { e.preventDefault(); e.dataTransfer && (e.dataTransfer.dropEffect = 'move'); };
+  const allow = (e: DragEvent)=> { e.preventDefault(); if(e.dataTransfer) e.dataTransfer.dropEffect = 'move'; };
   function clickItem(it: Item){
     const idx = left.findIndex(i=>i.label===it.label);
     if(idx>-1){ const [x]=left.splice(idx,1); (x.epi?epiBox:nonBox).push(x); check(); }
@@ -44,20 +54,20 @@
     <div class="font-medium mb-2">À trier</div>
     <div class="flex flex-wrap gap-2">
       {#each left as it}
-        <div class="badge cursor-move" role="option" aria-selected="false" tabindex="0" draggable={true} ondragstart={(e)=>drag(e,it)} onclick={()=>clickItem(it)}>{it.label}</div>
+        <div class="badge cursor-move" role="option" aria-selected="false" tabindex="0" draggable={true} ondragstart={(e)=>drag(e,it)} ondragend={()=> dragging=null} onclick={()=>clickItem(it)}>{it.label}</div>
       {/each}
     </div>
   </div>
   <div>
     <div class="font-medium mb-2">EPI obligatoires</div>
-    <div class="min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3" role="listbox" tabindex="0" ondragover={allow} ondrop={(e)=>drop('epi',e)}>
+    <div class="min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3" role="listbox" tabindex="0" ondragover={allow} ondragenter={allow} ondrop={(e)=>drop('epi',e)}>
       {#if epiBox.length===0}<p class="text-sm text-gray-700">Déposez ici</p>{/if}
       <div class="flex flex-wrap gap-2">{#each epiBox as e}<div class="badge bg-brand-green/20 text-brand-green">{e.label}</div>{/each}</div>
     </div>
   </div>
   <div>
     <div class="font-medium mb-2">Non EPI</div>
-    <div class="min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3" role="listbox" tabindex="0" ondragover={allow} ondrop={(e)=>drop('non',e)}>
+    <div class="min-h-24 rounded-lg border border-dashed border-gray-400/40 p-3" role="listbox" tabindex="0" ondragover={allow} ondragenter={allow} ondrop={(e)=>drop('non',e)}>
       {#if nonBox.length===0}<p class="text-sm text-gray-700">Déposez ici</p>{/if}
       <div class="flex flex-wrap gap-2">{#each nonBox as e}<div class="badge">{e.label}</div>{/each}</div>
     </div>
