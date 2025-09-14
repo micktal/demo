@@ -105,9 +105,31 @@
   <!-- Chapitre 1 -->
   <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
     <div class="card">
-      <div class="font-semibold">Chapitre 1 — Capsule vidéo 45s</div>
-      <div class="mt-3 aspect-video w-full rounded-lg bg-black/10 grid place-items-center text-gray-700">Vidéo (placeholder)</div>
-      <p class="mt-2 text-sm text-gray-700">Sous‑titres activés, transcript disponible.</p>
+      <div class="font-semibold">Chapitre 1 — Vidéo procédurale multilingue</div>
+      <div class="mt-3 rounded-lg overflow-hidden border border-black/10">
+        <video class="w-full aspect-video" controls playsinline preload="metadata"
+          src="https://cdn.builder.io/o/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fc61de13919a74d7a8098797dfe854975?alt=media&token=1a26655c-19d5-4e07-be64-a0bebc32fb06&apiKey=d93d9a0ec7824aa1ac4d890a1f90a2ec"
+          aria-label="Vidéos procédures FPSG — version française">
+          <track src="/subtitles/procedures-fr.vtt" kind="subtitles" srclang="fr" label="Français" default />
+        </video>
+      </div>
+      <div class="mt-3 flex items-center gap-2" role="tablist" aria-label="Langue de la vidéo">
+        <button class="btn-ghost" role="tab" aria-selected="true">FR</button>
+        <button class="btn-ghost opacity-60" role="tab" aria-selected="false" disabled title="Bientôt disponible">EN</button>
+      </div>
+      <details class="mt-3 rounded-lg border border-black/10 bg-white p-3">
+        <summary class="cursor-pointer font-medium text-gray-900">Transcription (FR)</summary>
+        <div class="mt-2 text-sm text-gray-700 space-y-2">
+          <p>Avez-vous vu comment nos vidéos procédurales incluent désormais des transcriptions entièrement automatiques&nbsp;? Cela améliore réellement la clarté et la traçabilité.</p>
+          <p>Oui, et ces transcriptions sont très précises, ce qui facilite le suivi pour tout le monde, en particulier dans les processus complexes.</p>
+          <p>Les sous-titres clairs et synchronisés qui fonctionnent même dans des environnements bruyants ou calmes constituent une autre fonctionnalité intéressante.</p>
+          <p>Exactement, et ces sous-titres sont disponibles en plusieurs langues, ce qui permet aux équipes de différents pays de comprendre les procédures de manière fluide.</p>
+          <p>J'ai également remarqué que les voix off peuvent être traduites et localisées. La formation est donc efficace, que vous soyez en France, en Angleterre, en Espagne ou en Allemagne.</p>
+          <p>C'est exact. Cette approche multilingue soutient les équipes internationales et garantit une compréhension uniforme partout.</p>
+          <p>La combinaison de visuels animés avec ces fonctionnalités rend les procédures plus attrayantes et plus faciles à apprendre.</p>
+          <p>Et cela correspond parfaitement à notre objectif de fournir du matériel de formation clair, accessible et vérifiable à tous les employés.</p>
+        </div>
+      </details>
     </div>
     <div class="card">
       <div class="font-semibold">Quiz (3 questions)</div>
