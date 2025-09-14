@@ -12,6 +12,9 @@
 
 <section class="bg-white">
   <div class="container-1200 pt-8 md:pt-12 pb-12 md:pb-16">
+    <div class="mb-8 md:mb-10 flex justify-center">
+      <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F7fe277e7d2c1497b94584bf36abf025a?format=webp&width=1200" alt="FIDUCIAL FPSG – Transformation PDF, Gamification, Tableau de bord" class="max-w-3xl w-full rounded-xl border border-black/10 shadow-soft" />
+    </div>
     <div class="grid-12">
       <div class="col-span-12 md:col-span-3"><ProofTile icon="flex" title="Flexible" text="Créez et mettez à jour vos modules en continu." /></div>
       <div class="col-span-12 md:col-span-3"><ProofTile icon="interactive" title="Interactif" text="Quiz, scénarios, simulations engageantes." /></div>
@@ -26,7 +29,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
       <div>
         <div class="relative aspect-[16/9] rounded-xl overflow-hidden shadow-lg border border-black/10">
-          <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fde36237294f94c318a401159d4c44f61?format=webp&width=1200" alt="Aperçu de la vidéo" class="absolute inset-0 h-full w-full object-cover" />
+          <img src="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F6c312b410a75484eae2cd08cbb548179?format=webp&width=1200" alt="Aperçu de la vidéo" class="absolute inset-0 h-full w-full object-cover" />
           <button class="absolute inset-0 grid place-items-center group" on:click={() => (videoOpen = true)} aria-label="Lire la vidéo">
             <span class="inline-flex items-center justify-center h-16 w-16 rounded-full bg-white/90 text-brand-green shadow-soft group-hover:scale-105 transition-transform">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
@@ -68,7 +71,7 @@
     <div class="relative z-10 h-full w-full flex items-center justify-center p-4">
       <div class="w-full max-w-4xl" role="dialog" aria-modal="true" aria-label="Lecture de la vidéo" use:trapFocus>
         <div class="relative aspect-[16/9] rounded-xl overflow-hidden shadow-2xl border border-black/20 bg-black">
-          <video class="absolute inset-0 h-full w-full" controls autoplay playsinline preload="metadata" poster="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fde36237294f94c318a401159d4c44f61?format=webp&width=1200">
+          <video class="absolute inset-0 h-full w-full" controls autoplay playsinline preload="metadata" poster="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F6c312b410a75484eae2cd08cbb548179?format=webp&width=1200">
             <source src="https://cdn.builder.io/o/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F91fe1e91f89f429caa6b56816e5b9ddc?alt=media&token=c4279c4c-b81a-4b8c-9074-6c8f5dd55eaa&apiKey=d93d9a0ec7824aa1ac4d890a1f90a2ec" type="video/mp4" />
             <track src="/subtitles/fpsg-fr.vtt" kind="subtitles" srclang="fr" label="Français" default />
           </video>
