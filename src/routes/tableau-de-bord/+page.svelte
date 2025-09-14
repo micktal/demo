@@ -14,6 +14,30 @@
 
   let filterMsg = $state('');
 
+  // FPSG custom section state
+  let fpsgProg = $state(0);
+  let fpsgScoreNum = $state(0);
+  let fpsgBadgesNum = $state(0);
+  let fpsgSite: 'all'|'paris'|'lyon'|'toulouse' = $state('all');
+  let exportMsg = $state('');
+  const fpsgRows = [
+    { site:'paris', name:'Durand', progression:75, score:120, badges:3, last:'09/09/2025 10:42' },
+    { site:'lyon', name:'Martin', progression:50, score:85, badges:1, last:'08/09/2025 14:17' },
+    { site:'toulouse', name:'Lemaire', progression:90, score:160, badges:4, last:'09/09/2025 09:03' }
+  ];
+  const fpsgFiltered = $derived(fpsgRows.filter(r => fpsgSite==='all' || r.site===fpsgSite));
+  function animateFpsg(){
+    const pTo=78, sTo=112, bTo=6; const d=900; const t0=performance.now();
+    function tick(t:number){ const k=Math.min(1,(t-t0)/d); fpsgProg=Math.round(pTo*k); fpsgScoreNum=Math.round(sTo*k); fpsgBadgesNum=Math.round(bTo*k); if(k<1) requestAnimationFrame(tick); }
+    requestAnimationFrame(tick);
+  }
+  function exportCsv2(){
+    const header=['Nom','Progression','Score','Badges','Dernière activité'];
+    const rows=fpsgFiltered.map(r=>[r.name, r.progression+'%', String(r.score), String(r.badges), r.last]);
+    const csv=[header, ...rows].map(r=>r.map(v=>`"${(v||'').replace(/"/g,'""')}"`).join(',')).join('\n');
+    const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='dashboard_demo.csv'; a.click(); exportMsg='✅ Export CSV généré.';
+  }
+
   let chart1: Chart | null = null;
   let chart2: Chart | null = null;
   let chart3: Chart | null = null;
@@ -44,6 +68,7 @@
 
   onMount(() => {
     refreshKPIs();
+    animateFpsg();
     const unsub = demo.subscribe(() => refreshKPIs());
 
     const ctx1 = (document.getElementById('chart-progress') as HTMLCanvasElement | null)?.getContext('2d');
@@ -146,6 +171,16 @@
   </div>
 </section>
 
+<!-- VIDEO EXPLICATIVE DASH -->
+<section class="container-1200 pt-6 md:pt-8">
+  <div class="card p-0 overflow-hidden">
+    <video class="w-full h-auto" controls playsinline preload="metadata" poster="https://cdn.builder.io/api/v1/image/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F02927578b250470483b3b67101b63152?format=webp&width=1200" aria-label="Vidéo d’introduction du dashboard">
+      <source src="https://cdn.builder.io/o/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F7e5565e25d0244758fc990793c5bcb3b?alt=media&token=07edde50-381c-4c0d-879a-4c0e3013ed7a&apiKey=d93d9a0ec7824aa1ac4d890a1f90a2ec" type="video/mp4" />
+      Votre navigateur ne supporte pas la lecture vidéo.
+    </video>
+  </div>
+</section>
+
 <!-- SECTION 3 — Graphiques interactifs -->
 <section class="container-1200 pt-4">
   <p class="text-gray-700 mb-3">Visualisez vos données en un clin d’œil.</p>
@@ -215,6 +250,68 @@
     <div class="card"><div class="font-semibold">Export CSV/JSON</div></div>
     <div class="card"><div class="font-semibold">Relances automatiques (email/SMS)</div></div>
   </div>
+</section>
+
+<!-- FPSG Custom Dashboard Section -->
+<section id="fpsg-dash" style="max-width:1100px;margin:0 auto;padding:16px">
+  <header style="margin-bottom:8px">
+    <h2 style="margin:0;font:800 28px/1.2 system-ui">Pilotez vos formations en temps réel.</h2>
+    <p style="margin:.25rem 0 0;color:#475569">Suivez la progression de vos équipes, les scores, les badges obtenus et exportez vos preuves pour l’audit.</p>
+  </header>
+
+  <div id="kpis" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0">
+    <div class="card"><div class="n">{fpsgProg}%</div><div class="l">Progression</div></div>
+    <div class="card"><div class="n">{fpsgScoreNum}</div><div class="l">Score moyen</div></div>
+    <div class="card"><div class="n">{fpsgBadgesNum}</div><div class="l">Badges</div></div>
+    <div class="card small">
+      <div style="display:flex;gap:16px;flex-wrap:wrap">
+        <div><div class="s">{kpiProgress}%</div><small>Progression moyenne</small></div>
+        <div><div class="s">{kpiScore} pts</div><small>Score moyen</small></div>
+        <div><div class="s">{kpiBadges}</div><small>Badges obtenus</small></div>
+        <div><div class="s">{kpiAfest}</div><small>Missions AFEST validées</small></div>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin:.25rem 0 12px;color:#0C6A4C">Visualisez vos données en un clin d’œil.</p>
+
+  <div id="filters" style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px">
+    <button class={`pill ${fpsgSite==='all'?'active':''}`} on:click={() => fpsgSite='all'}>Tous les sites</button>
+    <button class={`pill ${fpsgSite==='paris'?'active':''}`} on:click={() => fpsgSite='paris'}>Paris</button>
+    <button class={`pill ${fpsgSite==='lyon'?'active':''}`} on:click={() => fpsgSite='lyon'}>Lyon</button>
+    <button class={`pill ${fpsgSite==='toulouse'?'active':''}`} on:click={() => fpsgSite='toulouse'}>Toulouse</button>
+    <span id="f-msg" style="margin-left:auto;color:#64748b">{fpsgSite==='all' ? 'Affichage : tous les sites' : 'Filtre : '+fpsgSite}</span>
+  </div>
+
+  <div class="table-wrap">
+    <table id="t" aria-label="Tableau des apprenants">
+      <thead><tr>
+        <th>Nom</th><th>Progression</th><th>Score</th><th>Badges</th><th>Dernière activité</th>
+      </tr></thead>
+      <tbody>
+        {#each fpsgFiltered as r}
+          <tr data-site={r.site}><td>{r.name}</td><td>{r.progression}%</td><td>{r.score}</td><td>{r.badges}</td><td>{r.last}</td></tr>
+        {/each}
+      </tbody>
+    </table>
+  </div>
+
+  <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+    <button id="exportCsv" class="btn" on:click={exportCsv2}>Exporter CSV</button>
+    <span style="color:#0C6A4C" id="exp-msg">{exportMsg}</span>
+  </div>
+
+  <ul style="margin:16px 0 8px;color:#334155;columns:2;gap:24px;max-width:800px">
+    <li>Traçabilité horodatée</li>
+    <li>Opposable en cas de contrôle</li>
+    <li>Export CSV/JSON</li>
+    <li>Relances automatiques (email/SMS)</li>
+  </ul>
+
+  <footer style="margin-top:8px">
+    <strong>Vos données, en temps réel, opposables en audit.</strong><br/>
+    <span>Un tableau de bord simple pour les managers, complet pour les auditeurs.</span>
+  </footer>
 </section>
 
 <!-- SECTION 7 — CTA final -->
