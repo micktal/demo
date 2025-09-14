@@ -26,6 +26,7 @@
   const totalChapters = 8;
   const completed = $derived(Number(quizDone) + Number(scenarioDone) + Number(hotspotDone) + Number(memoryDone) + Number(reactionDone) + Number(epiDone) + Number(timedDone) + Number(checklistDone));
   const progress = $derived(Math.round((completed / totalChapters) * 100));
+  let vidLang = $state<'fr' | 'en'>('fr');
 
   // Certificate modal
   let certOpen = $state<string | null>(null);
@@ -107,29 +108,47 @@
     <div class="card">
       <div class="font-semibold">Chapitre 1 — Vidéo procédurale multilingue</div>
       <div class="mt-3 rounded-lg overflow-hidden border border-black/10">
+        {#key vidLang}
         <video class="w-full aspect-video" controls playsinline preload="metadata"
-          src="https://cdn.builder.io/o/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fc61de13919a74d7a8098797dfe854975?alt=media&token=1a26655c-19d5-4e07-be64-a0bebc32fb06&apiKey=d93d9a0ec7824aa1ac4d890a1f90a2ec"
-          aria-label="Vidéos procédures FPSG — version française">
-          <track src="/subtitles/procedures-fr.vtt" kind="subtitles" srclang="fr" label="Français" default />
+          src={vidLang==='fr' ? 'https://cdn.builder.io/o/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2Fc61de13919a74d7a8098797dfe854975?alt=media&token=1a26655c-19d5-4e07-be64-a0bebc32fb06&apiKey=d93d9a0ec7824aa1ac4d890a1f90a2ec' : 'https://cdn.builder.io/o/assets%2Fd93d9a0ec7824aa1ac4d890a1f90a2ec%2F85d2d25d633044e38400ec449a3d858c?alt=media&token=4a799526-b22d-428c-aaf3-8581377e7392&apiKey=d93d9a0ec7824aa1ac4d890a1f90a2ec'}
+          aria-label={vidLang==='fr' ? 'Procedural videos — French' : 'Procedural videos — English'}>
+          <track src={vidLang==='fr' ? '/subtitles/procedures-fr.vtt' : '/subtitles/procedures-en.vtt'} kind="subtitles" srclang={vidLang} label={vidLang==='fr' ? 'Français' : 'English'} default />
         </video>
+        {/key}
       </div>
       <div class="mt-3 flex items-center gap-2" role="tablist" aria-label="Langue de la vidéo">
-        <button class="btn-ghost" role="tab" aria-selected="true">FR</button>
-        <button class="btn-ghost opacity-60" role="tab" aria-selected="false" disabled title="Bientôt disponible">EN</button>
+        <button class={vidLang==='fr' ? 'btn-primary' : 'btn-ghost'} role="tab" aria-selected={vidLang==='fr'} onclick={() => vidLang='fr'}>FR</button>
+        <button class={vidLang==='en' ? 'btn-primary' : 'btn-ghost'} role="tab" aria-selected={vidLang==='en'} onclick={() => vidLang='en'}>EN</button>
       </div>
-      <details class="mt-3 rounded-lg border border-black/10 bg-white p-3">
-        <summary class="cursor-pointer font-medium text-gray-900">Transcription (FR)</summary>
-        <div class="mt-2 text-sm text-gray-700 space-y-2">
-          <p>Avez-vous vu comment nos vidéos procédurales incluent désormais des transcriptions entièrement automatiques&nbsp;? Cela améliore réellement la clarté et la traçabilité.</p>
-          <p>Oui, et ces transcriptions sont très précises, ce qui facilite le suivi pour tout le monde, en particulier dans les processus complexes.</p>
-          <p>Les sous-titres clairs et synchronisés qui fonctionnent même dans des environnements bruyants ou calmes constituent une autre fonctionnalité intéressante.</p>
-          <p>Exactement, et ces sous-titres sont disponibles en plusieurs langues, ce qui permet aux équipes de différents pays de comprendre les procédures de manière fluide.</p>
-          <p>J'ai également remarqué que les voix off peuvent être traduites et localisées. La formation est donc efficace, que vous soyez en France, en Angleterre, en Espagne ou en Allemagne.</p>
-          <p>C'est exact. Cette approche multilingue soutient les équipes internationales et garantit une compréhension uniforme partout.</p>
-          <p>La combinaison de visuels animés avec ces fonctionnalités rend les procédures plus attrayantes et plus faciles à apprendre.</p>
-          <p>Et cela correspond parfaitement à notre objectif de fournir du matériel de formation clair, accessible et vérifiable à tous les employés.</p>
-        </div>
-      </details>
+      {#if vidLang==='fr'}
+        <details class="mt-3 rounded-lg border border-black/10 bg-white p-3">
+          <summary class="cursor-pointer font-medium text-gray-900">Transcription (FR)</summary>
+          <div class="mt-2 text-sm text-gray-700 space-y-2">
+            <p>Avez-vous vu comment nos vidéos procédurales incluent désormais des transcriptions entièrement automatiques&nbsp;? Cela améliore réellement la clarté et la traçabilité.</p>
+            <p>Oui, et ces transcriptions sont très précises, ce qui facilite le suivi pour tout le monde, en particulier dans les processus complexes.</p>
+            <p>Les sous-titres clairs et synchronisés qui fonctionnent même dans des environnements bruyants ou calmes constituent une autre fonctionnalité intéressante.</p>
+            <p>Exactement, et ces sous-titres sont disponibles en plusieurs langues, ce qui permet aux équipes de différents pays de comprendre les procédures de manière fluide.</p>
+            <p>J'ai également remarqué que les voix off peuvent être traduites et localisées. La formation est donc efficace, que vous soyez en France, en Angleterre, en Espagne ou en Allemagne.</p>
+            <p>C'est exact. Cette approche multilingue soutient les équipes internationales et garantit une compréhension uniforme partout.</p>
+            <p>La combinaison de visuels animés avec ces fonctionnalités rend les procédures plus attrayantes et plus faciles à apprendre.</p>
+            <p>Et cela correspond parfaitement à notre objectif de fournir du matériel de formation clair, accessible et vérifiable à tous les employés.</p>
+          </div>
+        </details>
+      {:else}
+        <details class="mt-3 rounded-lg border border-black/10 bg-white p-3">
+          <summary class="cursor-pointer font-medium text-gray-900">Transcript (EN)</summary>
+          <div class="mt-2 text-sm text-gray-700 space-y-2">
+            <p>Have you seen how our procedural videos now include fully automatic transcripts? It really improves clarity and traceability.</p>
+            <p>Yes, and these transcripts are very accurate, making it easy for everyone to follow up, especially in complex processes.</p>
+            <p>Another great feature is clear, synchronized subtitles that work even in noisy or quiet environments.</p>
+            <p>Exactly, and these subtitles are available in multiple languages, allowing teams in different countries to understand the procedures fluidly.</p>
+            <p>I also noticed that voiceovers can be translated and localized. The training is therefore effective, whether you are in France, England, Spain or Germany.</p>
+            <p>That is right. This multi-lingual approach supports international teams and ensures a uniform understanding everywhere.</p>
+            <p>Combining animated visuals with these features makes procedures more engaging and easier to learn.</p>
+            <p>And it's a perfect fit with our goal of providing clear, accessible, and verifiable training materials for all employees.</p>
+          </div>
+        </details>
+      {/if}
     </div>
     <div class="card">
       <div class="font-semibold">Quiz (3 questions)</div>
