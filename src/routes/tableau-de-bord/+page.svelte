@@ -276,10 +276,10 @@
   <p style="margin:.25rem 0 12px;color:#0C6A4C">Visualisez vos données en un clin d’œil.</p>
 
   <div id="filters" style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px">
-    <button class={`pill ${fpsgSite==='all'?'active':''}`} on:click={() => fpsgSite='all'}>Tous les sites</button>
-    <button class={`pill ${fpsgSite==='paris'?'active':''}`} on:click={() => fpsgSite='paris'}>Paris</button>
-    <button class={`pill ${fpsgSite==='lyon'?'active':''}`} on:click={() => fpsgSite='lyon'}>Lyon</button>
-    <button class={`pill ${fpsgSite==='toulouse'?'active':''}`} on:click={() => fpsgSite='toulouse'}>Toulouse</button>
+    <button class={`pill ${fpsgSite==='all'?'active':''}`} onclick={() => fpsgSite='all'}>Tous les sites</button>
+    <button class={`pill ${fpsgSite==='paris'?'active':''}`} onclick={() => fpsgSite='paris'}>Paris</button>
+    <button class={`pill ${fpsgSite==='lyon'?'active':''}`} onclick={() => fpsgSite='lyon'}>Lyon</button>
+    <button class={`pill ${fpsgSite==='toulouse'?'active':''}`} onclick={() => fpsgSite='toulouse'}>Toulouse</button>
     <span id="f-msg" style="margin-left:auto;color:#64748b">{fpsgSite==='all' ? 'Affichage : tous les sites' : 'Filtre : '+fpsgSite}</span>
   </div>
 
